@@ -9,3 +9,6 @@ file(GLOB_RECURSE CLOUD_SOURCE "src/**.cpp")
 add_library(${PROJECT_NAME} ${CLOUD_SOURCE})
 target_include_directories(${PROJECT_NAME}
                            PUBLIC "${PROJECT_SOURCE_DIR}/include/")
+
+find_package(glfw3 REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
