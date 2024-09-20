@@ -8,25 +8,34 @@ int main()
 {
     printf("Starting engine...\n");
 
+    printf("Initializing...\n");
+    EntryData entryData = CEInit();
+
+    CEEntry *game = entryData.entry;
+    WindowInitProps windowProps = entryData.windowProps;
+
+    printf("Initializing window...\n");
+    Window window(windowProps.title, windowProps.width, windowProps.height);
+    window.Init();
+
+    printf("Initializing renderer...\n");
     Renderer renderer;
     renderer.Init();
 
-    Window window("Cloud Engine", 1280, 720);
-    window.Init();
-
     printf("Initializing game...\n");
-    CEEntry *game = CEInit();
-
     game->Init();
-    printf("Game initialized!\n");
 
     game->Start();
 
     while (!window.IsClosing())
     {
         renderer.Update();
+        renderer.Render();
+
         window.Update();
+
         game->Update();
+
         window.Poll();
     }
 

@@ -12,3 +12,6 @@ target_include_directories(${PROJECT_NAME}
 
 find_package(glfw3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+
+add_subdirectory("ext/glad2")
+target_link_libraries(${PROJECT_NAME} PRIVATE glad)

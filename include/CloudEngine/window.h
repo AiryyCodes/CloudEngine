@@ -2,6 +2,13 @@
 
 #include <string>
 
+struct WindowInitProps
+{
+    std::string title;
+    int width;
+    int height;
+};
+
 class Window
 {
 public:
@@ -12,6 +19,7 @@ public:
 
     void Init();
     void Update();
+    void Close();
     void Poll();
 
     bool IsClosing();

@@ -1,30 +1,20 @@
 #include "CloudEngine/renderer.h"
 #include "CloudEngine/window.h"
 
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <cstdio>
 
 GLFWwindow *window;
 
-void Renderer::Init()
+void Window::Init()
 {
     if (!glfwInit())
     {
         printf("Failed to initialize GLFW\n");
         return;
     }
-}
 
-void Renderer::Update() {}
-
-void Renderer::Destroy()
-{
-    glfwDestroyWindow(window);
-    glfwTerminate();
-}
-
-void Window::Init()
-{
     window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (!window)
     {
@@ -34,9 +24,22 @@ void Window::Init()
     }
 
     glfwMakeContextCurrent(window);
+
+    int version = gladLoadGL(glfwGetProcAddress);
+    if (version == 0)
+    {
+        printf("Failed to initialize OpenGL context\n");
+        return;
+    }
 }
 
 void Window::Update() { glfwSwapBuffers(window); }
+
+void Window::Close()
+{
+    glfwDestroyWindow(window);
+    glfwTerminate();
+}
 
 void Window::Poll() { glfwPollEvents(); }
 
