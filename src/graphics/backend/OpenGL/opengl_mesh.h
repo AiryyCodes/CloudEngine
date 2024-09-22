@@ -11,4 +11,6 @@ public:
 private:
     unsigned int vao;
     unsigned int vbo;
+	unsigned int ubo;
+	unsigned int tbo;
 };

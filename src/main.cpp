@@ -22,6 +22,8 @@ int main()
     Renderer renderer;
     renderer.Init();
 
+    pGlobalRenderer = &renderer;
+
     printf("Initializing game...\n");
     game->Init();
 
