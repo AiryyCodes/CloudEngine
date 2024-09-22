@@ -1,4 +1,3 @@
-#include "CloudEngine/renderer.h"
 #include "CloudEngine/window.h"
 
 #include <glad/gl.h>

@@ -24,14 +24,13 @@ int main()
     SceneManager sceneManager;
     sceneManager.SetCurrentScene(defaultScene);
 
-    Node testNode;
-    testNode.GetPosition().y = 1.0f;
-
-    defaultScene.AddNode(testNode);
-
     printf("Initializing renderer...\n");
     Renderer renderer;
     renderer.Init();
+
+    game->SetWindow(window);
+    game->SetGlobalRenderer(renderer);
+    game->SetSceneManager(sceneManager);
 
     printf("Initializing game...\n");
     game->Init();
@@ -47,6 +46,8 @@ int main()
         game->Update();
 
         renderer.Render();
+
+        game->Render();
 
         window.Update();
         window.Poll();

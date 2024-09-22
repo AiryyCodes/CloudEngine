@@ -1,9 +1,9 @@
-#include "opengl_mesh.h"
+#include "CloudEngine/graphics/mesh.h"
 
 #include <cstdio>
 #include <glad/gl.h>
 
-void OGLMesh::Init()
+void Mesh::Init()
 {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -44,7 +44,7 @@ void OGLMesh::Init()
     glBindVertexArray(0);
 }
 
-void OGLMesh::Draw()
+void Mesh::Draw()
 {
     glBindTexture(GL_TEXTURE_2D, texture.id);
     glBindVertexArray(vao);

@@ -13,6 +13,7 @@ public:
     virtual void Init() = 0;
     virtual void Start() = 0;
     virtual void Update() = 0;
+    virtual void Render() = 0;
     virtual void Exit() = 0;
 
     inline Window *GetWindow() const { return window.get(); }
@@ -31,6 +32,8 @@ public:
     {
         this->sceneManager = std::unique_ptr<SceneManager>(&sceneManager);
     }
+
+    inline Scene *GetCurrentScene() const { return sceneManager->GetCurrentScene(); }
 
 private:
     std::string name;
