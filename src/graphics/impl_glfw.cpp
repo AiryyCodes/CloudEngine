@@ -1,3 +1,4 @@
+#include "CloudEngine/input.h"
 #include "CloudEngine/window.h"
 
 #include <glad/gl.h>
@@ -21,6 +22,9 @@ void Window::Init()
         printf("Failed to initialize GLFW window\n");
         return;
     }
+
+    glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
+                       { Input::OnKeyHandler(key, scancode, action, mods); });
 
     glfwMakeContextCurrent(window);
 
