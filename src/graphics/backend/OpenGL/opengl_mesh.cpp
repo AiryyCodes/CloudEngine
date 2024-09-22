@@ -48,5 +48,6 @@ void OGLMesh::Draw()
 {
     glBindTexture(GL_TEXTURE_2D, texture.id);
     glBindVertexArray(vao);
+    // glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

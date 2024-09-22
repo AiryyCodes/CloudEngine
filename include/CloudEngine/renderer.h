@@ -14,5 +14,3 @@ public:
 
     static Texture CreateTexture(std::string path);
 };
-
-static Renderer *pGlobalRenderer = nullptr;

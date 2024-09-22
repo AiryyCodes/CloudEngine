@@ -1,11 +1,11 @@
-#include "opengl_shader.h"
 #include "../../../utils.h"
+#include "CloudEngine/graphics/shader.h"
 
 #include <cstdio>
 #include <glad/gl.h>
 #include <string>
 
-unsigned int OGLShader::compileShader(int type)
+unsigned int Shader::compileShader(int type)
 {
     unsigned int shader = glCreateShader(type);
 
@@ -40,7 +40,7 @@ unsigned int OGLShader::compileShader(int type)
     return shader;
 }
 
-void OGLShader::Init()
+void Shader::Init()
 {
     int vertId = compileShader(GL_VERTEX_SHADER);
     int fragId = compileShader(GL_FRAGMENT_SHADER);
@@ -64,4 +64,4 @@ void OGLShader::Init()
     glDeleteShader(fragId);
 }
 
-void OGLShader::Bind() { glUseProgram(id); }
+void Shader::Bind() { glUseProgram(id); }

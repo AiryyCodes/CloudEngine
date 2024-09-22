@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CloudEngine/renderer.h"
+#include "CloudEngine/scene/scene.h"
 #include "CloudEngine/window.h"
 
 #include <memory>
@@ -15,13 +16,28 @@ public:
     virtual void Exit() = 0;
 
     inline Window *GetWindow() const { return window.get(); }
+    inline void SetWindow(Window &window)
+    {
+        this->window = std::unique_ptr<Window>(&window);
+    }
     inline Renderer *GetGlobalRenderer() const { return globalRenderer.get(); }
+    inline void SetGlobalRenderer(Renderer &renderer)
+    {
+        this->globalRenderer = std::unique_ptr<Renderer>(&renderer);
+    }
+
+    inline SceneManager *GetSceneManager() const { return sceneManager.get(); }
+    inline void SetSceneManager(SceneManager &sceneManager)
+    {
+        this->sceneManager = std::unique_ptr<SceneManager>(&sceneManager);
+    }
 
 private:
     std::string name;
 
     std::unique_ptr<Window> window;
     std::unique_ptr<Renderer> globalRenderer;
+    std::unique_ptr<SceneManager> sceneManager;
 };
 
 struct EntryData

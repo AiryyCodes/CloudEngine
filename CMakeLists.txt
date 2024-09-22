@@ -21,3 +21,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 
 add_subdirectory("ext/stb")
 target_link_libraries(${PROJECT_NAME} PRIVATE stb)
+
+find_package(glm REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC glm::glm)

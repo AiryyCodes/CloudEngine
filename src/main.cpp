@@ -1,5 +1,6 @@
 #include "CloudEngine/entry.h"
 #include "CloudEngine/renderer.h"
+#include "CloudEngine/scene/scene.h"
 #include "CloudEngine/window.h"
 #include <cstdio>
 #include <cstdlib>
@@ -18,11 +19,19 @@ int main()
     Window window(windowProps.title, windowProps.width, windowProps.height);
     window.Init();
 
+    Scene defaultScene;
+
+    SceneManager sceneManager;
+    sceneManager.SetCurrentScene(defaultScene);
+
+    Node testNode;
+    testNode.GetPosition().y = 1.0f;
+
+    defaultScene.AddNode(testNode);
+
     printf("Initializing renderer...\n");
     Renderer renderer;
     renderer.Init();
-
-    pGlobalRenderer = &renderer;
 
     printf("Initializing game...\n");
     game->Init();
@@ -32,12 +41,14 @@ int main()
     while (!window.IsClosing())
     {
         renderer.Update();
-        renderer.Render();
 
-        window.Update();
+        sceneManager.Update();
 
         game->Update();
 
+        renderer.Render();
+
+        window.Update();
         window.Poll();
     }
 
