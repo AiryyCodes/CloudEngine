@@ -1,4 +1,5 @@
 #include "CloudEngine/input.h"
+#include "CloudEngine/time.h"
 #include "CloudEngine/window.h"
 
 #include <glad/gl.h>
@@ -65,4 +66,11 @@ void Input::ToggleCursor()
 bool Input::IsCursorLocked()
 {
     return glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
+}
+
+void Time::Update()
+{
+    float currentFrame = glfwGetTime();
+    delta = currentFrame - lastFrame;
+    lastFrame = currentFrame;
 }

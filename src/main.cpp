@@ -2,6 +2,7 @@
 #include "CloudEngine/input.h"
 #include "CloudEngine/renderer.h"
 #include "CloudEngine/scene/scene.h"
+#include "CloudEngine/time.h"
 #include "CloudEngine/window.h"
 #include <GLFW/glfw3.h>
 #include <cstdio>
@@ -41,6 +42,8 @@ int main()
 
     while (!window.IsClosing())
     {
+        Time::Update();
+
         renderer.Update();
 
         sceneManager.Update();
