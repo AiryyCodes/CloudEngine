@@ -1,6 +1,7 @@
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/scene/components/mesh_renderer.h"
+#include "CloudEngine/scene/nodes/camera.h"
 #include <cstdio>
 
 void Scene::Init() {}
@@ -15,8 +16,23 @@ void SceneManager::SetCurrentScene(Scene &scene)
     currentScene->Init();
 }
 
-void SceneManager::Init() { currentScene->Init(); }
-void SceneManager::Update() { currentScene->Update(); }
+void SceneManager::Init()
+{
+    for (const auto &node : currentScene->GetNodes())
+    {
+        node->Init();
+    }
+    currentScene->Init();
+}
+void SceneManager::Update()
+{
+    for (const auto &node : currentScene->GetNodes())
+    {
+        node->Update();
+    }
+
+    currentScene->Update();
+}
 void SceneManager::Render(Shader &shader)
 {
     for (const auto &node : currentScene->GetNodes())
@@ -26,6 +42,14 @@ void SceneManager::Render(Shader &shader)
         if (meshRenderer != nullptr)
         {
             meshRenderer->GetMesh().Draw();
+        }
+
+        auto camera = dynamic_cast<Camera *>(node);
+        if (camera)
+        {
+            camera->UpdateDir();
+            shader.SetUniform("view", camera->GetView());
+            shader.SetUniform("projection", camera->GetProjection());
         }
     }
 

@@ -1,7 +1,9 @@
 #include "CloudEngine/entry.h"
+#include "CloudEngine/input.h"
 #include "CloudEngine/renderer.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/window.h"
+#include <GLFW/glfw3.h>
 #include <cstdio>
 #include <cstdlib>
 

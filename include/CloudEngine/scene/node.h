@@ -5,13 +5,16 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <type_traits>
-#include <typeinfo>
 #include <vector>
 
 class Node
 {
 public:
+    virtual void Init() {}
+    virtual void Update() {}
+
     inline fvec3 &GetPosition() { return this->position; }
+    inline fvec3 &GetRotation() { return this->rotation; }
 
     inline mat4 GetMatrix() const
     {
@@ -45,6 +48,7 @@ public:
 
 private:
     fvec3 position;
+    fvec3 rotation;
 
     std::vector<Component *> components;
 };

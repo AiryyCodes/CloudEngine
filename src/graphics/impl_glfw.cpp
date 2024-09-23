@@ -26,6 +26,9 @@ void Window::Init()
     glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                        { Input::OnKeyHandler(key, scancode, action, mods); });
 
+    glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xPos, double yPos)
+                             { Input::OnMousePosHandler((float)xPos, (float)yPos); });
+
     glfwMakeContextCurrent(window);
 
     int version = gladLoadGL(glfwGetProcAddress);
@@ -47,3 +50,19 @@ void Window::Close()
 void Window::Poll() { glfwPollEvents(); }
 
 bool Window::IsClosing() { return glfwWindowShouldClose(window); }
+
+void Input::SetCursorMode(int mode)
+{
+    glfwSetInputMode(window, GLFW_CURSOR, mode);
+}
+
+void Input::ToggleCursor()
+{
+    int currMode = glfwGetInputMode(window, GLFW_CURSOR);
+    glfwSetInputMode(window, GLFW_CURSOR, currMode == GLFW_CURSOR_NORMAL ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+}
+
+bool Input::IsCursorLocked()
+{
+    return glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
+}
