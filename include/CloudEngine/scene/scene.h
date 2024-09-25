@@ -20,6 +20,7 @@ public:
 
         T *node = new T();
         nodes.push_back(node);
+        node->Init();
         return node;
     }
 
