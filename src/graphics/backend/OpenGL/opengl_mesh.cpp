@@ -1,4 +1,6 @@
 #include "CloudEngine/graphics/mesh.h"
+#include "CloudEngine/graphics/shader.h"
+#include "CloudEngine/graphics/texture.h"
 
 #include <cstdio>
 #include <glad/gl.h>
@@ -40,14 +42,57 @@ void Mesh::Init()
         glEnableVertexAttribArray(1);
     }
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    if (!normals.empty())
+    {
+        glGenBuffers(1, &nbo);
+        glBindBuffer(GL_ARRAY_BUFFER, nbo);
+
+        glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), &normals.front(), GL_STATIC_DRAW);
+
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+        glEnableVertexAttribArray(2);
+    }
+
+    // glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
-void Mesh::Draw()
+void Mesh::Draw(Shader &shader)
 {
-    glBindTexture(GL_TEXTURE_2D, texture.id);
+    unsigned int numDiffuse = -1;
+    for (unsigned int i = 0; i < textures.size(); i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+
+        Texture texture = textures.at(i);
+
+        std::string name;
+        if (texture.type == TextureType::DIFFUSE)
+        {
+            numDiffuse++;
+            name = "diffuse";
+        }
+
+        if (numDiffuse > -1)
+        {
+            shader.SetUniform("material.diffuse", numDiffuse);
+            // shader.SetUniform("material." + name + "[" + std::to_string(numDiffuse) + "]", i);
+        }
+
+        glBindTexture(GL_TEXTURE_2D, texture.id);
+    }
+
     glBindVertexArray(vao);
-    // glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    if (indices.empty())
+    {
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    }
+    if (!indices.empty())
+    {
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    }
+
+    glBindVertexArray(0);
+    glActiveTexture(GL_TEXTURE0);
 }

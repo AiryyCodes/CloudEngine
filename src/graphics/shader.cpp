@@ -10,6 +10,11 @@ void Shader::SetUniform(std::string name, mat4 uniform)
                        glm::value_ptr(uniform));
 }
 
+void Shader::SetUniform(std::string name, int value)
+{
+    glUniform1i(getUniformLocation(name), value);
+}
+
 unsigned int Shader::getUniformLocation(std::string name)
 {
     return glGetUniformLocation(this->id, name.c_str());

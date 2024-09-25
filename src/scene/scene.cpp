@@ -1,6 +1,7 @@
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/scene/components/mesh_renderer.h"
+#include "CloudEngine/scene/components/model_renderer.h"
 #include "CloudEngine/scene/nodes/camera.h"
 #include <cstdio>
 
@@ -41,7 +42,13 @@ void SceneManager::Render(Shader &shader)
         MeshRenderer *meshRenderer = node->GetComponent<MeshRenderer>();
         if (meshRenderer != nullptr)
         {
-            meshRenderer->GetMesh().Draw();
+            meshRenderer->GetMesh().Draw(shader);
+        }
+
+        ModelRenderer *modelRenderer = node->GetComponent<ModelRenderer>();
+        if (modelRenderer != nullptr)
+        {
+            modelRenderer->GetModel().Draw(shader);
         }
 
         auto camera = dynamic_cast<Camera *>(node);

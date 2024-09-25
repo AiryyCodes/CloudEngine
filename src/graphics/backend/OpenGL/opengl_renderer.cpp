@@ -4,7 +4,7 @@
 #include "CloudEngine/scene/scene.h"
 
 #include <glad/gl.h>
-#include <vector>
+#include <glm/ext/matrix_transform.hpp>
 
 static Mesh mesh;
 static Shader shader("resources/shaders/glsl/main.vert",
@@ -14,14 +14,7 @@ void Renderer::Init()
 {
     shader.Init();
 
-    /*
-   mesh.SetTexture("resources/textures/wall.jpg");
-
-   mesh.SetVertices(vertices);
-   mesh.SetIndices(indices);
-   mesh.SetUVs(uvs);
-   mesh.Init();
-    */
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::Update()
@@ -34,8 +27,6 @@ void Renderer::Render()
 {
     shader.Bind();
     SceneManager::Get()->Render(shader);
-
-    // mesh.Draw();
 }
 
 void Renderer::Destroy() {}

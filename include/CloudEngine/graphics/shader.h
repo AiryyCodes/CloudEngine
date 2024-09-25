@@ -14,6 +14,7 @@ public:
     void Bind();
 
     void SetUniform(std::string name, mat4 matrix);
+    void SetUniform(std::string name, int value);
 
 private:
     unsigned int compileShader(int type);

@@ -3,5 +3,7 @@
 struct Component
 {
 public:
-    virtual void Init() = 0;
+    virtual ~Component() = default;
+
+    virtual void Init() {}
 };
