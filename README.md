@@ -1,5 +1,7 @@
 # <p align="center">Cloud Engine</p>
-<p align="center" style="text-align:center; font-weight:bold;">A simple game engine made with OpenGL and love.</p>
+#### <p align="center">A simple game engine made with OpenGL and love.</p>
+
+#### <p align="center">Note: This project is still in very early development</p>
 
 ### Planned Features
 * ##### Lights
