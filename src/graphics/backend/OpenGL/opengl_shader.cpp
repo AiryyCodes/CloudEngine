@@ -13,12 +13,14 @@ unsigned int Shader::compileShader(int type)
     std::string source;
     if (type == GL_VERTEX_SHADER)
     {
-        source = Utils::ReadFileFromDisk(vertPath);
+        source = vertPath;
+        // source = Utils::ReadFileFromDisk(vertPath);
         prefix = "Vertex";
     }
     else if (type == GL_FRAGMENT_SHADER)
     {
-        source = Utils::ReadFileFromDisk(fragPath);
+        source = fragPath;
+        // source = Utils::ReadFileFromDisk(fragPath);
         prefix = "Fragment";
     }
 

@@ -2,13 +2,15 @@
 #include "CloudEngine/renderer.h"
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/scene/scene.h"
+#include "CloudEngine/vec.h"
+#include "glsl/main.vert"
+#include "glsl/main.frag"
 
 #include <glad/gl.h>
 #include <glm/ext/matrix_transform.hpp>
 
 static Mesh mesh;
-static Shader shader("resources/shaders/glsl/main.vert",
-                     "resources/shaders/glsl/main.frag");
+static Shader shader(MAIN_VERT, MAIN_FRAG);
 
 void Renderer::Init()
 {
@@ -27,6 +29,8 @@ void Renderer::Render()
 {
     shader.Bind();
     SceneManager::Get()->Render(shader);
+
+    shader.SetUniform("lightPos", fvec3(0.0f, 2.5f, 0.0f));
 }
 
 void Renderer::Destroy() {}
