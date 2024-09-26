@@ -3,6 +3,7 @@
 #include "assimp/types.h"
 
 #include <assimp/Importer.hpp>
+#include <assimp/material.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <cstdio>
@@ -115,6 +116,9 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 
     std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::DIFFUSE);
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+
+    std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::SPECULAR);
+    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
     Mesh myMesh;
     myMesh.SetVertices(vertices);

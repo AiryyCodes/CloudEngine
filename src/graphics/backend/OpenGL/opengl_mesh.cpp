@@ -59,9 +59,12 @@ void Mesh::Init()
 
 void Mesh::Draw(Shader &shader)
 {
-    unsigned int numDiffuse = -1;
-    for (unsigned int i = 0; i < textures.size(); i++)
+    int numDiffuse = -1;
+    int numSpecular = -1;
+    for (int i = 0; i < textures.size(); i++)
     {
+        static int index = 0;
+
         glActiveTexture(GL_TEXTURE0 + i);
 
         Texture texture = textures.at(i);
@@ -73,14 +76,29 @@ void Mesh::Draw(Shader &shader)
             name = "diffuse";
         }
 
+        if (texture.type == TextureType::SPECULAR)
+        {
+            numSpecular++;
+            name = "specular";
+        }
+
+        shader.SetUniform("material." + name, i);
+
         if (numDiffuse > -1)
         {
-            shader.SetUniform("material.diffuse", numDiffuse);
+            // shader.SetUniform("material.diffuse", i);
             // shader.SetUniform("material." + name + "[" + std::to_string(numDiffuse) + "]", i);
+        }
+
+        if (numSpecular > -1)
+        {
+            // shader.SetUniform("material.specular", i);
         }
 
         glBindTexture(GL_TEXTURE_2D, texture.id);
     }
+    numDiffuse = -1;
+    numSpecular = -1;
 
     glBindVertexArray(vao);
 

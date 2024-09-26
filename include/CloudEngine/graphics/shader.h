@@ -13,8 +13,10 @@ public:
     void Init();
     void Bind();
 
-    void SetUniform(std::string name, mat4 matrix);
+    void SetUniform(std::string name, mat4 value);
+    void SetUniform(std::string name, fvec3 value);
     void SetUniform(std::string name, int value);
+    void SetUniform(std::string name, float value);
 
 private:
     unsigned int compileShader(int type);
