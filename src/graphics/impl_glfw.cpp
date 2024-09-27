@@ -24,6 +24,9 @@ void Window::Init()
         return;
     }
 
+    glfwSetFramebufferSizeCallback(window, [](GLFWwindow *window, int xScale, int yScale)
+                                   { glViewport(0, 0, xScale, yScale); });
+
     glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                        { Input::OnKeyHandler(key, scancode, action, mods); });
 
@@ -40,7 +43,11 @@ void Window::Init()
     }
 }
 
-void Window::Update() { glfwSwapBuffers(window); }
+void Window::Update()
+{
+    glfwSwapBuffers(window);
+    glfwGetFramebufferSize(window, &width, &height);
+}
 
 void Window::Close()
 {
@@ -51,6 +58,18 @@ void Window::Close()
 void Window::Poll() { glfwPollEvents(); }
 
 bool Window::IsClosing() { return glfwWindowShouldClose(window); }
+
+void Window::SetWidth(int width)
+{
+    this->width = width;
+    glfwSetWindowSize(window, width, height);
+}
+
+void Window::SetHeight(int height)
+{
+    this->height = height;
+    glfwSetWindowSize(window, width, height);
+}
 
 void Input::SetCursorMode(int mode)
 {

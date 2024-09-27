@@ -24,6 +24,12 @@ public:
 
     bool IsClosing();
 
+    void SetWidth(int width);
+    inline int &GetWidth() { return width; }
+
+    void SetHeight(int height);
+    inline int &GetHeight() { return height; }
+
 private:
     std::string title;
     int width;
