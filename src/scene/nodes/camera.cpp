@@ -1,4 +1,5 @@
 #include "CloudEngine/scene/nodes/camera.h"
+#include "CloudEngine/core.h"
 #include "CloudEngine/vec.h"
 #include "CloudEngine/window.h"
 
@@ -30,6 +31,6 @@ mat4 Camera::GetView()
 mat4 Camera::GetProjection()
 {
     mat4 projection(1.0f);
-    projection = glm::perspective(glm::radians(fov), 1280.0f / 720.0f, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(fov), (float)GetGlobalState()->window->GetWidth() / GetGlobalState()->window->GetHeight(), 0.1f, 100.0f);
     return projection;
 }
