@@ -40,6 +40,8 @@ public:
     template <typename T>
     inline T *GetComponent()
     {
+        static_assert(std::is_base_of<Component, T>::value, "T must derived from Component");
+
         for (const auto &component : components)
         {
             if (T *derived = dynamic_cast<T *>(component))
