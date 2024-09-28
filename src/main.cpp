@@ -1,3 +1,4 @@
+#include "CloudEngine/core.h"
 #include "CloudEngine/entry.h"
 #include "CloudEngine/renderer.h"
 #include "CloudEngine/scene/scene.h"
@@ -6,6 +7,8 @@
 #include <GLFW/glfw3.h>
 #include <cstdio>
 #include <cstdlib>
+
+GlobalState *globalState;
 
 int main()
 {
@@ -29,6 +32,10 @@ int main()
     printf("Initializing renderer...\n");
     Renderer renderer;
     renderer.Init();
+
+    globalState = new GlobalState();
+    globalState->window = &window;
+    globalState->globalRenderer = &renderer;
 
     game->SetWindow(window);
     game->SetGlobalRenderer(renderer);
@@ -62,4 +69,9 @@ int main()
     renderer.Destroy();
 
     return EXIT_SUCCESS;
+}
+
+GlobalState *GetGlobalState()
+{
+    return globalState;
 }
