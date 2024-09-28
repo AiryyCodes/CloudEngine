@@ -25,6 +25,17 @@ public:
     }
 
     inline std::vector<Node *> GetNodes() const { return nodes; }
+    template <typename T>
+    inline T *GetNode()
+    {
+        static_assert(std::is_base_of<Node, T>::value, "T must be derived from Node");
+
+        for (const auto &node : nodes)
+        {
+            if (T *derived = dynamic_cast<T *>(node))
+                return derived;
+        }
+    }
 
 private:
     std::vector<Node *> nodes;
