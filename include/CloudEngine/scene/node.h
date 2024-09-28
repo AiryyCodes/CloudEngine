@@ -51,6 +51,8 @@ public:
 
     inline std::vector<Component *> GetComponents() { return components; }
 
+    bool IsInside(Node &node);
+
 private:
     fvec3 position;
     fvec3 rotation;
