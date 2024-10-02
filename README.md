@@ -4,7 +4,7 @@
 #### <p align="center">Note: This project is still in *very* early development so alot is to be changed.</p>
 
 ### Planned Features
-* ##### Lights
+* ##### ~~Lights~~ (Done!)
 * ##### Better 3d model implementation
 * ##### IOS & Android support
 
