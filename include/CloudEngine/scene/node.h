@@ -34,6 +34,7 @@ public:
         static_assert(std::is_base_of<Component, T>::value, "T must derived from Component");
 
         T *component = new T();
+        component->parent = this;
         this->components.push_back(component);
         return component;
     }
