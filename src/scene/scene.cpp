@@ -24,6 +24,11 @@ void SceneManager::Init()
     for (const auto &node : currentScene->GetNodes())
     {
         node->Init();
+
+        for (const auto &component : node->GetComponents())
+        {
+            component->Init();
+        }
     }
     currentScene->Init();
 }
@@ -32,6 +37,11 @@ void SceneManager::Update()
     for (const auto &node : currentScene->GetNodes())
     {
         node->Update();
+
+        for (const auto &component : node->GetComponents())
+        {
+            component->Update();
+        }
     }
 
     currentScene->Update();
