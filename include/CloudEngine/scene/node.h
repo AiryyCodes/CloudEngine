@@ -10,8 +10,8 @@
 class Node
 {
 public:
-    virtual void Init() = 0;
-    virtual void Update() = 0;
+    virtual void Init() {}
+    virtual void Update() {}
 
     inline fvec3 &GetPosition() { return this->position; }
     inline fvec3 &GetRotation() { return this->rotation; }
