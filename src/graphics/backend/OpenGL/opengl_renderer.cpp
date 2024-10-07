@@ -2,8 +2,6 @@
 #include "CloudEngine/renderer.h"
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/scene/scene.h"
-#include "CloudEngine/vec.h"
-#include "CloudEngine/window.h"
 #include "glsl/main.vert"
 #include "glsl/main.frag"
 
@@ -35,3 +33,8 @@ void Renderer::Render()
 }
 
 void Renderer::Destroy() {}
+
+Shader &Renderer::GetMainShader()
+{
+    return shader;
+}
