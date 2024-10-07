@@ -1,8 +1,8 @@
 #include "CloudEngine/graphics/mesh.h"
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/graphics/texture.h"
+#include "CloudEngine/vec.h"
 
-#include <cstdio>
 #include <glad/gl.h>
 
 void Mesh::Init()
@@ -13,7 +13,7 @@ void Mesh::Init()
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float),
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(fvec3),
                  &vertices.front(), GL_STATIC_DRAW);
 
     // TODO: May be slow the way i am doing it, but idk?
@@ -35,7 +35,7 @@ void Mesh::Init()
         glGenBuffers(1, &tbo);
         glBindBuffer(GL_ARRAY_BUFFER, tbo);
 
-        glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(float), &uvs.front(),
+        glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(fvec2), &uvs.front(),
                      GL_STATIC_DRAW);
 
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
@@ -47,13 +47,13 @@ void Mesh::Init()
         glGenBuffers(1, &nbo);
         glBindBuffer(GL_ARRAY_BUFFER, nbo);
 
-        glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), &normals.front(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(fvec3), &normals.front(), GL_STATIC_DRAW);
 
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
         glEnableVertexAttribArray(2);
     }
 
-    // glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 

@@ -77,29 +77,24 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *material, aiTexture
 
 Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 {
-    std::vector<float> vertices;
-    std::vector<float> normals;
-    std::vector<float> uvs;
+    std::vector<fvec3> vertices;
+    std::vector<fvec3> normals;
+    std::vector<fvec2> uvs;
     std::vector<unsigned int> indices;
     std::vector<Texture> textures;
 
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
-        vertices.push_back(mesh->mVertices[i].x);
-        vertices.push_back(mesh->mVertices[i].y);
-        vertices.push_back(mesh->mVertices[i].z);
+        vertices.push_back(fvec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
 
         if (mesh->HasNormals())
         {
-            normals.push_back(mesh->mNormals[i].x);
-            normals.push_back(mesh->mNormals[i].y);
-            normals.push_back(mesh->mNormals[i].z);
+            normals.push_back(fvec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z));
         }
 
         if (mesh->mTextureCoords[0])
         {
-            uvs.push_back(mesh->mTextureCoords[0][i].x);
-            uvs.push_back(mesh->mTextureCoords[0][i].y);
+            uvs.push_back(fvec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y));
         }
     }
 
