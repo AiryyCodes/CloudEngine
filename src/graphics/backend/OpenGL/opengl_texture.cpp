@@ -10,14 +10,6 @@ void Texture::Create(std::string path)
     unsigned int id;
     glGenTextures(1, &id);
 
-    /*
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                   GL_LINEAR_MIPMAP_LINEAR);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    */
-
     int width;
     int height;
     int channels;
@@ -64,6 +56,52 @@ void Texture::Create(std::string path)
     this->channels = channels;
     this->type = TextureType::DIFFUSE;
     this->filePath = path;
+}
+
+void Texture::CreateFromMemory(unsigned char *image, int width, int height, int numChannels)
+{
+    unsigned int id;
+    glGenTextures(1, &id);
+
+    unsigned char *data = image;
+
+    if (data)
+    {
+        GLenum format = GL_RGBA;
+        if (numChannels == 1)
+            format = GL_RED;
+        else if (numChannels == 3)
+            format = GL_RGB;
+        else if (numChannels == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, id);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
+                     GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        int minFilter = (filter == GL_NEAREST && mipmap) ? GL_NEAREST_MIPMAP_NEAREST : (filter == GL_LINEAR && mipmap) ? GL_LINEAR_MIPMAP_LINEAR
+                                                                                                                       : filter;
+        int magFilter = filter;
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+    }
+    else
+    {
+        printf("Failed to load texture from memory.\n");
+    }
+
+    free(data);
+
+    this->id = id;
+    this->width = width;
+    this->height = height;
+    this->channels = numChannels;
+    this->type = TextureType::DIFFUSE;
+    this->filePath = "";
 }
 
 std::string Texture::GetAssimpType(TextureType type)

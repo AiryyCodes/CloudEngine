@@ -27,6 +27,7 @@ struct Texture
     unsigned int filter;
 
     void Create(std::string path);
+    void CreateFromMemory(unsigned char *image, int width, int height, int numChannels);
 
     static std::string GetAssimpType(TextureType type);
 };
