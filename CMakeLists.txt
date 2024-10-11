@@ -16,13 +16,13 @@ target_include_directories(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/resources/shaders/")
 
 find_package(glfw3 REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 
 add_subdirectory("ext/glad2")
-target_link_libraries(${PROJECT_NAME} PRIVATE glad)
+target_link_libraries(${PROJECT_NAME} PUBLIC glad)
 
 add_subdirectory("ext/stb")
-target_link_libraries(${PROJECT_NAME} PRIVATE stb)
+target_link_libraries(${PROJECT_NAME} PUBLIC stb)
 
 find_package(glm REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC glm::glm)

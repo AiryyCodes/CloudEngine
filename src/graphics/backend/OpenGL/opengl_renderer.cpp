@@ -7,6 +7,8 @@
 
 #include <glad/gl.h>
 #include <glm/ext/matrix_transform.hpp>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb/stb_image_write.h>
 
 static Mesh mesh;
 static Shader shader(MAIN_VERT, MAIN_FRAG);
@@ -20,7 +22,7 @@ void Renderer::Init()
 
 void Renderer::Update()
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.5f, 0.8f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
