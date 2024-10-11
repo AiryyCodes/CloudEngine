@@ -104,7 +104,7 @@ void Mesh::Draw(Shader &shader)
 
     if (indices.empty())
     {
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size() * 3);
     }
     if (!indices.empty())
     {
