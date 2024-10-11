@@ -90,6 +90,10 @@ void main()
 	for(int i = 0; i < numPointLights; i++)
         result += CalcPointLight(pointLights[i], norm, fragPos, viewDir);    
 
+	vec4 texColor = texture(material.diffuse, uv);
+	if (texColor.a < 0.1)
+		discard;
+
     FragColor = vec4(result, 1.0);
 }
 )";
