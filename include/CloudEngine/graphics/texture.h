@@ -23,6 +23,9 @@ struct Texture
 
     unsigned int id;
 
+    bool mipmap = false;
+    unsigned int filter;
+
     void Create(std::string path);
 
     static std::string GetAssimpType(TextureType type);
