@@ -31,6 +31,6 @@ mat4 Camera::GetView()
 mat4 Camera::GetProjection()
 {
     mat4 projection(1.0f);
-    projection = glm::perspective(glm::radians(fov), (float)GetGlobalState()->window->GetWidth() / GetGlobalState()->window->GetHeight(), 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(fov), (float)GetGlobalState()->window->GetWidth() / GetGlobalState()->window->GetHeight(), 0.1f, 10000.0f);
     return projection;
 }
