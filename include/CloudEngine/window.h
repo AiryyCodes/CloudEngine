@@ -2,6 +2,7 @@
 
 #include <string>
 
+struct GLFWwindow;
 struct WindowInitProps
 {
     std::string title;
@@ -29,6 +30,8 @@ public:
 
     void SetHeight(int height);
     inline int &GetHeight() { return height; }
+
+    GLFWwindow *GetGLFWWindow();
 
 private:
     std::string title;

@@ -71,6 +71,11 @@ void Window::SetHeight(int height)
     glfwSetWindowSize(window, width, height);
 }
 
+GLFWwindow *Window::GetGLFWWindow()
+{
+    return window;
+}
+
 void Input::SetCursorMode(int mode)
 {
     glfwSetInputMode(window, GLFW_CURSOR, mode);
