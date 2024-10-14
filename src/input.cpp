@@ -7,6 +7,9 @@ bool Input::keysHeld[348];
 float Input::mouseX;
 float Input::mouseY;
 
+bool Input::mouseButtons[7];
+bool Input::mouseButtonsHeld[7];
+
 void Input::OnKeyHandler(int key, int scancode, int action, int mods)
 {
     keys[key] = action == GLFW_PRESS;
@@ -39,4 +42,22 @@ float Input::GetMouseX()
 float Input::GetMouseY()
 {
     return mouseY;
+}
+
+void Input::OnMouseButtonHandler(int button, int action, int mods)
+{
+    mouseButtons[button] = action == GLFW_PRESS;
+    mouseButtonsHeld[button] = action == GLFW_PRESS || action == GLFW_REPEAT;
+}
+
+bool Input::IsMouseDown(int button)
+{
+    bool state = mouseButtons[button];
+    mouseButtons[button] = false;
+    return state;
+}
+
+bool Input::IsMouseHeld(int button)
+{
+    return mouseButtonsHeld[button];
 }

@@ -13,6 +13,11 @@ public:
     static float GetMouseX();
     static float GetMouseY();
 
+    static void OnMouseButtonHandler(int button, int action, int mods);
+
+    static bool IsMouseDown(int button);
+    static bool IsMouseHeld(int button);
+
     static void SetCursorMode(int mode);
     static void ToggleCursor();
     static bool IsCursorLocked();
@@ -23,4 +28,7 @@ private:
 
     static float mouseX;
     static float mouseY;
+
+    static bool mouseButtons[7];
+    static bool mouseButtonsHeld[7];
 };

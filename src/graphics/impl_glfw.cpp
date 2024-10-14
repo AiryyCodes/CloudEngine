@@ -33,6 +33,9 @@ void Window::Init()
     glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xPos, double yPos)
                              { Input::OnMousePosHandler((float)xPos, (float)yPos); });
 
+    glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods)
+                               { Input::OnMouseButtonHandler(button, action, mods); });
+
     glfwMakeContextCurrent(window);
 
     int version = gladLoadGL(glfwGetProcAddress);
