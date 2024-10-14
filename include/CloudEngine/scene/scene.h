@@ -35,6 +35,8 @@ public:
             if (T *derived = dynamic_cast<T *>(node))
                 return derived;
         }
+
+        return nullptr;
     }
 
 private:
