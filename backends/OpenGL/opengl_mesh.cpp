@@ -56,8 +56,6 @@ void OGLMesh::Init()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-    printf("Initialized OpenGL mesh\n");
 }
 
 void OGLMesh::Draw(Shader &shader)

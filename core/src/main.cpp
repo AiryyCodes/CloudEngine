@@ -1,5 +1,6 @@
 #include "CloudEngine/entry.h"
 #include "CloudEngine/graphics/renderer.h"
+#include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/time.h"
 #include "opengl_renderer.h"
@@ -11,9 +12,12 @@
 
 int main()
 {
-    printf("Starting engine...\n");
+    Logger logger;
 
-    printf("Initializing...\n");
+    LOG_INFO("Starting engine...");
+
+    LOG_INFO("Initializing...");
+
     Scene defaultScene;
 
     SceneManager sceneManager;
@@ -23,7 +27,7 @@ int main()
 
     Entry *entry = application->GetEntry();
 
-    printf("Initializing renderer...\n");
+    LOG_INFO("Initializing renderer...");
     RendererBackend rendererBackend = application->GetProps().rendererBackend;
     Renderer *renderer;
 
@@ -40,18 +44,18 @@ int main()
 
     if (renderer == nullptr)
     {
-        printf("Failed to initialize renderer\n");
+        LOG_INFO("Failed to initialize renderer");
         return EXIT_FAILURE;
     }
+
+    LOG_INFO("Using {} renderer", test.c_str());
 
     renderer->Init();
 
     application->SetRenderer(renderer);
     entry->SetRenderer(renderer);
 
-    printf("Using %s renderer\n", test.c_str());
-
-    printf("Initializing entry...\n");
+    LOG_INFO("Initializing entry...");
     entry->Init();
 
     entry->Start();

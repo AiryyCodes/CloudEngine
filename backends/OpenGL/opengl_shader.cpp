@@ -1,5 +1,6 @@
 #include "opengl_shader.h"
 #include "CloudEngine/graphics/shader.h"
+#include "CloudEngine/logger.h"
 
 #include <cstdio>
 #include <glad/gl.h>
@@ -37,7 +38,7 @@ unsigned int OGLShader::compileShader(int type)
     if (!success)
     {
         glGetShaderInfoLog(shader, 1024, NULL, log);
-        printf("%s shader compilation failed:\n %s", prefix, log);
+        LOG_ERROR("{} shader compilation failed:\n{}", prefix, log);
     }
 
     return shader;
@@ -60,7 +61,7 @@ void OGLShader::Init()
     if (!success)
     {
         glGetProgramInfoLog(id, 1024, NULL, log);
-        printf("Shader program linking failed:\n %s", log);
+        LOG_ERROR("Shader program linking failed:\n{}", log);
     }
 
     glDeleteShader(vertId);

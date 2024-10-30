@@ -1,4 +1,5 @@
 #include "CloudEngine/graphics/texture.h"
+#include "CloudEngine/logger.h"
 
 #include <cstdio>
 #define STB_IMAGE_IMPLEMENTATION
@@ -45,7 +46,7 @@ void Texture::Create(std::string path)
     }
     else
     {
-        printf("Failed to load texture: %s\n", path.c_str());
+        LOG_ERROR("Failed to load texture: {}", path);
     }
 
     stbi_image_free(data);
@@ -91,7 +92,7 @@ void Texture::CreateFromMemory(unsigned char *image, int width, int height, int 
     }
     else
     {
-        printf("Failed to load texture from memory.\n");
+        LOG_ERROR("Failed to load texture from memory");
     }
 
     free(data);

@@ -1,6 +1,7 @@
 #include "entry.h"
 #include "CloudEngine/entry.h"
 #include "CloudEngine/graphics/mesh.h"
+#include "CloudEngine/logger.h"
 #include "CloudEngine/scene/components/mesh_renderer.h"
 #include "CloudEngine/scene/nodes/camera.h"
 #include "CloudEngine/scene/scene.h"
@@ -19,7 +20,7 @@ static Mesh mesh;
 
 void EditorEntry::Init()
 {
-    printf("Initializing editor...\n");
+    LOG_INFO("Initializing editor...");
 
     Window &window = GetRenderer().GetMainWindow();
     window.SetWidth(1280);

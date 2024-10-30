@@ -15,10 +15,7 @@ std::string Utils::ReadFileFromDisk(std::string path)
     {
         content += line;
         content.push_back('\n');
-        // printf("%s", line.c_str());
     }
-
-    // printf("Content: %s\n", content.c_str());
 
     return content;
 }

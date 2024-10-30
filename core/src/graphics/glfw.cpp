@@ -1,5 +1,6 @@
 #include "CloudEngine/entry.h"
 #include "CloudEngine/input.h"
+#include "CloudEngine/logger.h"
 #include "CloudEngine/time.h"
 #include "CloudEngine/graphics/window.h"
 
@@ -12,7 +13,7 @@ void Window::Init()
 {
     if (!glfwInit())
     {
-        printf("Failed to initialize GLFW\n");
+        LOG_ERROR("Failed to initialize GLFW");
         return;
     }
 
@@ -20,7 +21,7 @@ void Window::Init()
     if (!window)
     {
         glfwTerminate();
-        printf("Failed to initialize GLFW window\n");
+        LOG_ERROR("Failed to initialize GLFW window");
         return;
     }
 

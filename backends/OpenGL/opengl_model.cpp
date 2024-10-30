@@ -1,6 +1,7 @@
 #include "opengl_model.h"
 #include "CloudEngine/graphics/model.h"
 #include "CloudEngine/graphics/texture.h"
+#include "CloudEngine/logger.h"
 #include "assimp/types.h"
 #include "opengl_mesh.h"
 
@@ -32,7 +33,7 @@ void Model::loadModel(std::string path)
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
-        printf("Failed to import model %s:%s\n", path.c_str(), importer.GetErrorString());
+        LOG_ERROR("Failed to import model %s:%s", path, importer.GetErrorString());
         return;
     }
 

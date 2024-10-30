@@ -2,6 +2,7 @@
 #include "CloudEngine/graphics/mesh.h"
 #include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/graphics/shader.h"
+#include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"
 #include "opengl_mesh.h"
 #include "opengl_shader.h"
@@ -27,15 +28,14 @@ OGLRenderer::OGLRenderer()
 
 void OGLRenderer::Init()
 {
-    printf("Initializing window...\n");
-    mainWindow.Init();
-
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
     {
-        printf("Failed to initialize OpenGL context\n");
+        LOG_ERROR("Failed to initialize OpenGL context");
         return;
     }
+
+    LOG_INFO("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
     shader.Init();
 
@@ -60,7 +60,6 @@ void OGLRenderer::Update()
 
 void OGLRenderer::Render()
 {
-    // printf("Rendering with OpenGL\n");
     shader.Bind();
     SceneManager::Get()->Render(shader);
 
@@ -71,7 +70,6 @@ void OGLRenderer::Destroy() {}
 
 std::unique_ptr<Mesh> OGLRenderer::CreateMesh()
 {
-    printf("Creating opengl mesh\n");
     return std::make_unique<OGLMesh>();
 }
 
