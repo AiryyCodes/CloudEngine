@@ -1,7 +1,7 @@
 #include "CloudEngine/entry.h"
 #include "CloudEngine/input.h"
 #include "CloudEngine/time.h"
-#include "CloudEngine/window.h"
+#include "CloudEngine/graphics/window.h"
 
 #include <GLFW/glfw3.h>
 #include <cstdio>
@@ -65,6 +65,11 @@ void Window::SetHeight(int height)
 {
     this->height = height;
     glfwSetWindowSize(window, width, height);
+}
+
+void Window::SetTitle(std::string title)
+{
+    glfwSetWindowTitle(window, title.c_str());
 }
 
 GLFWwindow *Window::GetGLFWWindow()

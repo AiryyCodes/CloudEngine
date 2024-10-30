@@ -1,9 +1,9 @@
 #include "CloudEngine/entry.h"
-#include "CloudEngine/renderer.h"
+#include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/time.h"
-#include "CloudEngine/window.h"
 #include "opengl_renderer.h"
+
 #include <GLFW/glfw3.h>
 #include <cstdio>
 #include <cstdlib>
@@ -47,6 +47,7 @@ int main()
     renderer->Init();
 
     application->SetRenderer(renderer);
+    entry->SetRenderer(renderer);
 
     printf("Using %s renderer\n", test.c_str());
 
@@ -55,7 +56,7 @@ int main()
 
     entry->Start();
 
-    while (!renderer->GetWindow().IsClosing())
+    while (!renderer->GetMainWindow().IsClosing())
     {
         Time::Update();
 
@@ -69,8 +70,8 @@ int main()
 
         entry->Render();
 
-        renderer->GetWindow().Update();
-        renderer->GetWindow().Poll();
+        renderer->GetMainWindow().Update();
+        renderer->GetMainWindow().Poll();
     }
 
     entry->Exit();

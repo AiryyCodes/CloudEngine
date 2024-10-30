@@ -2,10 +2,10 @@
 
 #include "CloudEngine/entry.h"
 #include "CloudEngine/graphics/mesh.h"
-#include "CloudEngine/renderer.h"
+#include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/scene/component.h"
+
 #include <memory>
-#include <vector>
 
 class MeshRenderer : public Component
 {

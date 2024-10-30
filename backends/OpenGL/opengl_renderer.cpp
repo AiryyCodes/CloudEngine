@@ -1,9 +1,7 @@
 #include "opengl_renderer.h"
 #include "CloudEngine/graphics/mesh.h"
-#include "CloudEngine/renderer.h"
+#include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/graphics/shader.h"
-#include "CloudEngine/scene/components/mesh_renderer.h"
-#include "CloudEngine/scene/nodes/camera.h"
 #include "CloudEngine/scene/scene.h"
 #include "opengl_mesh.h"
 #include "opengl_shader.h"
@@ -30,7 +28,7 @@ OGLRenderer::OGLRenderer()
 void OGLRenderer::Init()
 {
     printf("Initializing window...\n");
-    window.Init();
+    mainWindow.Init();
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)

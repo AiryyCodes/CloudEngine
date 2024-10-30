@@ -5,6 +5,7 @@
 #include "CloudEngine/scene/nodes/camera.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/vec.h"
+#include "CloudEngine/graphics/window.h"
 #include <cstdio>
 #include <vector>
 
@@ -19,6 +20,11 @@ static Mesh mesh;
 void EditorEntry::Init()
 {
     printf("Initializing editor...\n");
+
+    Window &window = GetRenderer().GetMainWindow();
+    window.SetWidth(1280);
+    window.SetHeight(720);
+    window.SetTitle("Cloud Engine (Editor)");
 
     Camera *camera = GetSceneManager().GetCurrentScene()->AddNode<Camera>();
     camera->GetPosition().z = -1.0f;

@@ -1,7 +1,14 @@
-#include "CloudEngine/renderer.h"
-#include "CloudEngine/window.h"
+#include "CloudEngine/graphics/renderer.h"
+
+static Renderer *instance;
 
 Renderer::Renderer()
-    : window("Cloud Engine", 800, 600)
+    : mainWindow("Cloud Engine", 800, 600)
 {
+    instance = this;
+}
+
+Renderer &Renderer::Get()
+{
+    return *instance;
 }

@@ -1,7 +1,7 @@
 #include "CloudEngine/scene/nodes/camera.h"
 #include "CloudEngine/entry.h"
 #include "CloudEngine/vec.h"
-#include "CloudEngine/window.h"
+#include "CloudEngine/graphics/window.h"
 
 #include <cmath>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -30,7 +30,7 @@ mat4 Camera::GetView()
 
 mat4 Camera::GetProjection()
 {
-    Window &window = Application::Get().GetRenderer().GetWindow();
+    Window &window = Application::Get().GetRenderer().GetMainWindow();
 
     mat4 projection(1.0f);
     projection = glm::perspective(glm::radians(fov), (float)window.GetWidth() / window.GetHeight(), 0.1f, 10000.0f);

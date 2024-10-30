@@ -1,8 +1,7 @@
 #pragma once
 
-#include "CloudEngine/renderer.h"
+#include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/scene/scene.h"
-#include "CloudEngine/window.h"
 
 #include <memory>
 #include <string>
@@ -53,12 +52,15 @@ public:
 
     Application &GetApplication() { return application; }
     SceneManager &GetSceneManager() { return sceneManager; }
+    Renderer &GetRenderer() { return *renderer; }
+    inline void SetRenderer(Renderer *renderer) { this->renderer = renderer; }
 
 private:
     std::string name;
 
     Application &application = Application::Get();
     SceneManager &sceneManager = *SceneManager::Get();
+    Renderer *renderer = nullptr;
 };
 
 Application *CreateApplication();

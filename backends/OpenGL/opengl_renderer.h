@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CloudEngine/graphics/mesh.h"
-#include "CloudEngine/renderer.h"
+#include "CloudEngine/graphics/renderer.h"
 #include <memory>
 
 class OGLRenderer : public Renderer

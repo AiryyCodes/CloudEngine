@@ -2,7 +2,7 @@
 
 #include "CloudEngine/graphics/mesh.h"
 #include "CloudEngine/graphics/shader.h"
-#include "CloudEngine/window.h"
+#include "CloudEngine/graphics/window.h"
 #include <memory>
 
 enum RendererBackend
@@ -15,6 +15,8 @@ class Renderer
 public:
     Renderer();
 
+    static Renderer &Get();
+
     virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
@@ -26,8 +28,8 @@ public:
 
     Shader &GetMainShader();
 
-    Window &GetWindow() { return window; }
+    Window &GetMainWindow() { return mainWindow; }
 
 protected:
-    Window window;
+    Window mainWindow;
 };
