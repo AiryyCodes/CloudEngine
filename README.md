@@ -5,8 +5,11 @@
 
 ### Planned Features
 * ##### ~~Lights~~ (Done!)
-* ##### Better 3d model implementation
+* ##### Custom 3D model parsers
 * ##### IOS & Android support
+* ##### Scene editor
+* ##### C++ Scripting
+* ##### Module system for extending engine functionality
 
 ### Building
 #### Linux
