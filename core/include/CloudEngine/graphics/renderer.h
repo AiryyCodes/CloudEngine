@@ -3,6 +3,7 @@
 #include "CloudEngine/graphics/mesh.h"
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/graphics/window.h"
+#include "CloudEngine/vec.h"
 #include <memory>
 
 enum RendererBackend
@@ -30,6 +31,11 @@ public:
 
     Window &GetMainWindow() { return mainWindow; }
 
+    inline fvec4 &GetClearColor() { return clearColor; }
+    void SetClearColor(const fvec4 &clearColor) { this->clearColor = clearColor; }
+
 protected:
     Window mainWindow;
+
+    fvec4 clearColor = fvec4(0.0f, 0.0f, 0.0f, 1.0f);
 };

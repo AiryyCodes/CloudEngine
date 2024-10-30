@@ -3,6 +3,8 @@
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
 
+typedef glm::fvec4 fvec4;
+
 typedef glm::fvec3 fvec3;
 typedef glm::ivec3 ivec3;
 

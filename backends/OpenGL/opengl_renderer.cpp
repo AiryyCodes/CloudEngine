@@ -54,7 +54,7 @@ void OGLRenderer::Init()
 
 void OGLRenderer::Update()
 {
-    glClearColor(0.5f, 0.8f, 1.0f, 1.0f);
+    glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
