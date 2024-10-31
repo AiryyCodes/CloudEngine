@@ -8,6 +8,7 @@
 #include "CloudEngine/vec.h"
 #include "CloudEngine/graphics/window.h"
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 #include <cstdio>
 #include <vector>
 
@@ -35,12 +36,37 @@ void EditorEntry::Init()
     MeshRenderer *meshRenderer = node->AddComponent<MeshRenderer>();
     meshRenderer->GetMesh().SetVertices(vertices);
     meshRenderer->GetMesh().Init();
+
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 void EditorEntry::Render()
 {
-    ImGui::Begin("Test");
-    ImGui::Text("Hello, ImGui!");
+    static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_NoCloseButton | ImGuiDockNodeFlags_NoWindowMenuButton;
+    static bool dockingWindowVisible = true;
+
+    Window &window = GetRenderer().GetMainWindow();
+
+    static ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
+    dockingWindowFlags |= ImGuiWindowFlags_NoTitleBar;
+
+    ImGui::SetNextWindowSize(ImVec2(window.GetWidth(), window.GetHeight()));
+    ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    ImGui::Begin("Docking", &dockingWindowVisible, dockingWindowFlags);
+    {
+        ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+        ImGuiID dockspace_id = ImGui::GetID("EditorDockspace");
+        ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+
+        ImGui::PopStyleColor();
+
+        bool visible = true;
+        ImGui::Begin("Hierarchy", &visible, ImGuiWindowFlags_NoCollapse);
+        ImGui::End();
+    }
+    ImGui::PopStyleVar();
     ImGui::End();
 }
 
