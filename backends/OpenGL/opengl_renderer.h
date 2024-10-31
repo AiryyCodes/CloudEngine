@@ -12,6 +12,7 @@ public:
     void Init() override;
     void Update() override;
     void Render() override;
+    void RenderEnd() override;
     void Destroy() override;
 
     std::unique_ptr<Mesh> CreateMesh() override;

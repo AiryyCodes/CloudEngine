@@ -7,6 +7,7 @@
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/vec.h"
 #include "CloudEngine/graphics/window.h"
+#include "imgui/imgui.h"
 #include <cstdio>
 #include <vector>
 
@@ -34,6 +35,13 @@ void EditorEntry::Init()
     MeshRenderer *meshRenderer = node->AddComponent<MeshRenderer>();
     meshRenderer->GetMesh().SetVertices(vertices);
     meshRenderer->GetMesh().Init();
+}
+
+void EditorEntry::Render()
+{
+    ImGui::Begin("Test");
+    ImGui::Text("Hello, ImGui!");
+    ImGui::End();
 }
 
 Application *CreateApplication()

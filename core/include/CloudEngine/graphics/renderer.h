@@ -21,6 +21,7 @@ public:
     virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
+    virtual void RenderEnd() {}
     virtual void Destroy() {}
 
     virtual void ResizeViewport(int width, int height) {};

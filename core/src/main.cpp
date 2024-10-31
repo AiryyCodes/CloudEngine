@@ -3,6 +3,8 @@
 #include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/time.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/imgui.h"
 #include "opengl_renderer.h"
 
 #include <GLFW/glfw3.h>
@@ -72,7 +74,14 @@ int main()
 
         renderer->Render();
 
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
         entry->Render();
+
+        ImGui::Render();
+
+        renderer->RenderEnd();
 
         renderer->GetMainWindow().Update();
         renderer->GetMainWindow().Poll();
@@ -81,6 +90,9 @@ int main()
     entry->Exit();
 
     renderer->Destroy();
+
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     return EXIT_SUCCESS;
 }

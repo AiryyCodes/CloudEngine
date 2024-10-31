@@ -33,6 +33,7 @@ find_package(assimp REQUIRED)
 # target_link_libraries(${PROJECT_NAME} PUBLIC assimp)
 
 add_subdirectory("ext/fmt")
+add_subdirectory("ext/imgui")
 
 add_subdirectory("core/")
 add_subdirectory("backends/")

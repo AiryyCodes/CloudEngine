@@ -4,6 +4,7 @@
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
 #include "opengl_mesh.h"
 #include "opengl_shader.h"
 #include "shaders/main.vert"
@@ -16,6 +17,8 @@
 #include <memory>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_glfw.h>
 
 static OGLShader shader;
 
@@ -36,6 +39,8 @@ void OGLRenderer::Init()
     }
 
     LOG_INFO("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+
+    ImGui_ImplOpenGL3_Init("#version 330 core");
 
     shader.Init();
 
@@ -60,13 +65,23 @@ void OGLRenderer::Update()
 
 void OGLRenderer::Render()
 {
+    ImGui_ImplOpenGL3_NewFrame();
+
     shader.Bind();
     SceneManager::Get()->Render(shader);
 
     shader.SetVar("material.shininess", 32.0f);
 }
 
-void OGLRenderer::Destroy() {}
+void OGLRenderer::RenderEnd()
+{
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void OGLRenderer::Destroy()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+}
 
 std::unique_ptr<Mesh> OGLRenderer::CreateMesh()
 {

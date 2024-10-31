@@ -6,4 +6,5 @@ class EditorEntry : public Entry
 {
 public:
     void Init() override;
+    void Render() override;
 };

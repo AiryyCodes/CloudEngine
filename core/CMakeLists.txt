@@ -11,4 +11,4 @@ target_include_directories(core PUBLIC "include/")
 
 target_link_libraries(core PRIVATE backend_opengl)
 
-target_link_libraries(core PUBLIC glfw glm::glm fmt)
+target_link_libraries(core PUBLIC glfw glm::glm fmt ImGui)
