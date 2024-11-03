@@ -9,6 +9,7 @@
 #include "CloudEngine/graphics/window.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "ui/scene_explorer.hpp"
 #include <cstdio>
 #include <vector>
 
@@ -29,13 +30,20 @@ void EditorEntry::Init()
     window.SetHeight(720);
     window.SetTitle("Cloud Engine (Editor)");
 
-    Camera *camera = GetSceneManager().GetCurrentScene()->AddNode<Camera>();
+    Camera *camera = GetSceneManager().GetCurrentScene()->AddChild<Camera>();
+    camera->SetName("Camera");
     camera->GetPosition().z = -1.0f;
 
-    Node *node = GetSceneManager().GetCurrentScene()->AddNode<Node>();
+    Node *node = GetSceneManager().GetCurrentScene()->AddChild<Node>();
+    node->SetName("Test Node");
     MeshRenderer *meshRenderer = node->AddComponent<MeshRenderer>();
     meshRenderer->GetMesh().SetVertices(vertices);
     meshRenderer->GetMesh().Init();
+
+    Node *testChild = GetSceneManager().GetCurrentScene()->AddChild<Node>();
+    testChild->SetName("Child 1");
+
+    node->AddChild(testChild);
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
@@ -62,9 +70,7 @@ void EditorEntry::Render()
 
         ImGui::PopStyleColor();
 
-        bool visible = true;
-        ImGui::Begin("Hierarchy", &visible, ImGuiWindowFlags_NoCollapse);
-        ImGui::End();
+        SceneExplorer::Draw();
     }
     ImGui::PopStyleVar();
     ImGui::End();

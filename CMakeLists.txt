@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(CloudEngine)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CLOUD_ENGINE_RESOURCES_PATH "${PROJECT_SOURCE_DIR}/resources" CACHE INTERNAL "Path to internal cloud engine resources")

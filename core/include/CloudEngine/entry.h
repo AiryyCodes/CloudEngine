@@ -44,11 +44,21 @@ private:
 class Entry
 {
 public:
+    Entry()
+    {
+        instance = this;
+    }
+
     virtual void Init() {};
     virtual void Start() {};
     virtual void Update() {};
     virtual void Render() {};
     virtual void Exit() {};
+
+    static Entry *Get()
+    {
+        return instance;
+    }
 
     Application &GetApplication() { return application; }
     SceneManager &GetSceneManager() { return sceneManager; }
@@ -61,6 +71,8 @@ private:
     Application &application = Application::Get();
     SceneManager &sceneManager = *SceneManager::Get();
     Renderer *renderer = nullptr;
+
+    static Entry *instance;
 };
 
 Application *CreateApplication();

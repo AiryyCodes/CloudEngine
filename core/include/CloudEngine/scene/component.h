@@ -1,6 +1,6 @@
 #pragma once
 
-class Node;
+class Scene;
 struct Component
 {
 public:
@@ -9,8 +9,8 @@ public:
     virtual void Init() {}
     virtual void Update() {}
 
-    inline Node *GetParent() { return parent; }
+    inline const Scene *GetParent() { return parent; }
 
 public:
-    Node *parent;
+    Scene *parent;
 };

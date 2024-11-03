@@ -1,6 +1,7 @@
 #include "CloudEngine/entry.h"
 
 static Application *instance;
+Entry *Entry::instance;
 
 Application::Application(ApplicationProps props)
     : props(props)
