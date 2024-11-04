@@ -46,6 +46,8 @@ void EditorEntry::Init()
 
     node->AddChild(testChild);
 
+    GetRenderer().SetClearColor(fvec4(0.1f, 0.1f, 0.1f, 1.0f));
+
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
@@ -57,21 +59,15 @@ void EditorEntry::Render()
     Window &window = GetRenderer().GetMainWindow();
 
     static ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
-    dockingWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMouseInputs;
-
-    // SceneView::Draw();
+    dockingWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground;
 
     ImGui::SetNextWindowSize(ImVec2(window.GetWidth(), window.GetHeight()));
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::Begin("Docking", &dockingWindowVisible, dockingWindowFlags);
     {
-        ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-
         ImGuiID dockspace_id = ImGui::GetID("EditorDockspace");
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-
-        ImGui::PopStyleColor();
 
         SceneExplorer::Draw();
 

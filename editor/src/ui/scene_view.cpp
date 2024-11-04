@@ -23,9 +23,9 @@ void SceneView::Draw()
 
         ImGui::Image(
             (ImTextureID)entry->GetRenderer().GetSceneFrameBuffer()->GetTexture().id,
-            ImGui::GetContentRegionAvail(),
-            ImVec2(0, 1),
-            ImVec2(1, 0));
+            ImVec2(width, height),
+            ImVec2(0.0f, 1.0f),
+            ImVec2(1.0f, 0.0f));
     }
     ImGui::EndChild();
     ImGui::End();
