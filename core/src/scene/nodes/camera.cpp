@@ -33,6 +33,6 @@ mat4 Camera::GetProjection()
     Window &window = Application::Get().GetRenderer().GetMainWindow();
 
     mat4 projection(1.0f);
-    projection = glm::perspective(glm::radians(fov), (float)window.GetWidth() / window.GetHeight(), 0.1f, 10000.0f);
+    projection = glm::perspective(glm::radians(fov), aspectRatio, 0.1f, 10000.0f);
     return projection;
 }

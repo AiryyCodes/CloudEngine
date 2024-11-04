@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CloudEngine/graphics/framebuffer.h"
 #include "CloudEngine/graphics/mesh.h"
 #include "CloudEngine/graphics/renderer.h"
 #include <memory>
@@ -16,6 +17,7 @@ public:
     void Destroy() override;
 
     std::unique_ptr<Mesh> CreateMesh() override;
+    std::unique_ptr<FrameBuffer> CreateFrameBuffer() override;
 
     void ResizeViewport(int width, int height) override;
 };

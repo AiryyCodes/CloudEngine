@@ -1,4 +1,4 @@
-#include "ui/scene_explorer.hpp"
+#include "ui/scene_explorer.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/logger.h"
 #include "entry.h"
@@ -142,7 +142,7 @@ void SceneExplorer::Draw()
     // ImGui::GetIO().ConfigDebugIsDebuggerPresent = true;
     // ImGui::ShowDemoWindow();
 
-    ImGui::Begin("Scene", &visible, ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Scene Explorer", &visible, ImGuiWindowFlags_NoCollapse);
 
     int index;
     for (const auto &node : SceneManager::Get()->GetCurrentScene()->GetChildren())

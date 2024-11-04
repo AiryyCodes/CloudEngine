@@ -5,6 +5,7 @@
 #include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"
 #include "imgui/backends/imgui_impl_opengl3.h"
+#include "opengl_framebuffer.h"
 #include "opengl_mesh.h"
 #include "opengl_shader.h"
 #include "shaders/main.vert"
@@ -44,7 +45,11 @@ void OGLRenderer::Init()
 
     shader.Init();
 
+    sceneFrameBuffer = CreateFrameBuffer();
+    sceneFrameBuffer->Init(mainWindow.GetWidth(), mainWindow.GetHeight());
+
     glEnable(GL_DEPTH_TEST);
+
     // glDepthFunc(GL_LEQUAL);
 
     // glEnable(GL_BLEND);
@@ -68,7 +73,10 @@ void OGLRenderer::Render()
     ImGui_ImplOpenGL3_NewFrame();
 
     shader.Bind();
+
+    sceneFrameBuffer->Bind();
     SceneManager::Get()->Render(shader);
+    sceneFrameBuffer->Unbind();
 
     shader.SetVar("material.shininess", 32.0f);
 }
@@ -88,9 +96,15 @@ std::unique_ptr<Mesh> OGLRenderer::CreateMesh()
     return std::make_unique<OGLMesh>();
 }
 
+std::unique_ptr<FrameBuffer> OGLRenderer::CreateFrameBuffer()
+{
+    return std::make_unique<OGLFrameBuffer>();
+}
+
 void OGLRenderer::ResizeViewport(int width, int height)
 {
     glViewport(0, 0, width, height);
+    sceneFrameBuffer->Resize(width, height);
 }
 
 Shader &Renderer::GetMainShader()

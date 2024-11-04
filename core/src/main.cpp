@@ -1,4 +1,5 @@
 #include "CloudEngine/entry.h"
+#include "CloudEngine/graphics/framebuffer.h"
 #include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"

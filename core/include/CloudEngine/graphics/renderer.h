@@ -4,6 +4,7 @@
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/graphics/window.h"
 #include "CloudEngine/vec.h"
+#include "CloudEngine/graphics/framebuffer.h"
 #include <memory>
 
 enum RendererBackend
@@ -27,6 +28,7 @@ public:
     virtual void ResizeViewport(int width, int height) {};
 
     virtual std::unique_ptr<Mesh> CreateMesh() { return std::make_unique<Mesh>(); };
+    virtual std::unique_ptr<FrameBuffer> CreateFrameBuffer() { return std::make_unique<FrameBuffer>(); }
 
     Shader &GetMainShader();
 
@@ -35,8 +37,12 @@ public:
     inline fvec4 &GetClearColor() { return clearColor; }
     void SetClearColor(const fvec4 &clearColor) { this->clearColor = clearColor; }
 
+    FrameBuffer *GetSceneFrameBuffer() { return sceneFrameBuffer.get(); }
+
 protected:
     Window mainWindow;
 
     fvec4 clearColor = fvec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    std::unique_ptr<FrameBuffer> sceneFrameBuffer;
 };

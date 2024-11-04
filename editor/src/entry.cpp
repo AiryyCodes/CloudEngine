@@ -9,7 +9,8 @@
 #include "CloudEngine/graphics/window.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
-#include "ui/scene_explorer.hpp"
+#include "ui/scene_explorer.h"
+#include "ui/scene_view.h"
 #include <cstdio>
 #include <vector>
 
@@ -50,13 +51,15 @@ void EditorEntry::Init()
 
 void EditorEntry::Render()
 {
-    static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_NoCloseButton | ImGuiDockNodeFlags_NoWindowMenuButton;
+    static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_NoCloseButton | ImGuiDockNodeFlags_NoWindowMenuButton | ImGuiDockNodeFlags_PassthruCentralNode;
     static bool dockingWindowVisible = true;
 
     Window &window = GetRenderer().GetMainWindow();
 
     static ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
-    dockingWindowFlags |= ImGuiWindowFlags_NoTitleBar;
+    dockingWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMouseInputs;
+
+    // SceneView::Draw();
 
     ImGui::SetNextWindowSize(ImVec2(window.GetWidth(), window.GetHeight()));
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
@@ -71,6 +74,8 @@ void EditorEntry::Render()
         ImGui::PopStyleColor();
 
         SceneExplorer::Draw();
+
+        SceneView::Draw();
     }
     ImGui::PopStyleVar();
     ImGui::End();

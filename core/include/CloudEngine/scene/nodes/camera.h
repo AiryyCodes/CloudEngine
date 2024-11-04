@@ -14,8 +14,11 @@ public:
     mat4 GetView();
     mat4 GetProjection();
 
-    inline void SetFov(float fov) { this->fov = fov; }
     inline float GetFov() const { return fov; }
+    inline void SetFov(float fov) { this->fov = fov; }
+
+    float GetAspectRatio() { return aspectRatio; }
+    void SetAspectRatio(float aspectRatio) { this->aspectRatio = aspectRatio; }
 
     inline fvec3 &GetDirection() { return this->direction; }
 
@@ -24,6 +27,7 @@ public:
 
 private:
     float fov = 70.0f;
+    float aspectRatio;
 
     fvec3 direction;
 
