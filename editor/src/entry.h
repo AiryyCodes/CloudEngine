@@ -11,7 +11,7 @@ public:
     void Init() override;
     void Render() override;
 
-    inline const Scene *GetSelectedScene() { return this->selectedScene; }
+    inline Scene *GetSelectedScene() { return this->selectedScene; }
     void SetSelectedScene(Scene *scene) { this->selectedScene = scene; }
 
     inline FrameBuffer *GetFrameBuffer() { return frameBuffer.get(); }

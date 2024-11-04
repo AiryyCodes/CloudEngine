@@ -64,7 +64,15 @@ void OGLRenderer::Init()
 
 void OGLRenderer::Update()
 {
+    // Should probably not resize every frame, but meh.
+    // sceneFrameBuffer->Resize(mainWindow.GetWidth(), mainWindow.GetHeight());
+
     glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    sceneFrameBuffer->Bind();
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -74,7 +82,6 @@ void OGLRenderer::Render()
 
     shader.Bind();
 
-    sceneFrameBuffer->Bind();
     SceneManager::Get()->Render(shader);
     sceneFrameBuffer->Unbind();
 

@@ -1,5 +1,4 @@
 #include "CloudEngine/entry.h"
-#include "CloudEngine/graphics/framebuffer.h"
 #include "CloudEngine/graphics/renderer.h"
 #include "CloudEngine/logger.h"
 #include "CloudEngine/scene/scene.h"
@@ -11,10 +10,14 @@
 #include <GLFW/glfw3.h>
 #include <cstdio>
 #include <cstdlib>
+#include <sstream>
 #include <string>
 
 int main()
 {
+    std::stringstream buffer;
+    std::streambuf *oldBuffer = std::cout.rdbuf(buffer.rdbuf());
+
     Logger logger;
 
     LOG_INFO("Starting engine...");
@@ -94,6 +97,8 @@ int main()
 
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+
+    std::cout.rdbuf(oldBuffer);
 
     return EXIT_SUCCESS;
 }

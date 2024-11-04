@@ -43,7 +43,7 @@ void Window::Init()
 void Window::Update()
 {
     glfwSwapBuffers(window);
-    glfwGetFramebufferSize(window, &width, &height);
+    glfwGetWindowSize(window, &width, &height);
 }
 
 void Window::Close()

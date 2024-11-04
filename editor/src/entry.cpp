@@ -9,6 +9,8 @@
 #include "CloudEngine/graphics/window.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "ui/console.h"
+#include "ui/node_inspector.h"
 #include "ui/scene_explorer.h"
 #include "ui/scene_view.h"
 #include <cstdio>
@@ -69,9 +71,13 @@ void EditorEntry::Render()
         ImGuiID dockspace_id = ImGui::GetID("EditorDockspace");
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
-        SceneExplorer::Draw();
+        // ImGui::GetIO().ConfigDebugIsDebuggerPresent = true;
+        // ImGui::ShowDemoWindow();
 
+        NodeInspector::Draw();
+        SceneExplorer::Draw();
         SceneView::Draw();
+        Console::Draw();
     }
     ImGui::PopStyleVar();
     ImGui::End();

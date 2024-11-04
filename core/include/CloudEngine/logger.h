@@ -4,6 +4,7 @@
 #include <chrono>
 #include <cstdio>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 enum LogLevel
@@ -18,6 +19,7 @@ class Logger
 {
 public:
     Logger();
+    ~Logger();
 
     static Logger &Get();
 
@@ -45,6 +47,8 @@ public:
 
         std::cout << newMessage << "\n";
     }
+
+    static const std::stringstream &GetBuffer();
 
 private:
     void replacePlaceholder(std::string &string, std::string wordToReplace, std::string replacement)

@@ -93,9 +93,6 @@ void TreeItem(Scene *scene, int index)
 
     bool selected = selectedScene == scene;
 
-    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 4.0f);
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 4.0f);
-
     if (scene->GetChildren().size() > 0)
     {
         static bool expanded = true;
@@ -139,9 +136,7 @@ void RenderNode(Scene *scene, int index)
 
 void SceneExplorer::Draw()
 {
-    // ImGui::GetIO().ConfigDebugIsDebuggerPresent = true;
-    // ImGui::ShowDemoWindow();
-
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.0f, 4.0f));
     ImGui::Begin("Scene Explorer", &visible, ImGuiWindowFlags_NoCollapse);
 
     int index;
@@ -152,4 +147,5 @@ void SceneExplorer::Draw()
     }
 
     ImGui::End();
+    ImGui::PopStyleVar();
 }
