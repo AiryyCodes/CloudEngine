@@ -12,6 +12,9 @@ OGLFrameBuffer::~OGLFrameBuffer()
 
 void OGLFrameBuffer::Init(float width, float height)
 {
+    this->width = width;
+    this->height = height;
+
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -44,6 +47,9 @@ void OGLFrameBuffer::Init(float width, float height)
 
 void OGLFrameBuffer::Resize(float width, float height)
 {
+    this->width = width;
+    this->height = height;
+
     glBindTexture(GL_TEXTURE_2D, texture.id);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
