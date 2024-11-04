@@ -14,7 +14,6 @@ Logger::Logger()
 
 Logger::~Logger()
 {
-    std::cout.rdbuf(oldBuffer);
 }
 
 Logger &Logger::Get()
