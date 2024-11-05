@@ -89,13 +89,6 @@ void EditorEntry::Render()
         {
             window->Draw();
         }
-
-        /*
-      NodeInspector::Draw();
-      SceneExplorer::Draw();
-      SceneView::Draw();
-      Console::Draw();
-        */
     }
     ImGui::PopStyleVar();
     ImGui::End();
