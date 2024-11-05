@@ -1,7 +1,9 @@
 #pragma once
 
-class SceneView
+#include "CloudEngine/editor/editor_window.h"
+
+class SceneView : public EditorWindow
 {
 public:
-    static void Draw();
+    void Draw() override;
 };

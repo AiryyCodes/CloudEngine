@@ -1,7 +1,9 @@
 #pragma once
 
-class NodeInspector
+#include "CloudEngine/editor/editor_window.h"
+
+class NodeInspector : public EditorWindow
 {
 public:
-    static void Draw();
+    void Draw() override;
 };

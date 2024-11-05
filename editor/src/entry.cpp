@@ -1,4 +1,7 @@
+#define EDITOR
+
 #include "entry.h"
+#include "CloudEngine/editor/editor_ui_manager.h"
 #include "CloudEngine/entry.h"
 #include "CloudEngine/graphics/mesh.h"
 #include "CloudEngine/logger.h"
@@ -14,6 +17,7 @@
 #include "ui/scene_explorer.h"
 #include "ui/scene_view.h"
 #include <cstdio>
+#include <memory>
 #include <vector>
 
 static std::vector<fvec3> vertices = {
@@ -27,6 +31,13 @@ static Mesh mesh;
 void EditorEntry::Init()
 {
     LOG_INFO("Initializing editor...");
+
+    uiManager = std::make_unique<EditorUIManager>();
+
+    REGISTER_EDITOR_WINDOW(NodeInspector);
+    REGISTER_EDITOR_WINDOW(SceneExplorer);
+    REGISTER_EDITOR_WINDOW(SceneView);
+    REGISTER_EDITOR_WINDOW(Console);
 
     Window &window = GetRenderer().GetMainWindow();
     window.SetWidth(1280);
@@ -74,10 +85,17 @@ void EditorEntry::Render()
         // ImGui::GetIO().ConfigDebugIsDebuggerPresent = true;
         // ImGui::ShowDemoWindow();
 
-        NodeInspector::Draw();
-        SceneExplorer::Draw();
-        SceneView::Draw();
-        Console::Draw();
+        for (const auto &window : EditorUIManager::Get().GetWindows())
+        {
+            window->Draw();
+        }
+
+        /*
+      NodeInspector::Draw();
+      SceneExplorer::Draw();
+      SceneView::Draw();
+      Console::Draw();
+        */
     }
     ImGui::PopStyleVar();
     ImGui::End();

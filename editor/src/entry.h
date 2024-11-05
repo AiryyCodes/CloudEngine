@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CloudEngine/editor/editor_ui_manager.h"
 #include "CloudEngine/entry.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/graphics/framebuffer.h"
@@ -20,4 +21,5 @@ private:
     Scene *selectedScene;
 
     std::unique_ptr<FrameBuffer> frameBuffer;
+    std::unique_ptr<EditorUIManager> uiManager;
 };

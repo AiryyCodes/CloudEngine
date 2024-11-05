@@ -1,7 +1,9 @@
 #pragma once
 
-class Console
+#include "CloudEngine/editor/editor_window.h"
+
+class Console : public EditorWindow
 {
 public:
-    static void Draw();
+    void Draw() override;
 };
