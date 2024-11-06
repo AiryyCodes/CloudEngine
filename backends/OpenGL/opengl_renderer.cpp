@@ -82,7 +82,7 @@ void OGLRenderer::Render()
 
     shader.Bind();
 
-    SceneManager::Get()->Render(shader);
+    SceneManager::Get().Render(shader);
     sceneFrameBuffer->Unbind();
 
     shader.SetVar("material.shininess", 32.0f);
@@ -114,7 +114,7 @@ void OGLRenderer::ResizeViewport(int width, int height)
     sceneFrameBuffer->Resize(width, height);
 }
 
-Shader &Renderer::GetMainShader()
+const Shader &Renderer::GetMainShader()
 {
     return shader;
 }

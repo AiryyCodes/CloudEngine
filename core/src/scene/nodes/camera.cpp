@@ -20,7 +20,7 @@ void Camera::UpdateDir()
     up.z = sin(GetRotation().y) * cos(GetRotation().z);
 }
 
-mat4 Camera::GetView()
+const mat4 Camera::GetView()
 {
     mat4 view(1.0f);
     // TODO: May add front to position
@@ -28,7 +28,7 @@ mat4 Camera::GetView()
     return view;
 }
 
-mat4 Camera::GetProjection()
+const mat4 Camera::GetProjection()
 {
     Window &window = Application::Get().GetRenderer().GetMainWindow();
 

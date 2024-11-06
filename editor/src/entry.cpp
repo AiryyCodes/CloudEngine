@@ -53,7 +53,7 @@ void EditorEntry::Init()
 
     Camera *camera = GetSceneManager().GetCurrentScene()->AddChild<Camera>();
     camera->SetName("Camera");
-    camera->GetPosition().z = -1.0f;
+    camera->SetPosition(fvec3(0.0f, 0.0f, -1.0f));
 
     Node *node = GetSceneManager().GetCurrentScene()->AddChild<Node>();
     node->SetName("Test Node");

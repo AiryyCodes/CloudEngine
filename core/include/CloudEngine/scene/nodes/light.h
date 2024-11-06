@@ -8,9 +8,14 @@ public:
     void Init() override {}
     void Update() override {}
 
-    inline fvec3 &GetAmbient() { return this->ambient; }
-    inline fvec3 &GetDiffuse() { return this->diffuse; }
-    inline fvec3 &GetSpecular() { return this->specular; }
+    const fvec3 &GetAmbient() { return this->ambient; }
+    void SetAmbient(fvec3 ambient) { this->ambient = ambient; }
+
+    const fvec3 &GetDiffuse() { return this->diffuse; }
+    void SetDiffuse(fvec3 diffuse) { this->diffuse = diffuse; }
+
+    const fvec3 &GetSpecular() { return this->specular; }
+    void SetSpecular(fvec3 specular) { this->specular = specular; }
 
 private:
     fvec3 ambient = fvec3(1.0f);
@@ -21,7 +26,8 @@ private:
 class DirectionalLight : public Light
 {
 public:
-    inline fvec3 &GetDirection() { return this->direction; }
+    const fvec3 &GetDirection() { return this->direction; }
+    void SetDirection(fvec3 direction) { this->direction = direction; }
 
 private:
     fvec3 direction;
@@ -30,9 +36,14 @@ private:
 class PointLight : public Light
 {
 public:
-    inline float &GetConstant() { return this->constant; }
-    inline float &GetLinear() { return this->linear; }
-    inline float &GetQuadratic() { return this->quadratic; }
+    const float &GetConstant() { return this->constant; }
+    void SetConstant(float constant) { this->constant = constant; }
+
+    const float &GetLinear() { return this->linear; }
+    void SetLinear(float linear) { this->linear = linear; }
+
+    const float &GetQuadratic() { return this->quadratic; }
+    void SetQuadratic(float quadratic) { this->quadratic = quadratic; }
 
 private:
     float constant = 1.0f;

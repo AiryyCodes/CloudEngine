@@ -15,7 +15,7 @@ public:
         mesh->Init();
     }
 
-    inline Mesh &GetMesh() { return *this->mesh.get(); }
+    Mesh &GetMesh() { return *this->mesh.get(); }
 
 private:
     std::unique_ptr<Mesh> mesh = Application::Get().GetRenderer().CreateMesh();

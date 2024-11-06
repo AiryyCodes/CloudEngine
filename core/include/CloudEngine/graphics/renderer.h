@@ -30,7 +30,7 @@ public:
     virtual std::unique_ptr<Mesh> CreateMesh() { return std::make_unique<Mesh>(); };
     virtual std::unique_ptr<FrameBuffer> CreateFrameBuffer() { return std::make_unique<FrameBuffer>(); }
 
-    Shader &GetMainShader();
+    const Shader &GetMainShader();
 
     Window &GetMainWindow() { return mainWindow; }
 

@@ -9,20 +9,20 @@ public:
     virtual void Init() {};
     virtual void Draw(Shader &shader) {};
 
-    inline const std::vector<fvec3> &GetVertices() const { return vertices; }
-    inline void SetVertices(std::vector<fvec3> vertices) { this->vertices = vertices; }
+    const std::vector<fvec3> &GetVertices() const { return vertices; }
+    void SetVertices(std::vector<fvec3> vertices) { this->vertices = vertices; }
 
-    inline const std::vector<unsigned int> &GetIndices() const { return indices; }
-    inline void SetIndices(std::vector<unsigned int> indices) { this->indices = indices; }
+    const std::vector<unsigned int> &GetIndices() const { return indices; }
+    void SetIndices(std::vector<unsigned int> indices) { this->indices = indices; }
 
-    inline const std::vector<fvec2> &GetUVs() const { return uvs; }
-    inline void SetUVs(std::vector<fvec2> uvs) { this->uvs = uvs; }
+    const std::vector<fvec2> &GetUVs() const { return uvs; }
+    void SetUVs(std::vector<fvec2> uvs) { this->uvs = uvs; }
 
-    inline const std::vector<fvec3> &GetNormals() const { return normals; }
-    inline void SetNormals(std::vector<fvec3> normals) { this->normals = normals; }
+    const std::vector<fvec3> &GetNormals() const { return normals; }
+    void SetNormals(std::vector<fvec3> normals) { this->normals = normals; }
 
-    inline void SetTextures(std::vector<Texture> textures) { this->textures = textures; }
-    inline void SetTexture(std::string path)
+    void SetTextures(std::vector<Texture> textures) { this->textures = textures; }
+    void SetTexture(std::string path)
     {
         Texture texture;
         texture.Create(path);

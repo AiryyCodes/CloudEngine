@@ -13,10 +13,10 @@ public:
     void Init() override;
     void Render() override;
 
-    inline Scene *GetSelectedScene() { return this->selectedScene; }
+    const Scene *GetSelectedScene() { return this->selectedScene; }
     void SetSelectedScene(Scene *scene) { this->selectedScene = scene; }
 
-    inline FrameBuffer *GetFrameBuffer() { return frameBuffer.get(); }
+    const FrameBuffer *GetFrameBuffer() { return frameBuffer.get(); }
 
 private:
     Scene *selectedScene;

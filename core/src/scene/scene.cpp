@@ -7,7 +7,17 @@
 #include <cstdio>
 #include <string>
 
-SceneManager *SceneManager::instance = nullptr;
+static SceneManager *instance;
+
+SceneManager::SceneManager()
+{
+    instance = this;
+}
+
+SceneManager &SceneManager::Get()
+{
+    return *instance;
+}
 
 void SceneManager::SetCurrentScene(Scene &scene)
 {

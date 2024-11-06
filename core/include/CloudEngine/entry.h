@@ -69,7 +69,7 @@ private:
     std::string name;
 
     Application &application = Application::Get();
-    SceneManager &sceneManager = *SceneManager::Get();
+    SceneManager &sceneManager = SceneManager::Get();
     Renderer *renderer = nullptr;
 
     static Entry *instance;

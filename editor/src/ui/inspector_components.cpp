@@ -24,7 +24,7 @@ void CameraComponent::Draw(std::string name, void *value)
 {
     if (Camera *camera = (Camera *)value)
     {
-        float &fov = camera->GetFov();
+        float &fov = *const_cast<float *>(&camera->GetFov());
 
         ImGui::Text("Camera");
         ImGui::DragFloat("Fov", &fov);

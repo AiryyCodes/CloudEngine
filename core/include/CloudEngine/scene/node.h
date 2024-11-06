@@ -12,11 +12,16 @@ public:
     virtual void Init() {}
     virtual void Update() {}
 
-    inline fvec3 &GetPosition() { return this->position; }
-    inline fvec3 &GetRotation() { return this->rotation; }
-    inline fvec3 &GetScale() { return this->scale; }
+    const fvec3 &GetPosition() const { return this->position; }
+    void SetPosition(fvec3 position) { this->position = position; }
 
-    inline mat4 GetMatrix() const
+    const fvec3 &GetRotation() const { return this->rotation; }
+    void SetRotation(fvec3 rotation) { this->rotation = rotation; }
+
+    const fvec3 &GetScale() const { return this->scale; }
+    void SetScale(fvec3 scale) { this->scale = scale; }
+
+    const mat4 GetMatrix() const
     {
         mat4 matrix(1.0f);
         matrix = glm::translate(matrix, position);

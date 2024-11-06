@@ -9,7 +9,7 @@ public:
     virtual void Init() {}
     virtual void Update() {}
 
-    inline const Scene *GetParent() { return parent; }
+    const Scene &GetParent() { return *parent; }
 
 public:
     Scene *parent;

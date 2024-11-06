@@ -2,20 +2,19 @@
 #include "CloudEngine/editor/export_manager.h"
 #include "CloudEngine/editor/ui/inspector_component.h"
 #include "CloudEngine/entry.h"
-#include "CloudEngine/logger.h"
 #include "CloudEngine/scene/node.h"
 #include "CloudEngine/scene/scene.h"
+#include "CloudEngine/vec.h"
 #include "entry.h"
 #include "imgui/imgui.h"
 #include <glm/gtc/type_ptr.hpp>
-#include <sstream>
 
-void drawTransform(Node *node)
+void drawTransform(const Node *node)
 {
     ImGui::TextUnformatted("Transform");
-    ImGui::DragFloat3("Position", glm::value_ptr(node->GetPosition()), 0.1f);
-    ImGui::DragFloat3("Rotation", glm::value_ptr(node->GetRotation()), 0.1f);
-    ImGui::DragFloat3("Scale", glm::value_ptr(node->GetScale()), 0.1f);
+    ImGui::DragFloat3("Position", glm::value_ptr(*const_cast<fvec3 *>(&node->GetPosition())), 0.1f);
+    ImGui::DragFloat3("Rotation", glm::value_ptr(*const_cast<fvec3 *>(&node->GetRotation())), 0.1f);
+    ImGui::DragFloat3("Scale", glm::value_ptr(*const_cast<fvec3 *>(&node->GetScale())), 0.1f);
 }
 
 void NodeInspector::Draw()
@@ -27,7 +26,7 @@ void NodeInspector::Draw()
 
     if (entry->GetSelectedScene() != nullptr)
     {
-        Scene *selectedScene = entry->GetSelectedScene();
+        const Scene *selectedScene = entry->GetSelectedScene();
 
         ImGui::TextUnformatted(selectedScene->GetName().c_str());
 
@@ -46,7 +45,7 @@ void NodeInspector::Draw()
 
         ImGui::Dummy(ImVec2(0.0f, 8.0f));
 
-        if (auto node = dynamic_cast<Node *>(selectedScene))
+        if (auto node = dynamic_cast<const Node *>(selectedScene))
         {
             drawTransform(node);
         }

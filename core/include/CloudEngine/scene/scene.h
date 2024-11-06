@@ -19,15 +19,15 @@ public:
 
     virtual void ExportFields() {}
 
-    inline const std::string &GetName() { return this->name; }
-    inline void SetName(std::string name) { this->name = name; }
+    const std::string &GetName() const { return this->name; }
+    void SetName(std::string name) { this->name = name; }
 
-    inline const Scene *GetParent() { return this->parent; }
-    inline void SetParent(Scene *scene) { this->parent = scene; }
+    const Scene *GetParent() const { return this->parent; }
+    void SetParent(Scene *scene) { this->parent = scene; }
 
-    inline std::vector<Scene *> GetChildren() const { return children; }
+    const std::vector<Scene *> &GetChildren() const { return children; }
     template <typename T>
-    inline T *GetChild()
+    T *GetChild()
     {
         static_assert(std::is_base_of<Scene, T>::value, "T must be derived from Scene");
 
@@ -41,7 +41,7 @@ public:
     }
 
     template <typename T>
-    inline T *AddChild()
+    T *AddChild()
     {
         static_assert(std::is_base_of<Scene, T>::value, "T must be derived from Scene");
 
@@ -55,7 +55,7 @@ public:
         return child;
     }
 
-    inline void AddChild(Scene *child)
+    void AddChild(Scene *child)
     {
         if (!child)
             return;
@@ -76,7 +76,7 @@ public:
     }
 
     template <typename T>
-    inline T *AddComponent()
+    T *AddComponent()
     {
         static_assert(std::is_base_of<Component, T>::value, "T must derived from Component");
 
@@ -86,7 +86,7 @@ public:
         return component;
     }
     template <typename T>
-    inline T *GetComponent()
+    T *GetComponent()
     {
         static_assert(std::is_base_of<Component, T>::value, "T must derived from Component");
 
@@ -99,7 +99,7 @@ public:
         return nullptr;
     }
 
-    inline std::vector<Component *> GetComponents() { return components; }
+    const std::vector<Component *> &GetComponents() { return components; }
 
     template <typename T>
     void ExportField(std::string name, T &value)
@@ -109,7 +109,7 @@ public:
         exportedFields.insert({name, {typeName, &value}});
     }
 
-    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() { return exportedFields; }
+    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }
 
 protected:
     std::string name;
@@ -125,19 +125,17 @@ protected:
 class SceneManager
 {
 public:
-    SceneManager() { this->instance = this; }
+    SceneManager();
+
+    static SceneManager &Get();
 
     void Init();
     void Update();
     void Render(Shader &shader);
 
-    inline Scene *GetCurrentScene() { return currentScene; }
+    Scene *GetCurrentScene() { return currentScene; }
     void SetCurrentScene(Scene &scene);
-
-    static SceneManager *Get() { return instance; }
 
 private:
     Scene *currentScene;
-
-    static SceneManager *instance;
 };

@@ -25,13 +25,13 @@ public:
 
     bool IsClosing();
 
-    inline int &GetWidth() { return width; }
+    const int &GetWidth() { return width; }
     void SetWidth(int width);
 
-    inline int &GetHeight() { return height; }
+    const int &GetHeight() { return height; }
     void SetHeight(int height);
 
-    inline std::string GetTitle() { return title; }
+    const std::string &GetTitle() { return title; }
     void SetTitle(std::string title);
 
     GLFWwindow *GetGLFWWindow();

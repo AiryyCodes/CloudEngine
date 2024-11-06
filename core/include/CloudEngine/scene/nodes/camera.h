@@ -15,25 +15,21 @@ public:
 
     void UpdateDir();
 
-    mat4 GetView();
-    mat4 GetProjection();
+    const mat4 GetView();
+    const mat4 GetProjection();
 
-    inline float &GetFov() { return fov; }
-    inline void SetFov(float fov) { this->fov = fov; }
+    const float &GetFov() { return fov; }
+    void SetFov(float fov) { this->fov = fov; }
 
-    float GetAspectRatio() { return aspectRatio; }
+    const float &GetAspectRatio() { return aspectRatio; }
     void SetAspectRatio(float aspectRatio) { this->aspectRatio = aspectRatio; }
 
-    inline fvec3 &GetDirection() { return this->direction; }
-
-    inline fvec3 &GetFront() { return this->front; }
-    inline fvec3 &GetUp() { return this->up; }
+    const fvec3 &GetFront() { return this->front; }
+    const fvec3 &GetUp() { return this->up; }
 
 private:
     float fov = 70.0f;
     float aspectRatio;
-
-    fvec3 direction;
 
     fvec3 front;
     fvec3 up;

@@ -13,7 +13,7 @@ public:
         model.Init();
     }
 
-    inline Model &GetModel() { return this->model; }
+    Model &GetModel() { return this->model; }
 
 private:
     Model model;

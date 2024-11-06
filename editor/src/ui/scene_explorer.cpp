@@ -140,7 +140,7 @@ void SceneExplorer::Draw()
     ImGui::Begin("Scene Explorer", &visible, ImGuiWindowFlags_NoCollapse);
 
     int index;
-    for (const auto &node : SceneManager::Get()->GetCurrentScene()->GetChildren())
+    for (const auto &node : SceneManager::Get().GetCurrentScene()->GetChildren())
     {
         RenderNode(node, index);
         index++;
