@@ -8,13 +8,17 @@ class Camera : public Node
 public:
     virtual void Init() override {}
     virtual void Update() override {}
+    virtual void ExportFields() override
+    {
+        ExportField<Camera>("Camera", *this);
+    }
 
     void UpdateDir();
 
     mat4 GetView();
     mat4 GetProjection();
 
-    inline float GetFov() const { return fov; }
+    inline float &GetFov() { return fov; }
     inline void SetFov(float fov) { this->fov = fov; }
 
     float GetAspectRatio() { return aspectRatio; }

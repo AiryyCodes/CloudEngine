@@ -4,8 +4,11 @@
 #include "CloudEngine/scene/component.h"
 #include <algorithm>
 #include <cstdio>
+#include <map>
+#include <string>
+#include <utility>
 #include <vector>
-#include <type_traits>
+#include <typeinfo>
 
 class Scene
 {
@@ -13,6 +16,8 @@ public:
     virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
+
+    virtual void ExportFields() {}
 
     inline const std::string &GetName() { return this->name; }
     inline void SetName(std::string name) { this->name = name; }
@@ -43,6 +48,7 @@ public:
         T *child = new T();
         child->SetParent(this);
         child->Init();
+        child->ExportFields();
 
         children.push_back(child);
 
@@ -95,6 +101,16 @@ public:
 
     inline std::vector<Component *> GetComponents() { return components; }
 
+    template <typename T>
+    void ExportField(std::string name, T &value)
+    {
+        std::string typeName = typeid(T).name();
+
+        exportedFields.insert({name, {typeName, &value}});
+    }
+
+    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() { return exportedFields; }
+
 protected:
     std::string name;
 
@@ -102,6 +118,8 @@ protected:
     std::vector<Scene *> children;
 
     std::vector<Component *> components;
+
+    std::map<std::string, std::pair<std::string, void *>> exportedFields;
 };
 
 class SceneManager

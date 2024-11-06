@@ -1,3 +1,5 @@
+#include "CloudEngine/editor/export_manager.h"
+#include "ui/inspector_components.h"
 #define EDITOR
 
 #include "entry.h"
@@ -31,6 +33,11 @@ static Mesh mesh;
 void EditorEntry::Init()
 {
     LOG_INFO("Initializing editor...");
+
+    exportManager = std::make_unique<ExportManager>();
+    exportManager->RegisterExportType<float, FloatComponent>();
+    exportManager->RegisterExportType<fvec3, Vector3Component>();
+    exportManager->RegisterExportType<Camera, CameraComponent>();
 
     uiManager = std::make_unique<EditorUIManager>();
 
