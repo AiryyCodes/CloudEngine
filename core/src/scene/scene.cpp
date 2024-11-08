@@ -4,10 +4,28 @@
 #include "CloudEngine/scene/components/model_renderer.h"
 #include "CloudEngine/scene/nodes/camera.h"
 #include "CloudEngine/scene/nodes/light.h"
+
 #include <cstdio>
+#include <cstring>
 #include <string>
 
 static SceneManager *instance;
+
+void Scene::AddChildTemplate(std::string templateName)
+{
+    NodeRegistry &nodeRegistry = NodeRegistry::Get();
+
+    Scene *scene = nodeRegistry.GetNode(templateName);
+    if (!scene)
+        return;
+
+    Scene *newScene = scene->Clone();
+
+    newScene->SetName(templateName);
+    newScene->SetParent(this);
+
+    this->children.push_back(newScene);
+}
 
 SceneManager::SceneManager()
 {

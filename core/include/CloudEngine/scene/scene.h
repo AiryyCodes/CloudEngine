@@ -1,10 +1,12 @@
 #pragma once
 
 #include "CloudEngine/graphics/shader.h"
+#include "CloudEngine/logger.h"
 #include "CloudEngine/scene/component.h"
 #include <algorithm>
 #include <cstdio>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,11 +15,16 @@
 class Scene
 {
 public:
+    Scene() {}
+    Scene(const Scene &scene) : name(scene.name) {}
+
     virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
 
     virtual void ExportFields() {}
+    virtual std::unique_ptr<Scene> CreateInstance() { return std::make_unique<Scene>(); }
+    virtual Scene *Clone() { return new Scene(*this); }
 
     const std::string &GetName() const { return this->name; }
     void SetName(std::string name) { this->name = name; }
@@ -74,6 +81,8 @@ public:
             this->children.push_back(child);
         }
     }
+
+    void AddChildTemplate(std::string templateName);
 
     template <typename T>
     T *AddComponent()

@@ -1,4 +1,4 @@
-#include "CloudEngine/editor/export_manager.h"
+#include "CloudEngine/editor/registry/export_registry.h"
 #include "ui/inspector_components.h"
 #define EDITOR
 
@@ -34,10 +34,13 @@ void EditorEntry::Init()
 {
     LOG_INFO("Initializing editor...");
 
-    exportManager = std::make_unique<ExportManager>();
-    exportManager->RegisterExportType<float, FloatComponent>();
-    exportManager->RegisterExportType<fvec3, Vector3Component>();
-    exportManager->RegisterExportType<Camera, CameraComponent>();
+    NodeRegistry &nodeRegistry = NodeRegistry::Get();
+    nodeRegistry.RegisterNodeType<Node>("Triangle");
+
+    exportRegistry = std::make_unique<ExportRegistry>();
+    exportRegistry->RegisterExportType<float, FloatComponent>();
+    exportRegistry->RegisterExportType<fvec3, Vector3Component>();
+    exportRegistry->RegisterExportType<Camera, CameraComponent>();
 
     uiManager = std::make_unique<EditorUIManager>();
 
@@ -51,17 +54,17 @@ void EditorEntry::Init()
     window.SetHeight(720);
     window.SetTitle("Cloud Engine (Editor)");
 
-    Camera *camera = GetSceneManager().GetCurrentScene()->AddChild<Camera>();
+    auto camera = GetSceneManager().GetCurrentScene()->AddChild<Camera>();
     camera->SetName("Camera");
     camera->SetPosition(fvec3(0.0f, 0.0f, -1.0f));
 
-    Node *node = GetSceneManager().GetCurrentScene()->AddChild<Node>();
+    auto node = GetSceneManager().GetCurrentScene()->AddChild<Node>();
     node->SetName("Test Node");
     MeshRenderer *meshRenderer = node->AddComponent<MeshRenderer>();
     meshRenderer->GetMesh().SetVertices(vertices);
     meshRenderer->GetMesh().Init();
 
-    Node *testChild = GetSceneManager().GetCurrentScene()->AddChild<Node>();
+    auto testChild = GetSceneManager().GetCurrentScene()->AddChild<Node>();
     testChild->SetName("Child 1");
 
     node->AddChild(testChild);

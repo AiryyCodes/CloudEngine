@@ -1,16 +1,19 @@
 #pragma once
-
 #include "CloudEngine/scene/component.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/vec.h"
 
 #include <glm/ext/matrix_transform.hpp>
+#include <memory>
 
 class Node : public Scene
 {
 public:
-    virtual void Init() {}
-    virtual void Update() {}
+    virtual void Init() override {}
+    virtual void Update() override {}
+
+    virtual std::unique_ptr<Scene> CreateInstance() override { return std::make_unique<Node>(); }
+    virtual Scene *Clone() override { return new Node(*this); }
 
     const fvec3 &GetPosition() const { return this->position; }
     void SetPosition(fvec3 position) { this->position = position; }

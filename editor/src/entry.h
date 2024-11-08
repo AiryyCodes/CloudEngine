@@ -1,8 +1,9 @@
 #pragma once
 
 #include "CloudEngine/editor/editor_ui_manager.h"
-#include "CloudEngine/editor/export_manager.h"
+#include "CloudEngine/editor/registry/export_registry.h"
 #include "CloudEngine/entry.h"
+#include "CloudEngine/registry/node_registry.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/graphics/framebuffer.h"
 #include <memory>
@@ -13,7 +14,7 @@ public:
     void Init() override;
     void Render() override;
 
-    const Scene *GetSelectedScene() { return this->selectedScene; }
+    Scene *GetSelectedScene() { return this->selectedScene; }
     void SetSelectedScene(Scene *scene) { this->selectedScene = scene; }
 
     const FrameBuffer *GetFrameBuffer() { return frameBuffer.get(); }
@@ -23,5 +24,5 @@ private:
 
     std::unique_ptr<FrameBuffer> frameBuffer;
     std::unique_ptr<EditorUIManager> uiManager;
-    std::unique_ptr<ExportManager> exportManager;
+    std::unique_ptr<ExportRegistry> exportRegistry;
 };

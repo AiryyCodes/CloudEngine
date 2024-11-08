@@ -1,20 +1,30 @@
 #include "ui/scene_explorer.h"
+#include "CloudEngine/entry.h"
+#include "CloudEngine/registry/node_registry.h"
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/logger.h"
+#include "CloudEngine/utils.h"
 #include "entry.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include <cstring>
+#include <string>
 
 static bool visible = true;
 
-bool CustomTreeNode(const char *label, bool &expanded, bool selected, bool hasChildren)
+bool CustomTreeNode(std::string label, bool &expanded, bool selected, bool hasChildren)
 {
+    /*
+   if (label == nullptr || strlen(label) == 0)
+       return false;
+    */
+
     ImGuiWindow *window = ImGui::GetCurrentContext()->CurrentWindow;
     auto &style = ImGui::GetStyle();
 
     static float padding = 8.0f;
 
-    ImVec2 labelSize = ImGui::CalcTextSize(label, NULL, true);
+    ImVec2 labelSize = ImGui::CalcTextSize(label.c_str(), NULL, true);
     ImVec2 cursorPos = ImGui::GetCursorPos();
 
     ImGui::SetCursorPosY(cursorPos.y);
@@ -34,7 +44,7 @@ bool CustomTreeNode(const char *label, bool &expanded, bool selected, bool hasCh
         bb.Max.x = pos.x + size.x + 16.0f;
     }
 
-    ImGui::PushID(label);
+    ImGui::PushID(label.c_str());
     // Main button
     bool pressed = ImGui::ButtonBehavior(bb, window->GetID("##scene_button"), &hovered, &held, buttonFlags | ImGuiButtonFlags_AllowOverlap);
     ImGui::PopID();
@@ -51,7 +61,7 @@ bool CustomTreeNode(const char *label, bool &expanded, bool selected, bool hasCh
 
     if (hasChildren)
     {
-        ImGui::PushID(label);
+        ImGui::PushID(label.c_str());
 
         bool arrowHovered = false;
         // Button for the expand arrow
@@ -81,23 +91,26 @@ bool CustomTreeNode(const char *label, bool &expanded, bool selected, bool hasCh
     }
 
     ImGui::SetCursorPosY(cursorPos.y + padding / 2);
-    ImGui::TextUnformatted(label);
+    ImGui::TextUnformatted(label.c_str());
+
+    ImGui::PopID();
 
     return pressed;
 }
 
-void TreeItem(Scene *scene, int index)
+void SceneExplorer::TreeItem(Scene *scene, int index)
 {
     EditorEntry *entry = ((EditorEntry *)EditorEntry::Get());
     const Scene *selectedScene = entry->GetSelectedScene();
 
     bool selected = selectedScene == scene;
 
+    ImGui::PushID(scene);
     if (scene->GetChildren().size() > 0)
     {
-        static bool expanded = true;
+        bool &expanded = expandedScenes[scene];
 
-        if (CustomTreeNode(scene->GetName().c_str(), expanded, selected, true))
+        if (CustomTreeNode(scene->GetName(), expanded, selected, true))
         {
             entry->SetSelectedScene(scene);
         }
@@ -116,18 +129,21 @@ void TreeItem(Scene *scene, int index)
     }
     else
     {
-        static bool expanded = false;
-        if (CustomTreeNode(scene->GetName().c_str(), expanded, selected, false))
+        bool expanded = false;
+
+        if (CustomTreeNode(scene->GetName(), expanded, selected, false))
         {
             entry->SetSelectedScene(scene);
         }
+
+        expandedScenes[scene] = expanded;
     }
 }
 
-void RenderNode(Scene *scene, int index)
+void SceneExplorer::RenderNode(Scene *scene, int index)
 {
     EditorEntry *entry = ((EditorEntry *)EditorEntry::Get());
-    const Scene *selectedScene = entry->GetSelectedScene();
+    Scene *selectedScene = entry->GetSelectedScene();
 
     bool selected = selectedScene == scene;
 
@@ -136,8 +152,24 @@ void RenderNode(Scene *scene, int index)
 
 void SceneExplorer::Draw()
 {
+    Application &app = Application::Get();
+    EditorEntry &entry = *((EditorEntry *)app.GetEntry());
+    Scene *currentScene = entry.GetSceneManager().GetCurrentScene();
+
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.0f, 4.0f));
     ImGui::Begin("Scene Explorer", &visible, ImGuiWindowFlags_NoCollapse);
+
+    if (ImGui::Button("Add"))
+    {
+        entry.GetSelectedScene()->AddChildTemplate("Triangle");
+
+        /*
+      Optional<Scene> scene = NodeRegistry::Get().GetNode("Triangle");
+
+      if (!scene.IsEmpty())
+          entry.GetSelectedScene()->AddChildTemplate("Triangle");
+        */
+    }
 
     int index;
     for (const auto &node : SceneManager::Get().GetCurrentScene()->GetChildren())

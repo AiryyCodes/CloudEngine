@@ -5,12 +5,12 @@
 #include <string>
 #include <typeinfo>
 
-class ExportManager
+class ExportRegistry
 {
 public:
-    ExportManager();
+    ExportRegistry();
 
-    static ExportManager &Get();
+    static ExportRegistry &Get();
 
     template <typename T, typename C>
     void RegisterExportType()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CloudEngine/graphics/renderer.h"
+#include "CloudEngine/registry/node_registry.h"
 #include "CloudEngine/scene/scene.h"
 
 #include <memory>
@@ -33,12 +34,15 @@ public:
     Renderer &GetRenderer() { return *renderer.get(); }
     void SetRenderer(Renderer *renderer) { this->renderer = std::shared_ptr<Renderer>(renderer); }
 
+    NodeRegistry &GetNodeRegistry() { return *nodeRegistry.get(); }
+
 private:
     ApplicationProps props;
 
     std::shared_ptr<Entry> entry;
 
     std::shared_ptr<Renderer> renderer;
+    std::unique_ptr<NodeRegistry> nodeRegistry;
 };
 
 class Entry

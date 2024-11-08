@@ -1,5 +1,5 @@
 #include "ui/node_inspector.h"
-#include "CloudEngine/editor/export_manager.h"
+#include "CloudEngine/editor/registry/export_registry.h"
 #include "CloudEngine/editor/ui/inspector_component.h"
 #include "CloudEngine/entry.h"
 #include "CloudEngine/scene/node.h"
@@ -30,16 +30,19 @@ void NodeInspector::Draw()
 
         ImGui::TextUnformatted(selectedScene->GetName().c_str());
 
-        ImGui::Dummy(ImVec2(0.0f, 8.0f));
-
-        for (const auto &[name, pair] : selectedScene->GetExportedFields())
+        if (selectedScene->GetExportedFields().size() > 0)
         {
-            ExportManager &exportManager = ExportManager::Get();
+            ImGui::Dummy(ImVec2(0.0f, 8.0f));
 
-            InspectorComponent *component = exportManager.GetComponent(pair.first);
-            if (component)
+            for (const auto &[name, pair] : selectedScene->GetExportedFields())
             {
-                component->Draw(name, pair.second);
+                ExportRegistry &exportRegistry = ExportRegistry::Get();
+
+                InspectorComponent *component = exportRegistry.GetComponent(pair.first);
+                if (component)
+                {
+                    component->Draw(name, pair.second);
+                }
             }
         }
 
