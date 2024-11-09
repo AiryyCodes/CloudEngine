@@ -8,9 +8,39 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include <cstring>
+#include <functional>
+#include <map>
 #include <string>
 
 static bool visible = true;
+
+void ContextMenu(Scene *scene)
+{
+    EditorEntry *entry = ((EditorEntry *)EditorEntry::Get());
+
+    ImGui::PushID(scene);
+    if (ImGui::BeginPopupContextItem("explorer_node_context_menu"))
+    {
+        ImGui::TextUnformatted(scene->GetName().c_str());
+        if (ImGui::MenuItem("Delete"))
+        {
+            if (entry->GetSelectedScene() == scene)
+            {
+                entry->SetSelectedScene(nullptr);
+            }
+            if (scene->GetParent() == nullptr)
+            {
+                entry->GetSceneManager().GetCurrentScene()->RemoveChild(scene);
+            }
+            else
+            {
+                scene->GetParent()->RemoveChild(scene);
+            }
+        }
+        ImGui::EndPopup();
+    }
+    ImGui::PopID();
+}
 
 bool CustomTreeNode(Scene *scene, std::string label, bool &expanded, bool selected, bool hasChildren)
 {
@@ -98,28 +128,7 @@ bool CustomTreeNode(Scene *scene, std::string label, bool &expanded, bool select
     ImGui::PopID();
 
     // Right click context menu
-    ImGui::PushID(scene);
-    if (ImGui::BeginPopupContextItem("explorer_node_context_menu"))
-    {
-        ImGui::TextUnformatted(scene->GetName().c_str());
-        if (ImGui::MenuItem("Delete"))
-        {
-            if (entry->GetSelectedScene() == scene)
-            {
-                entry->SetSelectedScene(nullptr);
-            }
-            if (scene->GetParent() == nullptr)
-            {
-                entry->GetSceneManager().GetCurrentScene()->RemoveChild(scene);
-            }
-            else
-            {
-                scene->GetParent()->RemoveChild(scene);
-            }
-        }
-        ImGui::EndPopup();
-    }
-    ImGui::PopID();
+    ContextMenu(scene);
 
     return pressed;
 }
@@ -176,6 +185,68 @@ void SceneExplorer::RenderNode(Scene *scene, int index)
     TreeItem(scene, index);
 }
 
+std::vector<std::string> split(const std::string &s, const std::string &delimiter)
+{
+    std::string strCopy = s;
+
+    std::vector<std::string> tokens;
+    size_t pos = 0;
+    std::string token;
+    while ((pos = strCopy.find(delimiter)) != std::string::npos)
+    {
+        token = strCopy.substr(0, pos);
+        tokens.push_back(token);
+        strCopy.erase(0, pos + delimiter.length());
+    }
+    tokens.push_back(strCopy);
+
+    return tokens;
+}
+
+void DisplayFolderMenu(const std::map<std::string, std::vector<std::string>> &folderMap, const std::string &currentPath = "")
+{
+    // Find the current folder in the map
+    auto it = folderMap.find(currentPath);
+    if (it == folderMap.end())
+        return; // Exit if the path is not found in the map
+
+    // Loop through all subfolders/items in this folder
+    for (const std::string &subfolder : it->second)
+    {
+        // Build the path for the current subfolder
+        std::string subfolderPath = currentPath.empty() ? subfolder : currentPath + "/" + subfolder;
+
+        // Check if the subfolder itself has children in the map
+        if (folderMap.find(subfolderPath) != folderMap.end())
+        {
+            // If it has children, create a submenu
+            if (ImGui::BeginMenu(subfolder.c_str()))
+            {
+                // Recursively display the contents of the subfolder
+                DisplayFolderMenu(folderMap, subfolderPath);
+                ImGui::EndMenu();
+            }
+        }
+        else
+        {
+            EditorEntry &entry = *((EditorEntry *)EditorEntry::Get());
+
+            // If it has no children, display it as a menu item
+            if (ImGui::MenuItem(subfolder.c_str()))
+            {
+                if (entry.GetSelectedScene() == nullptr)
+                {
+                    entry.GetSceneManager().GetCurrentScene()->AddChildTemplate(subfolder);
+                }
+                else
+                {
+                    entry.GetSelectedScene()->AddChildTemplate(subfolder);
+                }
+            }
+        }
+    }
+}
+
 void SceneExplorer::Draw()
 {
     Application &app = Application::Get();
@@ -193,22 +264,51 @@ void SceneExplorer::Draw()
         ImGui::OpenPopup("Add New Node");
     }
 
+    static std::map<std::string, std::vector<std::string>> folderMap;
     if (ImGui::BeginPopup("Add New Node"))
     {
-        for (const auto &[name, node] : NodeRegistry::Get().GetNodeTypes())
+        for (const auto &[fullName, node] : NodeRegistry::Get().GetNodeTypes())
         {
-            if (ImGui::MenuItem(name.c_str()))
+            std::string folder = fullName.substr(0, fullName.find_last_of("/"));
+            std::string name = fullName.substr(fullName.find_last_of("/") + 1);
+
+            auto addPathToMap = [](std::map<std::string, std::vector<std::string>> &folderMap, const std::string &path)
             {
-                if (entry.GetSelectedScene() == nullptr)
+                // Split the path into folder names
+                std::vector<std::string> folders = split(path, "/");
+
+                // Ensure the first folder is added under the empty root
+                if (!folders.empty() && std::find(folderMap[""].begin(), folderMap[""].end(), folders[0]) == folderMap[""].end())
                 {
-                    entry.GetSceneManager().GetCurrentScene()->AddChildTemplate(name);
+                    folderMap[""].push_back(folders[0]);
                 }
-                else
+
+                // Iterate through the folders to build the map
+                std::string currentPath = ""; // Start from the empty root
+                for (size_t i = 0; i < folders.size(); ++i)
                 {
-                    entry.GetSelectedScene()->AddChildTemplate(name);
+                    if (!currentPath.empty())
+                    {
+                        currentPath += '/';
+                    }
+                    currentPath += folders[i];
+
+                    if (i + 1 < folders.size())
+                    {
+                        std::string nextFolder = folders[i + 1];
+                        if (std::find(folderMap[currentPath].begin(), folderMap[currentPath].end(), nextFolder) == folderMap[currentPath].end())
+                        {
+                            folderMap[currentPath].push_back(nextFolder);
+                        }
+                    }
                 }
-            }
+            };
+
+            addPathToMap(folderMap, fullName);
         }
+
+        DisplayFolderMenu(folderMap);
+
         ImGui::EndPopup();
     }
 

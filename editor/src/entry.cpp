@@ -36,6 +36,7 @@ void EditorEntry::Init()
 
     NodeRegistry &nodeRegistry = NodeRegistry::Get();
     nodeRegistry.RegisterNodeType<Node>("Triangle");
+    nodeRegistry.RegisterNodeType<Node>("Circle");
 
     exportRegistry = std::make_unique<ExportRegistry>();
     exportRegistry->RegisterExportType<float, FloatComponent>();
