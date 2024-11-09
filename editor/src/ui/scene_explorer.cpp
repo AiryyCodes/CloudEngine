@@ -12,12 +12,14 @@
 
 static bool visible = true;
 
-bool CustomTreeNode(std::string label, bool &expanded, bool selected, bool hasChildren)
+bool CustomTreeNode(Scene *scene, std::string label, bool &expanded, bool selected, bool hasChildren)
 {
     /*
    if (label == nullptr || strlen(label) == 0)
        return false;
     */
+
+    EditorEntry *entry = ((EditorEntry *)EditorEntry::Get());
 
     ImGuiWindow *window = ImGui::GetCurrentContext()->CurrentWindow;
     auto &style = ImGui::GetStyle();
@@ -95,13 +97,37 @@ bool CustomTreeNode(std::string label, bool &expanded, bool selected, bool hasCh
 
     ImGui::PopID();
 
+    // Right click context menu
+    ImGui::PushID(scene);
+    if (ImGui::BeginPopupContextItem("explorer_node_context_menu"))
+    {
+        ImGui::TextUnformatted(scene->GetName().c_str());
+        if (ImGui::MenuItem("Delete"))
+        {
+            if (entry->GetSelectedScene() == scene)
+            {
+                entry->SetSelectedScene(nullptr);
+            }
+            if (scene->GetParent() == nullptr)
+            {
+                entry->GetSceneManager().GetCurrentScene()->RemoveChild(scene);
+            }
+            else
+            {
+                scene->GetParent()->RemoveChild(scene);
+            }
+        }
+        ImGui::EndPopup();
+    }
+    ImGui::PopID();
+
     return pressed;
 }
 
 void SceneExplorer::TreeItem(Scene *scene, int index)
 {
     EditorEntry *entry = ((EditorEntry *)EditorEntry::Get());
-    const Scene *selectedScene = entry->GetSelectedScene();
+    Scene *selectedScene = entry->GetSelectedScene();
 
     bool selected = selectedScene == scene;
 
@@ -110,7 +136,7 @@ void SceneExplorer::TreeItem(Scene *scene, int index)
     {
         bool &expanded = expandedScenes[scene];
 
-        if (CustomTreeNode(scene->GetName(), expanded, selected, true))
+        if (CustomTreeNode(scene, scene->GetName(), expanded, selected, true))
         {
             entry->SetSelectedScene(scene);
         }
@@ -131,7 +157,7 @@ void SceneExplorer::TreeItem(Scene *scene, int index)
     {
         bool expanded = false;
 
-        if (CustomTreeNode(scene->GetName(), expanded, selected, false))
+        if (CustomTreeNode(scene, scene->GetName(), expanded, selected, false))
         {
             entry->SetSelectedScene(scene);
         }
@@ -159,21 +185,39 @@ void SceneExplorer::Draw()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4.0f, 4.0f));
     ImGui::Begin("Scene Explorer", &visible, ImGuiWindowFlags_NoCollapse);
 
+    static bool drawMenu = false;
     if (ImGui::Button("Add"))
     {
-        entry.GetSelectedScene()->AddChildTemplate("Triangle");
+        drawMenu = !drawMenu;
 
-        /*
-      Optional<Scene> scene = NodeRegistry::Get().GetNode("Triangle");
+        ImGui::OpenPopup("Add New Node");
+    }
 
-      if (!scene.IsEmpty())
-          entry.GetSelectedScene()->AddChildTemplate("Triangle");
-        */
+    if (ImGui::BeginPopup("Add New Node"))
+    {
+        for (const auto &[name, node] : NodeRegistry::Get().GetNodeTypes())
+        {
+            if (ImGui::MenuItem(name.c_str()))
+            {
+                if (entry.GetSelectedScene() == nullptr)
+                {
+                    entry.GetSceneManager().GetCurrentScene()->AddChildTemplate(name);
+                }
+                else
+                {
+                    entry.GetSelectedScene()->AddChildTemplate(name);
+                }
+            }
+        }
+        ImGui::EndPopup();
     }
 
     int index;
     for (const auto &node : SceneManager::Get().GetCurrentScene()->GetChildren())
     {
+        if (node == nullptr)
+            continue;
+
         RenderNode(node, index);
         index++;
     }

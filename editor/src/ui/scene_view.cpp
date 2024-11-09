@@ -9,6 +9,7 @@
 void SceneView::Draw()
 {
     EditorEntry *entry = ((EditorEntry *)EditorEntry::Get());
+    Camera *camera = entry->GetSceneManager().GetCurrentScene()->GetChild<Camera>();
 
     ImGui::Begin("Scene");
 
@@ -20,7 +21,8 @@ void SceneView::Draw()
     float width = windowSize.x;
     float height = width / aspectRatio;
 
-    entry->GetSceneManager().GetCurrentScene()->GetChild<Camera>()->SetAspectRatio(aspectRatio);
+    if (camera)
+        camera->SetAspectRatio(aspectRatio);
 
     FrameBuffer *frameBuffer = entry->GetRenderer().GetSceneFrameBuffer();
 

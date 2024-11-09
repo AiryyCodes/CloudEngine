@@ -7,6 +7,7 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 class NodeRegistry
 {
@@ -48,6 +49,8 @@ public:
 
         return nullptr;
     }
+
+    const std::map<std::string, std::unique_ptr<Scene>> &GetNodeTypes() { return nodeTypes; }
 
 private:
     std::map<std::string, std::unique_ptr<Scene>> nodeTypes;

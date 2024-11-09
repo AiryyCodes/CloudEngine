@@ -26,7 +26,10 @@ void NodeInspector::Draw()
 
     if (entry->GetSelectedScene() != nullptr)
     {
+        // Somehow this is can be null even if a check if it isnt before
         const Scene *selectedScene = entry->GetSelectedScene();
+        if (selectedScene == nullptr)
+            return;
 
         ImGui::TextUnformatted(selectedScene->GetName().c_str());
 
@@ -36,6 +39,9 @@ void NodeInspector::Draw()
 
             for (const auto &[name, pair] : selectedScene->GetExportedFields())
             {
+                if (pair.second == nullptr)
+                    continue;
+
                 ExportRegistry &exportRegistry = ExportRegistry::Get();
 
                 InspectorComponent *component = exportRegistry.GetComponent(pair.first);

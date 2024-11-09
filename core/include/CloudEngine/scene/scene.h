@@ -16,7 +16,7 @@ class Scene
 {
 public:
     Scene() {}
-    Scene(const Scene &scene) : name(scene.name) {}
+    // Scene(const Scene &scene) : name(scene.name) {}
 
     virtual void Init() {}
     virtual void Update() {}
@@ -29,7 +29,7 @@ public:
     const std::string &GetName() const { return this->name; }
     void SetName(std::string name) { this->name = name; }
 
-    const Scene *GetParent() const { return this->parent; }
+    Scene *GetParent() const { return this->parent; }
     void SetParent(Scene *scene) { this->parent = scene; }
 
     const std::vector<Scene *> &GetChildren() const { return children; }
@@ -84,6 +84,16 @@ public:
 
     void AddChildTemplate(std::string templateName);
 
+    void RemoveChild(Scene *scene)
+    {
+        children.erase(std::remove(children.begin(), children.end(), scene));
+
+        scene->RemoveChildren();
+
+        // TODO: Somehow clear the memory of the removed scene
+        delete scene;
+    }
+
     template <typename T>
     T *AddComponent()
     {
@@ -94,6 +104,7 @@ public:
         this->components.push_back(component);
         return component;
     }
+
     template <typename T>
     T *GetComponent()
     {
@@ -119,6 +130,20 @@ public:
     }
 
     const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }
+
+private:
+    void RemoveChildren()
+    {
+        for (int i = 0; i < children.size(); i++)
+        {
+            Scene *child = children.at(i);
+            child->RemoveChildren();
+
+            children.erase(children.begin(), children.begin() + i);
+
+            delete child;
+        }
+    }
 
 protected:
     std::string name;
