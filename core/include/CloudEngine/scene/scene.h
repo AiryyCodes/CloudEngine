@@ -2,6 +2,7 @@
 
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/logger.h"
+#include "CloudEngine/registry/component_registry.h"
 #include "CloudEngine/scene/component.h"
 #include <algorithm>
 #include <cstdio>
@@ -99,11 +100,32 @@ public:
     {
         static_assert(std::is_base_of<Component, T>::value, "T must derived from Component");
 
+        for (const auto &[name, component] : ComponentRegistry::Get().GetComponents())
+        {
+            if (T *casted = dynamic_cast<T *>(component.get()))
+            {
+                T *newComponent = new T();
+                newComponent->parent = this;
+                newComponent->SetName(Split(name, "/").back());
+                newComponent->ExportFields();
+
+                this->components.push_back(newComponent);
+
+                return newComponent;
+            }
+        }
+
         T *component = new T();
         component->parent = this;
+        component->SetName("Component");
+        component->ExportFields();
+
         this->components.push_back(component);
+
         return component;
     }
+
+    void AddComponentTemplate(std::string templateName);
 
     template <typename T>
     T *GetComponent()
@@ -121,6 +143,9 @@ public:
 
     const std::vector<Component *> &GetComponents() { return components; }
 
+    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }
+
+protected:
     template <typename T>
     void ExportField(std::string name, T &value)
     {
@@ -128,8 +153,6 @@ public:
 
         exportedFields.insert({name, {typeName, &value}});
     }
-
-    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }
 
 private:
     void RemoveChildren()

@@ -15,6 +15,8 @@ public:
         mesh->Init();
     }
 
+    std::unique_ptr<Component> CreateInstance() override { return std::make_unique<MeshRenderer>(); }
+
     Mesh &GetMesh() { return *this->mesh.get(); }
 
 private:

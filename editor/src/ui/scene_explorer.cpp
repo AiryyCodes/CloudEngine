@@ -7,6 +7,7 @@
 #include "entry.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "utils.h"
 #include <cstring>
 #include <functional>
 #include <map>
@@ -185,24 +186,6 @@ void SceneExplorer::RenderNode(Scene *scene, int index)
     TreeItem(scene, index);
 }
 
-std::vector<std::string> split(const std::string &s, const std::string &delimiter)
-{
-    std::string strCopy = s;
-
-    std::vector<std::string> tokens;
-    size_t pos = 0;
-    std::string token;
-    while ((pos = strCopy.find(delimiter)) != std::string::npos)
-    {
-        token = strCopy.substr(0, pos);
-        tokens.push_back(token);
-        strCopy.erase(0, pos + delimiter.length());
-    }
-    tokens.push_back(strCopy);
-
-    return tokens;
-}
-
 void DisplayFolderMenu(const std::map<std::string, std::vector<std::string>> &folderMap, const std::string &currentPath = "")
 {
     // Find the current folder in the map
@@ -272,39 +255,7 @@ void SceneExplorer::Draw()
             std::string folder = fullName.substr(0, fullName.find_last_of("/"));
             std::string name = fullName.substr(fullName.find_last_of("/") + 1);
 
-            auto addPathToMap = [](std::map<std::string, std::vector<std::string>> &folderMap, const std::string &path)
-            {
-                // Split the path into folder names
-                std::vector<std::string> folders = split(path, "/");
-
-                // Ensure the first folder is added under the empty root
-                if (!folders.empty() && std::find(folderMap[""].begin(), folderMap[""].end(), folders[0]) == folderMap[""].end())
-                {
-                    folderMap[""].push_back(folders[0]);
-                }
-
-                // Iterate through the folders to build the map
-                std::string currentPath = ""; // Start from the empty root
-                for (size_t i = 0; i < folders.size(); ++i)
-                {
-                    if (!currentPath.empty())
-                    {
-                        currentPath += '/';
-                    }
-                    currentPath += folders[i];
-
-                    if (i + 1 < folders.size())
-                    {
-                        std::string nextFolder = folders[i + 1];
-                        if (std::find(folderMap[currentPath].begin(), folderMap[currentPath].end(), nextFolder) == folderMap[currentPath].end())
-                        {
-                            folderMap[currentPath].push_back(nextFolder);
-                        }
-                    }
-                }
-            };
-
-            addPathToMap(folderMap, fullName);
+            AddPathsToMap(folderMap, fullName);
         }
 
         DisplayFolderMenu(folderMap);

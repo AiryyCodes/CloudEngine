@@ -1,5 +1,6 @@
 #include "CloudEngine/scene/scene.h"
 #include "CloudEngine/graphics/shader.h"
+#include "CloudEngine/registry/component_registry.h"
 #include "CloudEngine/scene/components/mesh_renderer.h"
 #include "CloudEngine/scene/components/model_renderer.h"
 #include "CloudEngine/scene/nodes/camera.h"
@@ -21,10 +22,26 @@ void Scene::AddChildTemplate(std::string templateName)
 
     Scene *newScene = scene->Clone();
 
-    newScene->SetName(templateName);
+    newScene->SetName(scene->GetName());
     newScene->SetParent(this);
 
     this->children.push_back(newScene);
+}
+
+void Scene::AddComponentTemplate(std::string templateName)
+{
+    ComponentRegistry &componentRegistry = ComponentRegistry::Get();
+
+    Component *component = componentRegistry.GetComponent(templateName);
+    if (!component)
+        return;
+
+    Component *newComponent = component->Clone();
+
+    newComponent->SetName(component->GetName());
+    newComponent->parent = this;
+
+    this->components.push_back(newComponent);
 }
 
 SceneManager::SceneManager()

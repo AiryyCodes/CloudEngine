@@ -1,4 +1,5 @@
 #include "CloudEngine/entry.h"
+#include "CloudEngine/registry/component_registry.h"
 #include "CloudEngine/registry/node_registry.h"
 #include <memory>
 
@@ -11,6 +12,7 @@ Application::Application(ApplicationProps props)
     instance = this;
 
     nodeRegistry = std::make_unique<NodeRegistry>();
+    componentRegistry = std::make_unique<ComponentRegistry>();
 }
 
 Application &Application::Get()

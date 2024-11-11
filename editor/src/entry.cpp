@@ -1,4 +1,6 @@
 #include "CloudEngine/editor/registry/export_registry.h"
+#include "CloudEngine/registry/component_registry.h"
+#include "components/test_component.h"
 #include "ui/inspector_components.h"
 #define EDITOR
 
@@ -38,6 +40,9 @@ void EditorEntry::Init()
     nodeRegistry.RegisterNodeType<Node>("Triangle");
     nodeRegistry.RegisterNodeType<Node>("Circle");
 
+    ComponentRegistry &componentRegistry = ComponentRegistry::Get();
+    componentRegistry.RegisterComponent<TestComponent>("Test Component");
+
     exportRegistry = std::make_unique<ExportRegistry>();
     exportRegistry->RegisterExportType<float, FloatComponent>();
     exportRegistry->RegisterExportType<fvec3, Vector3Component>();
@@ -61,7 +66,9 @@ void EditorEntry::Init()
 
     auto node = GetSceneManager().GetCurrentScene()->AddChild<Node>();
     node->SetName("Test Node");
+    node->AddComponent<TestComponent>();
     MeshRenderer *meshRenderer = node->AddComponent<MeshRenderer>();
+    meshRenderer->SetName("Mesh Renderer");
     meshRenderer->GetMesh().SetVertices(vertices);
     meshRenderer->GetMesh().Init();
 

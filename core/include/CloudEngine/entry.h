@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CloudEngine/graphics/renderer.h"
+#include "CloudEngine/registry/component_registry.h"
 #include "CloudEngine/registry/node_registry.h"
 #include "CloudEngine/scene/scene.h"
 
@@ -43,6 +44,7 @@ private:
 
     std::shared_ptr<Renderer> renderer;
     std::unique_ptr<NodeRegistry> nodeRegistry;
+    std::unique_ptr<ComponentRegistry> componentRegistry;
 };
 
 class Entry
