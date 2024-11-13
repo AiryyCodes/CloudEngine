@@ -9,6 +9,7 @@
 #include "imgui/imgui_internal.h"
 #include "utils.h"
 #include <cstring>
+#include <fcntl.h>
 #include <functional>
 #include <map>
 #include <string>
@@ -41,6 +42,10 @@ void ContextMenu(Scene *scene)
         ImGui::EndPopup();
     }
     ImGui::PopID();
+}
+
+static void DragAndDrop(Scene *scene)
+{
 }
 
 bool CustomTreeNode(Scene *scene, std::string label, bool &expanded, bool selected, bool hasChildren)
@@ -77,21 +82,6 @@ bool CustomTreeNode(Scene *scene, std::string label, bool &expanded, bool select
         bb.Max.x = pos.x + size.x + 16.0f;
     }
 
-    ImGui::PushID(label.c_str());
-    // Main button
-    bool pressed = ImGui::ButtonBehavior(bb, window->GetID("##scene_button"), &hovered, &held, buttonFlags | ImGuiButtonFlags_AllowOverlap);
-    ImGui::PopID();
-
-    if (hovered && !selected)
-    {
-        window->DrawList->AddRectFilled(bb.Min, bb.Max, ImGui::ColorConvertFloat4ToU32(style.Colors[ImGuiCol_ButtonHovered]));
-    }
-
-    if (selected)
-    {
-        window->DrawList->AddRectFilled(bb.Min, bb.Max, ImGui::ColorConvertFloat4ToU32(style.Colors[ImGuiCol_ButtonActive]));
-    }
-
     if (hasChildren)
     {
         ImGui::PushID(label.c_str());
@@ -102,18 +92,73 @@ bool CustomTreeNode(Scene *scene, std::string label, bool &expanded, bool select
         {
             expanded = !expanded;
         }
+
         ImGui::PopID();
 
         if (arrowHovered && !selected)
         {
             window->DrawList->AddRectFilled(bb.Min, bb.Max, ImGui::ColorConvertFloat4ToU32(style.Colors[ImGuiCol_ButtonHovered]));
         }
-
-        ImGui::RenderArrow(window->DrawList, ImVec2(cursorPos.x + padding / 2, cursorPos.y + padding / 2), ImGui::ColorConvertFloat4ToU32(style.Colors[ImGuiCol_Text]), expanded ? ImGuiDir_Down : ImGuiDir_Right);
     }
+
+    ImGui::PushID(label.c_str());
+    // Main button
+    // bool pressed = ImGui::ButtonBehavior(bb, window->GetID("##scene_button"), &hovered, &held, buttonFlags | ImGuiButtonFlags_AllowOverlap);
+    if (!selected)
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+    bool pressed = ImGui::Button("", ImVec2(size.x + 16.0f, size.y));
+    hovered = ImGui::IsItemHovered();
+    held = ImGui::IsMouseDragging(ImGuiMouseButton_Left);
+
+    if (!selected)
+        ImGui::PopStyleColor();
+
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+    {
+        ImGui::SetDragDropPayload("SCENE_EXPLORER_SCENE", &scene, sizeof(Scene *));
+        ImGui::EndDragDropSource();
+    }
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("SCENE_EXPLORER_SCENE"))
+        {
+            if (payload && payload->DataSize == sizeof(Scene *))
+            {
+                // Cast payload data correctly to ensure vtable remains intact
+                Scene *newScene = *(Scene **)payload->Data;
+                if (newScene && scene->GetParent() != newScene)
+                {
+                    scene->AddChild(newScene);
+                }
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    if (ImGui::BeginDragDropTargetCustom(ImGui::GetCurrentWindow()->Rect(), ImGui::GetID("SceneExplorerBlankSpace")))
+    {
+        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("SCENE_EXPLORER_SCENE"))
+        {
+            if (payload && payload->DataSize == sizeof(Scene *))
+            {
+                // If the drop occurs on blank space, switch to entry->GetCurrentScene()
+                Scene *newScene = *(Scene **)payload->Data;
+                if (newScene)
+                {
+                    entry->GetSceneManager().GetCurrentScene()->AddChild(newScene);
+                }
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    ImGui::PopID();
 
     if (hasChildren)
     {
+        ImGui::RenderArrow(window->DrawList, ImVec2(cursorPos.x + padding / 2, cursorPos.y + padding / 2), ImGui::ColorConvertFloat4ToU32(style.Colors[ImGuiCol_Text]), expanded ? ImGuiDir_Down : ImGuiDir_Right);
+
         // Offset the text to make space for the arrow
         ImGui::SetCursorPosX(cursorPos.x + padding / 2 + 16.0f);
         ImVec2 newCursorPos = ImGui::GetCursorPos();

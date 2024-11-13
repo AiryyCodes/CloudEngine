@@ -141,6 +141,20 @@ public:
         return nullptr;
     }
 
+    template <typename T>
+    bool HasComponent()
+    {
+        static_assert(std::is_base_of<Component, T>::value, "T must derived from Component");
+
+        for (const auto &component : components)
+        {
+            if (T *derived = dynamic_cast<T *>(component))
+                return true;
+        }
+
+        return false;
+    }
+
     const std::vector<Component *> &GetComponents() { return components; }
 
     const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }

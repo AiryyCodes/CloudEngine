@@ -87,26 +87,51 @@ void SceneManager::Update()
 
     currentScene->Update();
 }
+
+static void RenderScene(Scene *scene, Shader &shader)
+{
+    if (auto node = dynamic_cast<Node *>(scene))
+    {
+        shader.SetVar("model", node->GetMatrix());
+        MeshRenderer *meshRenderer = node->GetComponent<MeshRenderer>();
+        if (meshRenderer != nullptr)
+        {
+            meshRenderer->GetMesh().Draw(shader);
+        }
+
+        ModelRenderer *modelRenderer = node->GetComponent<ModelRenderer>();
+        if (modelRenderer != nullptr)
+        {
+            modelRenderer->GetModel().Draw(shader);
+        }
+    }
+}
+
+static void RenderChildren(Scene *scene, Shader &shader)
+{
+    if (scene->GetChildren().size() > 0)
+    {
+        for (const auto &child : scene->GetChildren())
+        {
+            RenderScene(child, shader);
+            RenderChildren(child, shader);
+        }
+    }
+
+    scene->Render();
+}
+
 void SceneManager::Render(Shader &shader)
 {
     int pointLights = 0;
     for (const auto &scene : currentScene->GetChildren())
     {
+        RenderScene(scene, shader);
+        if (scene->GetChildren().size() > 0)
+            RenderChildren(scene, shader);
+
         if (auto node = dynamic_cast<Node *>(scene))
         {
-            shader.SetVar("model", node->GetMatrix());
-            MeshRenderer *meshRenderer = node->GetComponent<MeshRenderer>();
-            if (meshRenderer != nullptr)
-            {
-                meshRenderer->GetMesh().Draw(shader);
-            }
-
-            ModelRenderer *modelRenderer = node->GetComponent<ModelRenderer>();
-            if (modelRenderer != nullptr)
-            {
-                modelRenderer->GetModel().Draw(shader);
-            }
-
             auto camera = dynamic_cast<Camera *>(node);
             if (camera)
             {
@@ -138,6 +163,7 @@ void SceneManager::Render(Shader &shader)
                 pointLights++;
             }
         }
+        scene->Render();
     }
 
     shader.SetVar("numPointLights", pointLights);
