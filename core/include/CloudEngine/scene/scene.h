@@ -17,13 +17,11 @@ class Scene
 {
 public:
     Scene() {}
-    // Scene(const Scene &scene) : name(scene.name) {}
 
     virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
 
-    virtual void ExportFields() {}
     virtual std::unique_ptr<Scene> CreateInstance() { return std::make_unique<Scene>(); }
     virtual Scene *Clone() { return new Scene(*this); }
 
@@ -56,7 +54,6 @@ public:
         T *child = new T();
         child->SetParent(this);
         child->Init();
-        child->ExportFields();
 
         children.push_back(child);
 
@@ -107,7 +104,6 @@ public:
                 T *newComponent = new T();
                 newComponent->parent = this;
                 newComponent->SetName(Split(name, "/").back());
-                newComponent->ExportFields();
 
                 this->components.push_back(newComponent);
 
@@ -118,7 +114,6 @@ public:
         T *component = new T();
         component->parent = this;
         component->SetName("Component");
-        component->ExportFields();
 
         this->components.push_back(component);
 
@@ -157,17 +152,6 @@ public:
 
     const std::vector<Component *> &GetComponents() { return components; }
 
-    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }
-
-protected:
-    template <typename T>
-    void ExportField(std::string name, T &value)
-    {
-        std::string typeName = typeid(T).name();
-
-        exportedFields.insert({name, {typeName, &value}});
-    }
-
 private:
     void RemoveChildren()
     {
@@ -189,8 +173,6 @@ protected:
     std::vector<Scene *> children;
 
     std::vector<Component *> components;
-
-    std::map<std::string, std::pair<std::string, void *>> exportedFields;
 };
 
 class SceneManager

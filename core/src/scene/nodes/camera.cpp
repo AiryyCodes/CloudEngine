@@ -9,30 +9,26 @@
 #include <glm/geometric.hpp>
 #include <glm/trigonometric.hpp>
 
-void Camera::UpdateDir()
+mat4 Camera2D::GetView()
 {
-    front.x = cos(GetRotation().y) * sin(GetRotation().z);
-    front.y = -sin(GetRotation().y);
-    front.z = cos(GetRotation().y) * cos(GetRotation().z);
+    front = fvec3({0.0f, 0.0f, -1.0f});
+    fvec3 position = fvec3(GetPosition().x, GetPosition().y, 1.0f);
+    fvec3 center = position + front;
 
-    up.x = sin(GetRotation().y) * sin(GetRotation().z);
-    up.y = cos(GetRotation().y);
-    up.z = sin(GetRotation().y) * cos(GetRotation().z);
-}
-
-const mat4 Camera::GetView()
-{
     mat4 view(1.0f);
-    // TODO: May add front to position
-    view = glm::lookAt(GetPosition(), GetPosition() + front, up);
+    view = glm::lookAt(position, center, fvec3(0.0f, 1.0f, 0.0f));
+
     return view;
 }
 
-const mat4 Camera::GetProjection()
+mat4 Camera2D::GetProjection()
 {
     Window &window = Application::Get().GetRenderer().GetMainWindow();
 
+    float width = window.GetWidth();
+    float height = window.GetHeight();
+
     mat4 projection(1.0f);
-    projection = glm::perspective(glm::radians(fov), aspectRatio, 0.1f, 10000.0f);
+    projection = glm::ortho(-aspectRatio * zoom, aspectRatio * zoom, -zoom, zoom, 0.0f, 1000.0f);
     return projection;
 }

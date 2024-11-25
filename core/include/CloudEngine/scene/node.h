@@ -6,37 +6,36 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <memory>
 
-class Node : public Scene
+class Node2D : public Scene
 {
 public:
     virtual void Init() override {}
     virtual void Update() override {}
 
-    virtual std::unique_ptr<Scene> CreateInstance() override { return std::make_unique<Node>(); }
-    virtual Scene *Clone() override { return new Node(*this); }
+    virtual std::unique_ptr<Scene> CreateInstance() override { return std::make_unique<Node2D>(); }
+    virtual Scene *Clone() override { return new Node2D(*this); }
 
-    const fvec3 &GetPosition() const { return this->position; }
-    void SetPosition(fvec3 position) { this->position = position; }
+    const fvec2 &GetPosition() const { return this->position; }
+    void SetPosition(fvec2 position) { this->position = position; }
 
-    const fvec3 &GetRotation() const { return this->rotation; }
-    void SetRotation(fvec3 rotation) { this->rotation = rotation; }
+    const fvec2 &GetRotation() const { return this->rotation; }
+    void SetRotation(fvec2 rotation) { this->rotation = rotation; }
 
-    const fvec3 &GetScale() const { return this->scale; }
-    void SetScale(fvec3 scale) { this->scale = scale; }
+    const fvec2 &GetScale() const { return this->scale; }
+    void SetScale(fvec2 scale) { this->scale = scale; }
 
     const mat4 GetMatrix() const
     {
         mat4 matrix(1.0f);
-        matrix = glm::translate(matrix, position);
+        matrix = glm::translate(matrix, fvec3(position.x, position.y, 0.0f));
         matrix = glm::rotate(matrix, glm::radians(rotation.x), fvec3(1, 0, 0));
         matrix = glm::rotate(matrix, glm::radians(rotation.y), fvec3(0, 1, 0));
-        matrix = glm::rotate(matrix, glm::radians(rotation.z), fvec3(0, 0, 1));
-        matrix = glm::scale(matrix, scale);
+        matrix = glm::scale(matrix, fvec3(scale.x, scale.y, 1.0f));
         return matrix;
     }
 
 private:
-    fvec3 position;
-    fvec3 rotation;
-    fvec3 scale = fvec3(1.0f, 1.0f, 1.0f);
+    fvec2 position;
+    fvec2 rotation;
+    fvec2 scale = fvec2(1.0f, 1.0f);
 };

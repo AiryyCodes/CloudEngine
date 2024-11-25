@@ -3,6 +3,7 @@
 #include "CloudEngine/graphics/shader.h"
 #include "CloudEngine/graphics/texture.h"
 #include <vector>
+
 class Mesh
 {
 public:
@@ -21,11 +22,16 @@ public:
     const std::vector<fvec3> &GetNormals() const { return normals; }
     void SetNormals(std::vector<fvec3> normals) { this->normals = normals; }
 
+    const std::vector<Texture> &GetTextures() const { return textures; }
     void SetTextures(std::vector<Texture> textures) { this->textures = textures; }
     void SetTexture(std::string path)
     {
         Texture texture;
         texture.Create(path);
+        textures.push_back(texture);
+    }
+    void AddTexture(Texture &texture)
+    {
         textures.push_back(texture);
     }
 
@@ -35,4 +41,6 @@ protected:
     std::vector<fvec2> uvs;
     std::vector<fvec3> normals;
     std::vector<Texture> textures;
+
+    Texture nullTexture;
 };

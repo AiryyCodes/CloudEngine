@@ -1,8 +1,8 @@
 #pragma once
 
-#include <map>
 #include <memory>
 #include <string>
+
 class Scene;
 struct Component
 {
@@ -21,22 +21,9 @@ public:
     void SetName(std::string name) { this->name = name; }
     const std::string &GetName() { return name; }
 
-    const std::map<std::string, std::pair<std::string, void *>> &GetExportedFields() const { return exportedFields; }
-
-protected:
-    template <typename T>
-    void ExportField(std::string name, T &value)
-    {
-        std::string typeName = typeid(T).name();
-
-        exportedFields.insert({name, {typeName, &value}});
-    }
-
 public:
     Scene *parent;
 
 private:
     std::string name;
-
-    std::map<std::string, std::pair<std::string, void *>> exportedFields;
 };

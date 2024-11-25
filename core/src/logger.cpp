@@ -9,7 +9,7 @@ static std::streambuf *oldBuffer;
 Logger::Logger()
 {
     // instance = this;
-    oldBuffer = std::cout.rdbuf(buffer.rdbuf());
+    // oldBuffer = std::cout.rdbuf(buffer.rdbuf());
 }
 
 Logger::~Logger()

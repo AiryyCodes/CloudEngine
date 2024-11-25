@@ -2,7 +2,7 @@
 
 #include "CloudEngine/scene/node.h"
 
-class Light : public Node
+class Light : public Node2D
 {
 public:
     void Init() override {}

@@ -90,7 +90,7 @@ void SceneManager::Update()
 
 static void RenderScene(Scene *scene, Shader &shader)
 {
-    if (auto node = dynamic_cast<Node *>(scene))
+    if (auto node = dynamic_cast<Node2D *>(scene))
     {
         shader.SetVar("model", node->GetMatrix());
         MeshRenderer *meshRenderer = node->GetComponent<MeshRenderer>();
@@ -130,21 +130,20 @@ void SceneManager::Render(Shader &shader)
         if (scene->GetChildren().size() > 0)
             RenderChildren(scene, shader);
 
-        if (auto node = dynamic_cast<Node *>(scene))
+        if (auto node = dynamic_cast<Node2D *>(scene))
         {
-            auto camera = dynamic_cast<Camera *>(node);
+            auto camera = dynamic_cast<Camera2D *>(node);
             if (camera)
             {
-                camera->UpdateDir();
                 shader.SetVar("view", camera->GetView());
                 shader.SetVar("projection", camera->GetProjection());
-                shader.SetVar("viewPos", camera->GetPosition());
+                shader.SetVar("viewPos", fvec3(camera->GetPosition().x, camera->GetPosition().y, 0.0f));
             }
 
             auto dirLight = dynamic_cast<DirectionalLight *>(node);
             if (dirLight)
             {
-                shader.SetVar("dirLight.direction", dirLight->GetRotation());
+                shader.SetVar("dirLight.direction", fvec3(dirLight->GetRotation().x, dirLight->GetRotation().y, 0.0f));
                 shader.SetVar("dirLight.ambient", dirLight->GetAmbient());
                 shader.SetVar("dirLight.diffuse", dirLight->GetDiffuse());
                 shader.SetVar("dirLight.specular", dirLight->GetSpecular());

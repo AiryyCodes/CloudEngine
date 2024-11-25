@@ -59,12 +59,12 @@ void Texture::Create(std::string path)
     this->filePath = path;
 }
 
-void Texture::CreateFromMemory(unsigned char *image, int width, int height, int numChannels)
+void Texture::CreateFromMemory(const unsigned char *image, int width, int height, int numChannels)
 {
     unsigned int id;
     glGenTextures(1, &id);
 
-    unsigned char *data = image;
+    const unsigned char *data = image;
 
     if (data)
     {
@@ -95,7 +95,7 @@ void Texture::CreateFromMemory(unsigned char *image, int width, int height, int 
         LOG_ERROR("Failed to load texture from memory");
     }
 
-    free(data);
+    // free(data);
 
     this->id = id;
     this->width = width;

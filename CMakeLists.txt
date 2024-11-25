@@ -37,4 +37,3 @@ add_subdirectory("ext/imgui")
 
 add_subdirectory("core/")
 add_subdirectory("backends/")
-add_subdirectory("editor/")
