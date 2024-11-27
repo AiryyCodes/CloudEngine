@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(STB C)
 
-add_library(stb INTERFACE)
-target_include_directories(stb INTERFACE "include/")
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME} INTERFACE "include/")
 
-set_target_properties(stb PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)

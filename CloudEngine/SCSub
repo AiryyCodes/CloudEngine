@@ -1,0 +1,13 @@
+env = Environment(COMPILATIONDB_USE_ABSPATH=True)
+env.Tool('compilation_db')
+env.CompilationDatabase()
+
+sources = Glob("core/**.cpp") + Glob("core/**.h") + Glob("platform/**.cpp") + Glob("platform/**.h")
+
+imgui_path = '../ext/imgui'
+imgui_sources = Glob(f'{imgui_path}/**.cpp') + Glob(f'{imgui_path}/**.hpp')
+imgui_target = env.Library(f'{imgui_path}/libimgui', source=imgui_sources)
+
+env.Append(CPPPATH=['../', f'{imgui_path}/include'])
+
+env.StaticLibrary("../bin/CloudEngine", sources, LIBS=['imgui'], LIBPATH=[imgui_path])
