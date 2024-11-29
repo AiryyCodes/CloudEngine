@@ -8,11 +8,13 @@
 class ModelRenderer : public Component
 {
 public:
-    inline void Init(std::string path)
+    void Init(std::string path)
     {
         model.SetModel(path);
         model.Init();
     }
+
+    void Draw(Shader &shader) override {}
 
     std::unique_ptr<Component> CreateInstance() override { return std::make_unique<ModelRenderer>(); }
 

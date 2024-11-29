@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(CloudEngine)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB_RECURSE CLOUDENGINE_SOURCES
 	"CloudEngine/core/**.cpp"
@@ -10,8 +10,10 @@ file(GLOB_RECURSE CLOUDENGINE_SOURCES
 	"CloudEngine/platform/**.h"
 )
 
+message(PROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+
 add_library(${PROJECT_NAME} ${CLOUDENGINE_SOURCES})
-target_include_directories(${PROJECT_NAME} PUBLIC "./")
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}" PRIVATE "./")
 
 add_subdirectory("ext/glfw/")
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)

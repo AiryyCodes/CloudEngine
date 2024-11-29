@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CloudEngine/core/graphics/shader.h"
+
 #include <memory>
 #include <string>
 
@@ -11,6 +13,7 @@ public:
 
     virtual void Init() {}
     virtual void Update() {}
+    virtual void Draw(Shader &shader) {}
     virtual void ExportFields() {}
 
     virtual std::unique_ptr<Component> CreateInstance() { return std::make_unique<Component>(); }

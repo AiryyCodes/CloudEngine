@@ -3,6 +3,7 @@
 #include "CloudEngine/core/registry/component_registry.h"
 #include "CloudEngine/core/scene/components/mesh_renderer.h"
 #include "CloudEngine/core/scene/components/model_renderer.h"
+#include "CloudEngine/core/scene/components/sprite_renderer.h"
 #include "CloudEngine/core/scene/nodes/camera.h"
 #include "CloudEngine/core/scene/nodes/light.h"
 
@@ -103,6 +104,12 @@ static void RenderScene(Scene *scene, Shader &shader)
         if (modelRenderer != nullptr)
         {
             modelRenderer->GetModel().Draw(shader);
+        }
+
+        SpriteRenderer *spriteRenderer = node->GetComponent<SpriteRenderer>();
+        if (spriteRenderer != nullptr)
+        {
+            spriteRenderer->Draw(shader);
         }
     }
 }
