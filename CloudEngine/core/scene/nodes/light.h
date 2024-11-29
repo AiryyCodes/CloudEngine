@@ -5,8 +5,9 @@
 class Light : public Node2D
 {
 public:
-    void Init() override {}
-    void Update() override {}
+    virtual void Init() override {}
+    virtual void Update() override {}
+    virtual void Draw(Shader &shader) override {}
 
     const fvec3 &GetAmbient() { return this->ambient; }
     void SetAmbient(fvec3 ambient) { this->ambient = ambient; }
@@ -26,6 +27,8 @@ private:
 class DirectionalLight : public Light
 {
 public:
+    void Draw(Shader &shader) override;
+
     const fvec3 &GetDirection() { return this->direction; }
     void SetDirection(fvec3 direction) { this->direction = direction; }
 
@@ -36,6 +39,8 @@ private:
 class PointLight : public Light
 {
 public:
+    void Draw(Shader &shader) override;
+
     const float &GetConstant() { return this->constant; }
     void SetConstant(float constant) { this->constant = constant; }
 
@@ -45,8 +50,12 @@ public:
     const float &GetQuadratic() { return this->quadratic; }
     void SetQuadratic(float quadratic) { this->quadratic = quadratic; }
 
+    void SetIndex(int index) { this->index = index; }
+
 private:
     float constant = 1.0f;
     float linear = 0.09f;
     float quadratic = 0.032f;
+
+    int index;
 };

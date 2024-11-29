@@ -8,6 +8,7 @@ class Camera2D : public Node2D
 public:
     virtual void Init() override {}
     virtual void Update() override {}
+    virtual void Draw(Shader &shader) override;
 
     mat4 GetView();
     mat4 GetProjection();

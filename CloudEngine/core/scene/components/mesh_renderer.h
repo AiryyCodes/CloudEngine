@@ -10,12 +10,8 @@
 class MeshRenderer : public Component
 {
 public:
-    void Init() override
-    {
-        mesh->Init();
-    }
-
-    void Draw(Shader &shader) override {}
+    void Init() override;
+    void Draw(Shader &shader) override;
 
     std::unique_ptr<Component> CreateInstance() override { return std::make_unique<MeshRenderer>(); }
 

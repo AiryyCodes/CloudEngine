@@ -1,18 +1,15 @@
 #pragma once
 
 #include "CloudEngine/core/graphics/shader.h"
-#include "CloudEngine/core/logger.h"
 #include "CloudEngine/core/registry/component_registry.h"
 #include "CloudEngine/core/scene/component.h"
 
 #include <algorithm>
 #include <cstdio>
-#include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
-#include <typeinfo>
 
 class Scene
 {
@@ -21,7 +18,7 @@ public:
 
     virtual void Init() {}
     virtual void Update() {}
-    virtual void Render() {}
+    virtual void Draw(Shader &shader) {}
 
     virtual std::unique_ptr<Scene> CreateInstance() { return std::make_unique<Scene>(); }
     virtual Scene *Clone() { return new Scene(*this); }

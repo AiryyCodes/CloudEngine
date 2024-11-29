@@ -9,6 +9,13 @@
 #include <glm/geometric.hpp>
 #include <glm/trigonometric.hpp>
 
+void Camera2D::Draw(Shader &shader)
+{
+    shader.SetVar("view", GetView());
+    shader.SetVar("projection", GetProjection());
+    shader.SetVar("viewPos", fvec3(GetPosition().x, GetPosition().y, 0.0f));
+}
+
 mat4 Camera2D::GetView()
 {
     front = fvec3({0.0f, 0.0f, -1.0f});

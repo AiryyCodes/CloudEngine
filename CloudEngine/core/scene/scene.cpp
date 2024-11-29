@@ -94,22 +94,9 @@ static void RenderScene(Scene *scene, Shader &shader)
     if (auto node = dynamic_cast<Node2D *>(scene))
     {
         shader.SetVar("model", node->GetMatrix());
-        MeshRenderer *meshRenderer = node->GetComponent<MeshRenderer>();
-        if (meshRenderer != nullptr)
+        for (const auto &component : node->GetComponents())
         {
-            meshRenderer->GetMesh().Draw(shader);
-        }
-
-        ModelRenderer *modelRenderer = node->GetComponent<ModelRenderer>();
-        if (modelRenderer != nullptr)
-        {
-            modelRenderer->GetModel().Draw(shader);
-        }
-
-        SpriteRenderer *spriteRenderer = node->GetComponent<SpriteRenderer>();
-        if (spriteRenderer != nullptr)
-        {
-            spriteRenderer->Draw(shader);
+            component->Draw(shader);
         }
     }
 }
@@ -125,7 +112,7 @@ static void RenderChildren(Scene *scene, Shader &shader)
         }
     }
 
-    scene->Render();
+    scene->Draw(shader);
 }
 
 void SceneManager::Render(Shader &shader)
@@ -139,40 +126,17 @@ void SceneManager::Render(Shader &shader)
 
         if (auto node = dynamic_cast<Node2D *>(scene))
         {
-            auto camera = dynamic_cast<Camera2D *>(node);
-            if (camera)
-            {
-                shader.SetVar("view", camera->GetView());
-                shader.SetVar("projection", camera->GetProjection());
-                shader.SetVar("viewPos", fvec3(camera->GetPosition().x, camera->GetPosition().y, 0.0f));
-            }
-
-            auto dirLight = dynamic_cast<DirectionalLight *>(node);
-            if (dirLight)
-            {
-                shader.SetVar("dirLight.direction", fvec3(dirLight->GetRotation().x, dirLight->GetRotation().y, 0.0f));
-                shader.SetVar("dirLight.ambient", dirLight->GetAmbient());
-                shader.SetVar("dirLight.diffuse", dirLight->GetDiffuse());
-                shader.SetVar("dirLight.specular", dirLight->GetSpecular());
-            }
-
             auto pointLight = dynamic_cast<PointLight *>(node);
             if (pointLight)
             {
-                shader.SetVar("pointLights[" + std::to_string(pointLights) + "].ambient", pointLight->GetAmbient());
-                shader.SetVar("pointLights[" + std::to_string(pointLights) + "].diffuse", pointLight->GetDiffuse());
-                shader.SetVar("pointLights[" + std::to_string(pointLights) + "].specular", pointLight->GetSpecular());
-                shader.SetVar("pointLights[" + std::to_string(pointLights) + "].constant", pointLight->GetConstant());
-                shader.SetVar("pointLights[" + std::to_string(pointLights) + "].linear", pointLight->GetLinear());
-                shader.SetVar("pointLights[" + std::to_string(pointLights) + "].quadratic", pointLight->GetQuadratic());
-
+                pointLight->SetIndex(pointLights);
                 pointLights++;
             }
         }
-        scene->Render();
+        scene->Draw(shader);
     }
 
     shader.SetVar("numPointLights", pointLights);
 
-    currentScene->Render();
+    currentScene->Draw(shader);
 }
