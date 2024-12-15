@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.28)
 project(CloudEngine)
 
-#set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)  # Ensure the standard is enforced
+set(CMAKE_CXX_EXTENSIONS ON)        # Disable compiler-specific extensions
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB_RECURSE CLOUDENGINE_SOURCES
-	"CloudEngine/core/**.cpp"
-	"CloudEngine/core/**.h"
-	"CloudEngine/platform/**.cpp"
-	"CloudEngine/platform/**.h"
+	"CloudEngine/core/[^.]**.cpp"
+	"CloudEngine/core/[^.]**.h"
+	"CloudEngine/platform/[^.]**.cpp"
+	"CloudEngine/platform/[^.]**.h"
 )
-
-message(PROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 
 add_library(${PROJECT_NAME} ${CLOUDENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}" PRIVATE "./")
@@ -32,5 +34,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC fmt)
 
 add_subdirectory("ext/glm/")
 target_link_libraries(${PROJECT_NAME} PUBLIC glm)
+
+add_subdirectory("ext/assimp/")
+target_link_libraries(${PROJECT_NAME} PUBLIC assimp)
 
 add_subdirectory("Sandbox")

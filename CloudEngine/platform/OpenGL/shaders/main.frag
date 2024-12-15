@@ -1,7 +1,7 @@
 #pragma once
 
 const char* MAIN_FRAG = R"(
-#version 330 core
+#version 410 core
 
 struct Material
 {

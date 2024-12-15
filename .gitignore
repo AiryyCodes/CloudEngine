@@ -17,9 +17,16 @@ build/
 bin/
 obj/
 
-# for projects that use SCons for building: http://http://www.scons.org/
+# For projects that use SCons for building: http://http://www.scons.org/
 .sconsign.dblite
 
 # When configure fails, SCons outputs these
 config.log
 .sconf_temp
+
+# MacOS Metadata files
+._*
+.DS_Store
+
+# Vim session file
+Session.vim

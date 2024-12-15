@@ -43,7 +43,7 @@ public:
         replacePlaceholder(newLayout, "%m", std::to_string(time.tm_min));
         replacePlaceholder(newLayout, "%s", std::to_string(time.tm_sec));
 
-        std::string newMessage = fmt::format(newLayout, args...);
+        std::string newMessage = fmt::format(fmt::runtime(newLayout), args...);
 
         std::cout << newMessage << "\n";
     }
