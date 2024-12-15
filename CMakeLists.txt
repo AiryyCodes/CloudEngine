@@ -7,6 +7,8 @@ set(CMAKE_CXX_EXTENSIONS ON)        # Disable compiler-specific extensions
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(ASSIMP_BUILD_TESTS OFF)
+
 file(GLOB_RECURSE CLOUDENGINE_SOURCES
 	"CloudEngine/core/[^.]**.cpp"
 	"CloudEngine/core/[^.]**.h"
