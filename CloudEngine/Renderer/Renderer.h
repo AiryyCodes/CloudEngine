@@ -11,7 +11,7 @@ class Renderer
 {
 public:
     static void Init();
-    static void Begin(Ref<Shader> &shader);
+    static void Begin(const Ref<Shader> &shader);
     static void End();
 
     /*

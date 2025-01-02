@@ -11,7 +11,7 @@ void Renderer::Init()
     m_RendererAPI->Init();
 }
 
-void Renderer::Begin(Ref<Shader> &shader)
+void Renderer::Begin(const Ref<Shader> &shader)
 {
     shader->Bind();
 }
