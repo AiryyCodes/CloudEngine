@@ -4,6 +4,8 @@ struct GLFWwindow;
 class Window
 {
 public:
+    ~Window();
+
     void Init();
 
     bool IsClosing();

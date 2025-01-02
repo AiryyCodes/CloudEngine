@@ -6,6 +6,11 @@
 #include <cstdlib>
 #include <unistd.h>
 
+Window::~Window()
+{
+    glfwDestroyWindow(m_GLFWWindow);
+}
+
 void Window::Init()
 {
     if (!glfwInit())
