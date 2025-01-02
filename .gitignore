@@ -23,3 +23,7 @@ obj/
 # When configure fails, SCons outputs these
 config.log
 .sconf_temp
+
+# MacOS Specific files
+.DS_Store
+._*

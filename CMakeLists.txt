@@ -1,14 +1,20 @@
 cmake_minimum_required(VERSION 3.28)
-project(CloudEngine)
+project(CloudEngine CXX)
 
-#set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB_RECURSE CLOUDENGINE_SOURCES
-	"CloudEngine/core/**.cpp"
-	"CloudEngine/core/**.h"
-	"CloudEngine/platform/**.cpp"
-	"CloudEngine/platform/**.h"
+	"CloudEngine/**.cpp"
+	"CloudEngine/**.h"
 )
+
+foreach(header ${CLOUDENGINE_SOURCES})
+    set_source_files_properties(${header} PROPERTIES LANGUAGE CXX)
+endforeach()
 
 message(PROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 

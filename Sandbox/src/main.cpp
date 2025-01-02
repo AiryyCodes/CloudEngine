@@ -1,15 +1,10 @@
-#include "sandbox.h"
+#include "Sandbox.h"
 
-#include <CloudEngine/core/graphics/renderer.h>
-#include <CloudEngine/core/entry.h>
+#include <CloudEngine/Application.h>
 
 Application *CreateApplication()
 {
-    ApplicationProps props;
-    props.name = "Sandbox";
-    props.rendererBackend = OpenGL;
-
-    Application *app = new Application(props);
+    Application *app = new Application();
     app->SetEntry<Sandbox>();
 
     return app;
