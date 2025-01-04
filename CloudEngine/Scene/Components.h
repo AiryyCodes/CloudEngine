@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 
-struct Transform
+class Transform
 {
 public:
     const glm::vec3 &GetPosition() { return m_Position; }
@@ -36,7 +36,7 @@ private:
     glm::vec3 m_Scale = glm::vec3(1.0f, 1.0f, 1.0f);
 };
 
-struct MeshRenderer
+class MeshRenderer
 {
 public:
     MeshRenderer(const Ref<Mesh> &mesh) : m_Mesh(mesh) {}
