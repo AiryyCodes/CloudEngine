@@ -80,7 +80,7 @@ bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
     return true;
 }
 
-void OpenGLShader::SetMat4f(const glm::mat4 &matrix, std::string location)
+void OpenGLShader::SetUniform(const glm::mat4 &matrix, std::string location)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));

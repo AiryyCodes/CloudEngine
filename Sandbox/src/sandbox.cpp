@@ -1,6 +1,7 @@
 #include "Sandbox.h"
-#include "glm/ext/matrix_transform.hpp"
-#include "glm/ext/vector_float3.hpp"
+#include "CloudEngine/Core.h"
+#include "CloudEngine/Scene/Components.h"
+#include "CloudEngine/Scene/Entity.h"
 
 #include <CloudEngine/Renderer/Mesh.h>
 #include <CloudEngine/Renderer/Renderer.h>
@@ -23,12 +24,19 @@ void Sandbox::Init()
 {
     m_TestMesh = Mesh::Create();
     m_TestMesh->AddVertexBuffer(VERTICES, sizeof(VERTICES), 3);
+
+    m_Scene = CreateRef<Scene>();
+
+    Entity entity = m_Scene->CreateEntity();
+    entity.AddComponent<MeshRenderer>(m_TestMesh);
 }
 
 void Sandbox::Update()
 {
-    glm::mat4 model(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    m_Scene->Update();
+}
 
-    Renderer::Render(Renderer::GetMainShader(), m_TestMesh, model);
+void Sandbox::Render()
+{
+    m_Scene->Render();
 }

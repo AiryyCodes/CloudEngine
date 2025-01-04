@@ -21,9 +21,9 @@ void Renderer::End()
     m_RendererAPI->GetMainShader()->Unbind();
 }
 
-void Renderer::Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat4 model)
+void Renderer::Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat4 transform)
 {
-    shader->SetMat4f(model, "u_Transform");
+    shader->SetUniform(transform, "u_Transform");
 
     mesh->Bind();
     m_RendererAPI->DrawArrays(mesh, 3);

@@ -17,7 +17,7 @@ public:
     /*
      * Must bind the shader before calling this
      */
-    static void Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat4 model);
+    static void Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat4 transform);
 
     static void Clear();
     static void SetViewport(int x, int y, int width, int height);

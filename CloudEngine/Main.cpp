@@ -1,8 +1,9 @@
-#include <glad/gl.h>
-#include <GLFW/glfw3.h>
 #include "CloudEngine/Application.h"
 #include "CloudEngine/Renderer/Renderer.h"
 #include "CloudEngine/Window/Window.h"
+
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
 
 int main(void)
 {
@@ -23,6 +24,7 @@ int main(void)
         Renderer::Begin(Renderer::GetMainShader());
 
         app->Update();
+        app->Render();
 
         window.SwapBuffers();
         window.PollEvents();

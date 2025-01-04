@@ -9,6 +9,7 @@ public:
 
     virtual void Init() = 0;
     virtual void Update() = 0;
+    virtual void Render() {}
 };
 
 class Application
@@ -16,6 +17,7 @@ class Application
 public:
     void Init();
     void Update();
+    void Render();
 
     template <typename T>
     void SetEntry()

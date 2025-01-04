@@ -9,3 +9,8 @@ void Application::Update()
 {
     m_Entry->Update();
 }
+
+void Application::Render()
+{
+    m_Entry->Render();
+}

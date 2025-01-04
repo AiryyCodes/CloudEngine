@@ -39,4 +39,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC fmt)
 add_subdirectory("ext/glm/")
 target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 
+add_subdirectory("ext/entt/")
+target_link_libraries(${PROJECT_NAME} PUBLIC EnTT)
+
 add_subdirectory("Sandbox")
