@@ -1,5 +1,6 @@
 #include "CloudEngine/Renderer/Renderer.h"
 #include "CloudEngine/Core.h"
+#include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 #include "CloudEngine/Renderer/Shader.h"
 
@@ -11,9 +12,13 @@ void Renderer::Init()
     m_RendererAPI->Init();
 }
 
-void Renderer::Begin(const Ref<Shader> &shader)
+void Renderer::Begin(const Ref<Shader> &shader, Camera &camera)
 {
     shader->Bind();
+
+    camera.CalculateMatrices();
+    shader->SetUniform(camera.GetProjection(), "u_Projection");
+    shader->SetUniform(camera.GetView(), "u_View");
 }
 
 void Renderer::End()

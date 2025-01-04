@@ -1,4 +1,5 @@
 #include "CloudEngine/Window/Window.h"
+#include "CloudEngine/Input.h"
 #include "CloudEngine/Renderer/Renderer.h"
 
 #include <GLFW/glfw3.h>
@@ -50,6 +51,9 @@ void Window::Init()
 
     glfwSetFramebufferSizeCallback(m_GLFWWindow, [](GLFWwindow *window, int width, int height)
                                    { Renderer::SetViewport(0, 0, width, height); });
+
+    glfwSetKeyCallback(m_GLFWWindow, [](GLFWwindow *window, int key, int scancode, int action, int mods)
+                       { Input::KeyCallback(key, scancode, action, mods); });
 
     glfwMakeContextCurrent(m_GLFWWindow);
     glfwSwapInterval(0);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CloudEngine/Core.h"
+#include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/Mesh.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 #include "CloudEngine/Renderer/Shader.h"
@@ -11,7 +12,7 @@ class Renderer
 {
 public:
     static void Init();
-    static void Begin(const Ref<Shader> &shader);
+    static void Begin(const Ref<Shader> &shader, Camera &camera);
     static void End();
 
     /*

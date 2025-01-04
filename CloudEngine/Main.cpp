@@ -1,4 +1,5 @@
 #include "CloudEngine/Application.h"
+#include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/Renderer.h"
 #include "CloudEngine/Window/Window.h"
 
@@ -17,11 +18,16 @@ int main(void)
 
     app->Init();
 
+    Camera camera;
+    camera.SetPosition({0.0f, 0.0f, 1.0f});
+
     while (!window.IsClosing())
     {
         Renderer::Clear();
 
-        Renderer::Begin(Renderer::GetMainShader());
+        camera.SetViewportSize(window.GetFramebufferWidth(), window.GetFramebufferHeight());
+
+        Renderer::Begin(Renderer::GetMainShader(), camera);
 
         app->Update();
         app->Render();

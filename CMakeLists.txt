@@ -10,6 +10,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 file(GLOB_RECURSE CLOUDENGINE_SOURCES
 	"CloudEngine/**.cpp"
 	"CloudEngine/**.h"
+	"CloudEngine/**.vert"
+	"CloudEngine/**.frag"
 )
 
 foreach(header ${CLOUDENGINE_SOURCES})

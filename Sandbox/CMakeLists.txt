@@ -4,8 +4,6 @@ project(Sandbox)
 file(GLOB_RECURSE SANDBOX_SOURCES
 	"src/**.cpp"
 	"src/**.hpp"
-	"src/**.vert"
-	"src/**.frag"
 )
 
 add_executable(${PROJECT_NAME} ${SANDBOX_SOURCES})
