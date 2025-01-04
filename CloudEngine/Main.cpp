@@ -20,6 +20,7 @@ int main(void)
 
     Camera camera;
     camera.SetPosition({0.0f, 0.0f, 1.0f});
+    camera.SetRotation({0.0f, 0.0f, 0.0f});
 
     while (!window.IsClosing())
     {
