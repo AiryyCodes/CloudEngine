@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 #include <unistd.h>
 
 Window::~Window()
@@ -35,6 +36,7 @@ void Window::Init()
 
     m_Width = 1280;
     m_Height = 720;
+    m_Title = "Cloud Engine";
     m_GLFWWindow = glfwCreateWindow(1280, 720, "Cloud Engine", NULL, NULL);
     if (!m_GLFWWindow)
     {
@@ -74,26 +76,22 @@ void Window::SwapBuffers()
     glfwSwapBuffers(m_GLFWWindow);
 }
 
-int Window::GetWidth()
-{
-    return m_Width;
-}
-
 void Window::SetWidth(int newWidth)
 {
     m_Width = newWidth;
     glfwSetWindowSize(m_GLFWWindow, m_Width, m_Height);
 }
 
-int Window::GetHeight()
-{
-    return m_Height;
-}
-
 void Window::SetHeight(int newHeight)
 {
     m_Height = newHeight;
     glfwSetWindowSize(m_GLFWWindow, m_Width, m_Height);
+}
+
+void Window::SetTitle(std::string newTitle)
+{
+    m_Title = newTitle;
+    glfwSetWindowTitle(m_GLFWWindow, m_Title.c_str());
 }
 
 int Window::GetFramebufferWidth()
