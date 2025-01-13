@@ -1,11 +1,13 @@
 #pragma once
 
+#pragma once
+
 #include "CloudEngine/Core.h"
 #include "CloudEngine/Renderer/Mesh.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 #include "CloudEngine/Renderer/Shader.h"
 
-class OpenGLRendererAPI : public RendererAPI
+class GLESRendererAPI : public RendererAPI
 {
 public:
     void Init() override;

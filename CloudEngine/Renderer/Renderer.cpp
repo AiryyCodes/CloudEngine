@@ -3,13 +3,20 @@
 #include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 #include "CloudEngine/Renderer/Shader.h"
+#include <cstdio>
 
+bool Renderer::m_Initialized;
 Ref<RendererAPI> Renderer::m_RendererAPI;
 
 void Renderer::Init()
 {
+    if (IsInitialized())
+        return;
+
     m_RendererAPI = RendererAPI::Create();
     m_RendererAPI->Init();
+
+    m_Initialized = true;
 }
 
 void Renderer::Begin(const Ref<Shader> &shader, Camera &camera)

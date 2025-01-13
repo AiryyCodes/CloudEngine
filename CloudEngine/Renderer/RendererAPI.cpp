@@ -4,6 +4,7 @@
 
 RendererAPI::API RendererAPI::m_API = OpenGL;
 
+/*
 Ref<RendererAPI> RendererAPI::Create()
 {
     switch (RendererAPI::m_API)
@@ -12,3 +13,4 @@ Ref<RendererAPI> RendererAPI::Create()
         return CreateRef<OpenGLRendererAPI>();
     }
 }
+*/

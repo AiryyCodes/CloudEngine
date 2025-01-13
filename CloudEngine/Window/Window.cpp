@@ -2,12 +2,12 @@
 #include "CloudEngine/Input.h"
 #include "CloudEngine/Renderer/Renderer.h"
 
-#include <GLFW/glfw3.h>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <unistd.h>
 
+/*
 Window::~Window()
 {
     glfwDestroyWindow(m_GLFWWindow);
@@ -29,7 +29,7 @@ void Window::Init()
 
     glfwDefaultWindowHints();
 
-    /* We need to explicitly ask for a 3.2 context on OS X */
+    // We need to explicitly ask for a 3.2 context on OS X
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -109,3 +109,4 @@ int Window::GetFramebufferHeight()
     glfwGetFramebufferSize(m_GLFWWindow, &width, &height);
     return height;
 }
+*/

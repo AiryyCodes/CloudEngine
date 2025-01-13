@@ -4,6 +4,10 @@
 int main(void)
 {
     Application *app = CreateApplication();
+
+    Renderer::Init();
+    Renderer::SetViewport(0, 0, app->GetMainWindow()->GetFramebufferWidth(), app->GetMainWindow()->GetFramebufferHeight());
+
     app->Init();
 
     while (!app->GetMainWindow()->IsClosing())

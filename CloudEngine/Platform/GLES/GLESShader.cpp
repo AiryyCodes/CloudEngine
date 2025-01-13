@@ -1,7 +1,7 @@
-#include "CloudEngine/Platform/OpenGL/OpenGLShader.h"
+#include "CloudEngine/Platform/GLES/GLESShader.h"
 
 #include <cstddef>
-#include <glad/gl.h>
+#include <glfm.h>
 #include <cstdio>
 #include <string>
 #include <unistd.h>
@@ -9,26 +9,26 @@
 
 Ref<Shader> Shader::Create(std::string vertexSource, std::string fragmentSource)
 {
-    return CreateRef<OpenGLShader>(vertexSource, fragmentSource);
+    return CreateRef<GLESShader>(vertexSource.c_str(), fragmentSource.c_str());
 }
 
-OpenGLShader::OpenGLShader(std::string vertexSource, std::string fragmentSource)
+GLESShader::GLESShader(const char *vertexSource, const char *fragmentSource)
 {
-    // std::string vertexSource = GetShaderSource(vertexPath);
-    const char *newVertSource = vertexSource.c_str();
+    m_Id = glCreateProgram();
+
+    // const GLchar *newVertSource = vertexSource.c_str();
+    // const GLchar *newFragSource = fragmentSource.c_str();
 
     unsigned int vertId = CreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertId, 1, &newVertSource, NULL);
-    CompileShader(vertId, "Vertex");
-
-    // std::string fragmentSource = GetShaderSource(fragmentPath);
-    const char *newFragSource = fragmentSource.c_str();
+    glShaderSource(vertId, 1, &vertexSource, NULL);
+    glCompileShader(vertId);
+    // CompileShader(vertId, "Vertex");
 
     unsigned int fragId = CreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragId, 1, &newFragSource, NULL);
-    CompileShader(fragId, "Fragment");
+    glShaderSource(fragId, 1, &fragmentSource, NULL);
+    glCompileShader(fragId);
+    // CompileShader(fragId, "Fragment");
 
-    m_Id = glCreateProgram();
     glAttachShader(m_Id, vertId);
     glAttachShader(m_Id, fragId);
     glLinkProgram(m_Id);
@@ -46,27 +46,27 @@ OpenGLShader::OpenGLShader(std::string vertexSource, std::string fragmentSource)
     glDeleteShader(fragId);
 }
 
-OpenGLShader::~OpenGLShader()
+GLESShader::~GLESShader()
 {
     glDeleteProgram(m_Id);
 }
 
-void OpenGLShader::Bind()
+void GLESShader::Bind()
 {
     glUseProgram(m_Id);
 }
 
-void OpenGLShader::Unbind()
+void GLESShader::Unbind()
 {
     glUseProgram(0);
 }
 
-unsigned int OpenGLShader::CreateShader(int type)
+unsigned int GLESShader::CreateShader(int type)
 {
     return glCreateShader(type);
 }
 
-bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
+bool GLESShader::CompileShader(unsigned int shaderId, std::string typeName)
 {
     glCompileShader(shaderId);
 
@@ -74,7 +74,7 @@ bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
     char log[1024];
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &status);
 
-    if (!status)
+    if (status == GL_FALSE)
     {
         glGetShaderInfoLog(shaderId, 1024, NULL, log);
         printf("%s shader compilation failed.\n%s", typeName.c_str(), log);
@@ -85,7 +85,7 @@ bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
     return true;
 }
 
-void OpenGLShader::SetUniform(const glm::mat4 &matrix, std::string location)
+void GLESShader::SetUniform(const glm::mat4 &matrix, std::string location)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));

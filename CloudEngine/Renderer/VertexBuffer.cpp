@@ -3,6 +3,7 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLVertexBuffer.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 
+/*
 Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size)
 {
     switch (RendererAPI::GetAPI())
@@ -11,3 +12,4 @@ Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size)
         return CreateRef<OpenGLVertexBuffer>(data, size);
     }
 }
+*/

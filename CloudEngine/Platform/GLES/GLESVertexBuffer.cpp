@@ -1,13 +1,13 @@
-#include "CloudEngine/Platform/OpenGL/OpenGLVertexBuffer.h"
+#include "CloudEngine/Platform/GLES/GLESVertexBuffer.h"
 
-#include <glad/gl.h>
+#include <glfm.h>
 
 Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size)
 {
-    return CreateRef<OpenGLVertexBuffer>(data, size);
+    return CreateRef<GLESVertexBuffer>(data, size);
 }
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(const void *data, int size)
+GLESVertexBuffer::GLESVertexBuffer(const void *data, int size)
 {
     glGenBuffers(1, &m_BufferId);
     Bind();
@@ -20,28 +20,28 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(const void *data, int size)
     Unbind();
 }
 
-OpenGLVertexBuffer::~OpenGLVertexBuffer()
+GLESVertexBuffer::~GLESVertexBuffer()
 {
     glDeleteBuffers(1, &m_BufferId);
 }
 
-void OpenGLVertexBuffer::Bind()
+void GLESVertexBuffer::Bind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_BufferId);
 }
 
-void OpenGLVertexBuffer::Unbind()
+void GLESVertexBuffer::Unbind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void OpenGLVertexBuffer::SetData(const void *data, int size)
+void GLESVertexBuffer::SetData(const void *data, int size)
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_BufferId);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
 
-int OpenGLVertexBuffer::GetOpenGLType()
+int GLESVertexBuffer::GetOpenGLType()
 {
     switch (m_Type)
     {

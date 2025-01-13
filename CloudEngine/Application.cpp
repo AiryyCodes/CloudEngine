@@ -5,17 +5,22 @@
 
 Application *instance;
 
-void Application::Init()
+Application::Application()
 {
     instance = this;
 
-    m_MainWindow = CreateRef<Window>();
+    m_MainWindow = Window::Create();
     m_MainWindow->Init();
+}
 
-    Renderer::Init();
-    Renderer::SetViewport(0, 0, m_MainWindow->GetFramebufferWidth(), m_MainWindow->GetFramebufferHeight());
+void Application::Init()
+{
+    if (IsInitialized())
+        return;
 
     m_Entry->Init();
+
+    m_Initialized = true;
 }
 
 void Application::Update()

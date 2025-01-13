@@ -1,36 +1,45 @@
 #pragma once
 
+#include "CloudEngine/Core.h"
 #include <string>
-struct GLFWwindow;
+
+enum class WindowOrientation
+{
+    All,
+    Portrait,
+    Landscape,
+};
+
 class Window
 {
 public:
-    ~Window();
+    virtual void Init() = 0;
 
-    void Init();
+    virtual bool IsClosing() = 0;
 
-    bool IsClosing();
+    virtual void PollEvents() = 0;
+    virtual void SwapBuffers() = 0;
 
-    void PollEvents();
-    void SwapBuffers();
+    virtual void SetOrientationLimits(WindowOrientation orientation) = 0;
+    
+    /**
+     * For internal use only
+     */
+    virtual void SetData(void *data) {}
 
-    int GetWidth() { return m_Width; }
-    void SetWidth(int newWidth);
-    int GetHeight() { return m_Height; }
-    void SetHeight(int newHeight);
+    virtual int GetWidth() = 0;
+    virtual void SetWidth(int newWidth) = 0;
+    virtual int GetHeight() = 0;
+    virtual void SetHeight(int newHeight) = 0;
 
-    const std::string &GetTitle() { return m_Title; }
-    void SetTitle(std::string newTitle);
+    virtual const std::string &GetTitle() = 0;
+    virtual void SetTitle(std::string newTitle) = 0;
 
-    int GetFramebufferWidth();
-    int GetFramebufferHeight();
+    virtual int GetFramebufferWidth() = 0;
+    virtual int GetFramebufferHeight() = 0;
+
+    static Ref<Window> Create();
 
 private:
-    static void SetWindowSizeCallback(GLFWwindow *window, int width, int height);
-
-private:
-    GLFWwindow *m_GLFWWindow;
-    int m_Width;
-    int m_Height;
-    std::string m_Title;
+    // static void SetWindowSizeCallback(GLFWwindow *window, int width, int height);
 };

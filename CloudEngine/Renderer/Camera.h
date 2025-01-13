@@ -34,7 +34,7 @@ public:
 
     float GetFov() { return m_Fov; }
     void SetFov(float newFov)
-    {
+    {        
         m_Fov = newFov;
         CalculateMatrices();
     }

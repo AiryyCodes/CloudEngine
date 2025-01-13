@@ -3,6 +3,7 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLMesh.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 
+/*
 Ref<Mesh> Mesh::Create()
 {
     switch (RendererAPI::GetAPI())
@@ -11,3 +12,4 @@ Ref<Mesh> Mesh::Create()
         return CreateRef<OpenGLMesh>();
     }
 }
+*/

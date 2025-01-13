@@ -20,6 +20,7 @@ public:
     virtual void SetViewport(int x, int y, int width, int height) = 0;
 
     virtual Ref<Shader> &GetMainShader() = 0;
+    virtual bool IsInitialized() = 0;
 
     static Ref<RendererAPI> Create();
 

@@ -9,8 +9,16 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+Ref<RendererAPI> RendererAPI::Create()
+{
+    return CreateRef<OpenGLRendererAPI>();
+}
+
 void OpenGLRendererAPI::Init()
 {
+    if (IsInitialized())
+        return;
+
     printf("Loading OpenGL...\n");
 
     int version = gladLoadGL(glfwGetProcAddress);
@@ -23,6 +31,8 @@ void OpenGLRendererAPI::Init()
     printf("Loaded OpenGL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
     m_MainShader = Shader::Create(MAIN_VERT, MAIN_FRAG);
+
+    m_Initialized = true;
 }
 
 void OpenGLRendererAPI::DrawArrays(const Ref<Mesh> &mesh, int numVertices)

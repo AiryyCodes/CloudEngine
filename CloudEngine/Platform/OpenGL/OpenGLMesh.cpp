@@ -2,6 +2,11 @@
 
 #include <glad/gl.h>
 
+Ref<Mesh> Mesh::Create()
+{
+    return CreateRef<OpenGLMesh>();
+}
+
 OpenGLMesh::OpenGLMesh()
 {
     glGenVertexArrays(1, &m_Id);

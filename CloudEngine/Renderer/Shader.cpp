@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 
+/*
 Ref<Shader> Shader::Create(std::string vertexSource, std::string fragmentSource)
 {
     switch (RendererAPI::GetAPI())
@@ -15,6 +16,7 @@ Ref<Shader> Shader::Create(std::string vertexSource, std::string fragmentSource)
         return CreateRef<OpenGLShader>(vertexSource, fragmentSource);
     }
 }
+*/
 
 std::string Shader::GetShaderSource(std::string shaderPath)
 {

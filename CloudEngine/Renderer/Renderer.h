@@ -23,8 +23,12 @@ public:
     static void Clear();
     static void SetViewport(int x, int y, int width, int height);
 
+    static bool IsInitialized() { return m_Initialized; }
+    static Ref<RendererAPI> &GetRendererAPI() { return m_RendererAPI; }
+
     static Ref<Shader> &GetMainShader();
 
 private:
+    static bool m_Initialized;
     static Ref<RendererAPI> m_RendererAPI;
 };
