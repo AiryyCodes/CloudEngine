@@ -17,8 +17,8 @@ file(GLOB CLOUDENGINE_SOURCES
 	"CloudEngine/Renderer/*.h"
 	"CloudEngine/Scene/*.cpp"
 	"CloudEngine/Scene/*.h"
-	"CloudEngine/Window/**.cpp"
-	"CloudEngine/Window/**.h"
+	"CloudEngine/Window/*.cpp"
+	"CloudEngine/Window/*.h"
 )
 
 if(IOS)

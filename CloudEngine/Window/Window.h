@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CloudEngine/Core.h"
+
 #include <string>
 
 enum class WindowOrientation
