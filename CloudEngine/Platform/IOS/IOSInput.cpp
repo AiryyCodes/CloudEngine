@@ -70,6 +70,11 @@ glm::vec2 Input::GetMouseDelta()
     return {0.0f, 0.0f};
 }
 
+CursorMode Input::GetCursorMode()
+{
+    return Application::Get().GetMainWindow()->GetCursorMode();
+}
+
 void Input::SetCursorMode(CursorMode mode)
 {
 }
