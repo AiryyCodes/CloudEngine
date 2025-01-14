@@ -133,16 +133,33 @@ enum class TouchPhase
     Cancel
 };
 
+enum class CursorMode
+{
+    Locked,
+    Unlocked,
+};
+
 class Input
 {
 public:
     static void Update();
+    static void UpdateEnd();
 
     static bool IsKeyDown(Key key);
     static bool IsKeyJustDown(Key key);
 
     static void KeyCallback(Key key, int scancode, int action, int mods);
     static int ConvertKey(Key key);
+
+    static float GetMouseX();
+    static float GetMouseY();
+    static glm::vec2 GetMouseDelta();
+
+    static CursorMode GetCursorMode();
+    static void SetCursorMode(CursorMode mode);
+    static void ToggleCursor();
+
+    static void MousePosCallback(double x, double y);
 
     static bool IsTouching(int numFingers);
     static bool IsJustTouching(int numFingers);

@@ -65,6 +65,9 @@ void DesktopWindow::Init()
     glfwSetKeyCallback(m_GLFWWindow, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                        { Input::KeyCallback(ConvertKey(key), scancode, action, mods); });
 
+    glfwSetCursorPosCallback(m_GLFWWindow, [](GLFWwindow *window, double x, double y)
+                             { Input::MousePosCallback(x, y); });
+
     glfwMakeContextCurrent(m_GLFWWindow);
     glfwSwapInterval(0);
 }
@@ -86,6 +89,26 @@ void DesktopWindow::SwapBuffers()
 
 void DesktopWindow::SetOrientationLimits(WindowOrientation orientation)
 {
+}
+
+void DesktopWindow::SetCursorMode(CursorMode mode)
+{
+    glfwSetInputMode(m_GLFWWindow, GLFW_CURSOR, mode == CursorMode::Locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+}
+
+CursorMode DesktopWindow::GetCursorMode()
+{
+    int mode = glfwGetInputMode(m_GLFWWindow, GLFW_CURSOR);
+
+    switch (mode)
+    {
+    case GLFW_CURSOR_NORMAL:
+        return CursorMode::Unlocked;
+    case GLFW_CURSOR_DISABLED:
+        return CursorMode::Locked;
+    }
+
+    return CursorMode::Unlocked;
 }
 
 int DesktopWindow::GetWidth()

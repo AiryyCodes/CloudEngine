@@ -16,10 +16,13 @@ public:
 
     virtual void PollEvents() override;
     virtual void SwapBuffers() override;
-    
+
     virtual void SetOrientationLimits(WindowOrientation orientation) override;
-    
-    virtual void SetData(void* data) override;
+
+    virtual CursorMode GetCursorMode() override {}
+    virtual void SetCursorMode(CursorMode mode) override {}
+
+    virtual void SetData(void *data) override;
 
     virtual int GetWidth() override;
     virtual void SetWidth(int newWidth) override;

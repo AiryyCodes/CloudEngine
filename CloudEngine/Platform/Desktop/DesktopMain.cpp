@@ -1,5 +1,6 @@
 #include "CloudEngine/Application.h"
 #include "CloudEngine/Renderer/Renderer.h"
+#include "CloudEngine/Input.h"
 
 int main(void)
 {
@@ -14,10 +15,14 @@ int main(void)
     {
         Renderer::Clear();
 
+        Input::Update();
+
         app->Update();
         app->Render();
 
         app->GetMainWindow()->SwapBuffers();
         app->GetMainWindow()->PollEvents();
+
+        Input::UpdateEnd();
     }
 }

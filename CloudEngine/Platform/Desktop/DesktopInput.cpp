@@ -1,10 +1,35 @@
+#include "CloudEngine/Application.h"
+#include "CloudEngine/Core.h"
 #include "CloudEngine/Input.h"
+#include "CloudEngine/Window/Window.h"
 
 #include <GLFW/glfw3.h>
 #include <cstdio>
 
 static bool keysDown[512];
 static bool keysHeld[512];
+
+static double mouseX;
+static double mouseY;
+static double lastMouseX;
+static double lastMouseY;
+static bool firstMouse = true;
+
+void Input::Update()
+{
+    if (GetCursorMode() == CursorMode::Unlocked)
+    {
+        firstMouse = true;
+    }
+    // lastMouseX = 0.0f;
+    // lastMouseY = 0.0f;
+}
+
+void Input::UpdateEnd()
+{
+    // lastMouseX = 0.0f;
+    // lastMouseY = 0.0f;
+}
 
 bool Input::IsKeyDown(Key key)
 {
@@ -22,6 +47,57 @@ void Input::KeyCallback(Key key, int scancode, int action, int mods)
 {
     keysDown[ConvertKey(key)] = action == GLFW_PRESS;
     keysHeld[ConvertKey(key)] = action == GLFW_PRESS || action == GLFW_REPEAT;
+}
+
+float Input::GetMouseX()
+{
+    return mouseX;
+}
+
+float Input::GetMouseY()
+{
+    return mouseY;
+}
+
+glm::vec2 Input::GetMouseDelta()
+{
+    if (firstMouse)
+    {
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        firstMouse = false;
+    }
+
+    float deltaX = mouseX - lastMouseX;
+    float deltaY = lastMouseY - mouseY;
+
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+
+    return {deltaX, deltaY};
+}
+
+CursorMode Input::GetCursorMode()
+{
+    return Application::Get().GetMainWindow()->GetCursorMode();
+}
+
+void Input::SetCursorMode(CursorMode mode)
+{
+    Application::Get().GetMainWindow()->SetCursorMode(mode);
+}
+
+void Input::ToggleCursor()
+{
+    Ref<Window> window = Application::Get().GetMainWindow();
+    CursorMode mode = window->GetCursorMode();
+    window->SetCursorMode(mode == CursorMode::Locked ? CursorMode::Unlocked : CursorMode::Locked);
+}
+
+void Input::MousePosCallback(double x, double y)
+{
+    mouseX = x;
+    mouseY = y;
 }
 
 bool Input::IsTouching(int numFingers)

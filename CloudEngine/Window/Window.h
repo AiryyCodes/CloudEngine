@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CloudEngine/Core.h"
+#include "CloudEngine/Input.h"
 
 #include <string>
 
@@ -22,7 +23,10 @@ public:
     virtual void SwapBuffers() = 0;
 
     virtual void SetOrientationLimits(WindowOrientation orientation) = 0;
-    
+
+    virtual CursorMode GetCursorMode() = 0;
+    virtual void SetCursorMode(CursorMode mode) = 0;
+
     /**
      * For internal use only
      */

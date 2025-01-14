@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CloudEngine/Input.h"
 #include "CloudEngine/Window/Window.h"
 
 struct GLFWwindow;
@@ -16,6 +17,9 @@ public:
     virtual void SwapBuffers() override;
 
     virtual void SetOrientationLimits(WindowOrientation orientation) override;
+
+    virtual CursorMode GetCursorMode() override;
+    virtual void SetCursorMode(CursorMode mode) override;
 
     virtual int GetWidth() override;
     virtual void SetWidth(int newWidth) override;

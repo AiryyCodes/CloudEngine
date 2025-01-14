@@ -1,8 +1,8 @@
 #include "CloudEngine/Platform/IOS/IOSWindow.h"
 #include "CloudEngine/Core.h"
 #include "CloudEngine/Window/Window.h"
-#include "glfm.h"
 
+#include <glfm.h>
 #include <cassert>
 #include <string>
 #include <unistd.h>
@@ -44,20 +44,20 @@ void IOSWindow::SetOrientationLimits(WindowOrientation orientation)
     GLFMInterfaceOrientation glfmOrientation;
     switch (orientation)
     {
-        case WindowOrientation::All:
-            glfmOrientation = GLFMInterfaceOrientationAll;
-            break;
-        case WindowOrientation::Portrait:
-            glfmOrientation = GLFMInterfaceOrientationPortrait;
-            break;
-        case WindowOrientation::Landscape:
-            glfmOrientation = GLFMInterfaceOrientationLandscape;
-            break;
-        default:
-            glfmOrientation = GLFMInterfaceOrientationAll;
-            break;
+    case WindowOrientation::All:
+        glfmOrientation = GLFMInterfaceOrientationAll;
+        break;
+    case WindowOrientation::Portrait:
+        glfmOrientation = GLFMInterfaceOrientationPortrait;
+        break;
+    case WindowOrientation::Landscape:
+        glfmOrientation = GLFMInterfaceOrientationLandscape;
+        break;
+    default:
+        glfmOrientation = GLFMInterfaceOrientationAll;
+        break;
     }
-    
+
     glfmSetSupportedInterfaceOrientation(m_Display, glfmOrientation);
 }
 
