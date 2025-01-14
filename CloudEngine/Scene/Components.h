@@ -1,7 +1,9 @@
 #pragma once
 
 #include "CloudEngine/Core.h"
+#include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/Mesh.h"
+#include "CloudEngine/UUID.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
@@ -30,10 +32,57 @@ public:
         return transform;
     }
 
+    void Translate(glm::vec3 translation)
+    {
+        m_Position += translation;
+    }
+
+    void Translate(float x, float y, float z)
+    {
+        Translate({x, y, z});
+    }
+
 private:
     glm::vec3 m_Position;
     glm::vec3 m_Rotation;
     glm::vec3 m_Scale = glm::vec3(1.0f, 1.0f, 1.0f);
+};
+
+class NameComponent
+{
+public:
+    NameComponent(const std::string &name)
+        : m_Name(name) {}
+
+    const std::string &GetName() { return m_Name; }
+    void SetName(std::string newName) { m_Name = newName; }
+
+private:
+    std::string m_Name;
+};
+
+class UUIDComponent
+{
+public:
+    UUIDComponent(const UUID &uuid)
+        : m_UUID(uuid) {}
+
+    const UUID &GetUUID() { return m_UUID; }
+
+private:
+    UUID m_UUID;
+};
+
+class CameraComponent
+{
+public:
+    Camera &GetCamera() { return m_Camera; }
+
+    Camera *operator->() { return &m_Camera; }
+    operator Camera &() { return m_Camera; }
+
+private:
+    Camera m_Camera;
 };
 
 class MeshRenderer
