@@ -13,7 +13,7 @@ public:
     Entity(entt::entity entity, Scene *scene) : m_Entity(entity), m_Scene(scene) {}
 
     template <typename T>
-    const T &GetComponent()
+    T &GetComponent()
     {
         return m_Scene->m_Registry.get<T>(m_Entity);
     }
