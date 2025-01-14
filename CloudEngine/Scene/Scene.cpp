@@ -1,4 +1,6 @@
 #include "CloudEngine/Scene/Scene.h"
+#include "CloudEngine/Application.h"
+#include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/Renderer.h"
 #include "CloudEngine/Scene/Components.h"
 #include "CloudEngine/Scene/Entity.h"
@@ -20,6 +22,18 @@ void Scene::Update()
 void Scene::Render()
 {
     {
+        auto view = m_Registry.view<CameraComponent>();
+        for (const auto &entity : view)
+        {
+            CameraComponent &camera = view.get<CameraComponent>(entity);
+
+            camera->CalculateMatrices();
+            camera->SetViewportSize(Application::Get().GetMainWindow()->GetWidth(), Application::Get().GetMainWindow()->GetHeight());
+
+            Renderer::Begin(Renderer::GetMainShader(), camera);
+        }
+    }
+    {
         auto view = m_Registry.view<Transform, MeshRenderer>();
         for (const auto &entity : view)
         {
@@ -31,13 +45,45 @@ void Scene::Render()
     }
 }
 
-Entity Scene::CreateEntity()
+Entity Scene::CreateEntity(const std::string &name)
 {
     Entity entity = {m_Registry.create(), this};
     m_Registry.emplace<Transform>(entity);
+    m_Registry.emplace<NameComponent>(entity, name);
 
     UUID uuid;
+    m_Registry.emplace<UUIDComponent>(entity, uuid);
+
     m_Entities[uuid] = entity;
 
     return entity;
+}
+
+Entity Scene::GetEntityByName(const std::string &name)
+{
+    auto view = m_Registry.view<NameComponent>();
+    for (auto entity : view)
+    {
+        NameComponent &nameComponent = m_Registry.get<NameComponent>(entity);
+        UUIDComponent &uuidComponent = m_Registry.get<UUIDComponent>(entity);
+        if (nameComponent.GetName() == name)
+        {
+            return GetEntityByUUID(uuidComponent.GetUUID());
+        }
+    }
+}
+
+Entity Scene::GetEntityByUUID(const UUID &uuid)
+{
+    auto view = m_Registry.view<UUIDComponent>();
+    for (auto entity : view)
+    {
+        UUIDComponent &uuidComponent = m_Registry.get<UUIDComponent>(entity);
+        if (uuidComponent.GetUUID() == uuid)
+        {
+            auto it = m_Entities.find(uuidComponent.GetUUID());
+            if (it != m_Entities.end())
+                return it->second;
+        }
+    }
 }
