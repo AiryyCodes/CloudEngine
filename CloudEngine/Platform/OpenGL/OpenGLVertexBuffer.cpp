@@ -1,4 +1,5 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLVertexBuffer.h"
+#include "CloudEngine/Renderer/VertexBuffer.h"
 
 #include <glad/gl.h>
 

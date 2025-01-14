@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include "CloudEngine/Core.h"
 #include "CloudEngine/Renderer/Mesh.h"
 #include "CloudEngine/Renderer/RendererAPI.h"

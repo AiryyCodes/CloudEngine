@@ -11,10 +11,9 @@ public:
     virtual void Bind() = 0;
     virtual void Unbind() = 0;
 
-    void AddBuffer(const void *data, int size)
+    virtual void AddBuffer(const Ref<VertexBuffer> &buffer)
     {
-        Bind();
-        auto buffer = VertexBuffer::Create(data, size);
+        // Bind();
         m_VertexBuffers.emplace_back(buffer);
     }
 

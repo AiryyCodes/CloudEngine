@@ -8,7 +8,24 @@
 class Shader
 {
 public:
-    virtual void Bind() = 0;
+    enum class DataType
+    {
+        Float,
+        Float2,
+        Float3,
+        Float4,
+        Mat3,
+        Mat4,
+        Int,
+        Int2,
+        Int3,
+        Int4,
+        Bool,
+    };
+
+public:
+    virtual void
+    Bind() = 0;
     virtual void Unbind() = 0;
 
     virtual void SetUniform(const glm::mat4 &matrix, std::string location) = 0;
