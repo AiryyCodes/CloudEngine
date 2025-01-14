@@ -1,22 +1,8 @@
 #include "CloudEngine/Renderer/Shader.h"
-#include "CloudEngine/Core.h"
-#include "CloudEngine/Platform/OpenGL/OpenGLShader.h"
-#include "CloudEngine/Renderer/RendererAPI.h"
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
-/*
-Ref<Shader> Shader::Create(std::string vertexSource, std::string fragmentSource)
-{
-    switch (RendererAPI::GetAPI())
-    {
-    case RendererAPI::OpenGL:
-        return CreateRef<OpenGLShader>(vertexSource, fragmentSource);
-    }
-}
-*/
 
 std::string Shader::GetShaderSource(std::string shaderPath)
 {

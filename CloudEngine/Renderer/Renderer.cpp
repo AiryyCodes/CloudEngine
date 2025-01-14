@@ -3,7 +3,6 @@
 #include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 #include "CloudEngine/Renderer/Shader.h"
-#include <cstdio>
 
 bool Renderer::m_Initialized;
 Ref<RendererAPI> Renderer::m_RendererAPI;
