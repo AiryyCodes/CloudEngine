@@ -1,4 +1,5 @@
 #include "CloudEngine/Platform/GLES/GLESMesh.h"
+#include "CloudEngine/Renderer/Renderer.h"
 
 #include <glfm.h>
 
@@ -50,6 +51,11 @@ GLESMesh::~GLESMesh()
 
 void GLESMesh::Bind()
 {
+    for (int i = 0; i < m_Textures.size(); i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        m_Textures[i]->Bind();
+    }
     glBindVertexArrayOES(m_Id);
 }
 
@@ -62,6 +68,8 @@ void GLESMesh::AddBuffer(const Ref<VertexBuffer> &buffer)
 {
     Bind();
     buffer->Bind();
+
+    m_NumVertices += buffer->GetNumVertices();
 
     auto layout = buffer->GetLayout();
     for (auto element : layout)
@@ -91,11 +99,11 @@ void GLESMesh::AddBuffer(const Ref<VertexBuffer> &buffer)
         {
             glEnableVertexAttribArray(m_VertexBufferIndex);
             glVertexAttribPointer(m_VertexBufferIndex,
-                                  element.GetComponentCount(),
-                                  GetShaderDataTypeBaseType(element.GetType()),
-                                  element.IsNormalized() ? GL_TRUE : GL_FALSE,
-                                  layout.GetStride(),
-                                  (const void *)element.GetOffset());
+                                   element.GetComponentCount(),
+                                   GetShaderDataTypeBaseType(element.GetType()),
+                                   element.IsNormalized() ? GL_TRUE : GL_FALSE,
+                                   layout.GetStride(),
+                                   (const void *)element.GetOffset());
             m_VertexBufferIndex++;
             break;
         }
@@ -112,8 +120,7 @@ void GLESMesh::AddBuffer(const Ref<VertexBuffer> &buffer)
                                       element.IsNormalized() ? GL_TRUE : GL_FALSE,
                                       layout.GetStride(),
                                       (const void *)(element.GetOffset() + sizeof(float) * count * i));
-                // TODO: May break thing if commented out
-                // glVertexAttribDivisor(m_VertexBufferIndex, 1);
+                //glVertexAttribDivisor(m_VertexBufferIndex, 1);
                 m_VertexBufferIndex++;
             }
             break;
@@ -121,5 +128,12 @@ void GLESMesh::AddBuffer(const Ref<VertexBuffer> &buffer)
         }
     }
 
+    buffer->Unbind();
+
     Mesh::AddBuffer(buffer);
+}
+
+void GLESMesh::AddTexture(const Ref<Texture> &texture)
+{
+    m_Textures.push_back(texture);
 }

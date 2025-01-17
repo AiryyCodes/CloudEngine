@@ -85,8 +85,19 @@ bool GLESShader::CompileShader(unsigned int shaderId, std::string typeName)
     return true;
 }
 
+void GLESShader::SetUniform(int value, std::string location)
+{
+    int loc = glGetUniformLocation(m_Id, location.c_str());
+    glUniform1i(loc, value);
+}
+
 void GLESShader::SetUniform(const glm::mat4 &matrix, std::string location)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+unsigned int GLESShader::GetAttributeLocation(std::string name)
+{
+    return glGetAttribLocation(m_Id, name.c_str());
 }

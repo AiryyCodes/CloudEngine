@@ -28,6 +28,10 @@ void GLESRendererAPI::Init()
 
     // printf("Loaded OpenGL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glDepthMask(true);
+
     m_MainShader = Shader::Create(MAIN_VERT, MAIN_FRAG);
 
     m_Initialized = true;
@@ -35,13 +39,14 @@ void GLESRendererAPI::Init()
 
 void GLESRendererAPI::DrawArrays(const Ref<Mesh> &mesh, int numVertices)
 {
-    // printf("Rendering in GLESRendererAPI::DrawArrays()\n");
+    // printf("Rendering %i vertices\n", numVertices);
 
     glDrawArrays(GL_TRIANGLES, 0, numVertices);
 }
 
 void GLESRendererAPI::Clear()
 {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

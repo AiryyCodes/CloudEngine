@@ -2,20 +2,21 @@
 
 #include <glfm.h>
 
-Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size)
+Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size, int numVertices)
 {
-    return CreateRef<GLESVertexBuffer>(data, size);
+    return CreateRef<GLESVertexBuffer>(data, size, numVertices);
 }
 
-GLESVertexBuffer::GLESVertexBuffer(const void *data, int size)
+GLESVertexBuffer::GLESVertexBuffer(const void *data, int size, int numVertices)
+: m_NumVertices(numVertices)
 {
     glGenBuffers(1, &m_BufferId);
     Bind();
 
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-    glEnableVertexAttribArray(0);
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+    // glEnableVertexAttribArray(0);
 
     Unbind();
 }

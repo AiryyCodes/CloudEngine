@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CloudEngine/Input.h"
 #include "CloudEngine/Window/Window.h"
 
 #include <glfm.h>
@@ -19,7 +20,7 @@ public:
 
     virtual void SetOrientationLimits(WindowOrientation orientation) override;
 
-    virtual CursorMode GetCursorMode() override {}
+    virtual CursorMode GetCursorMode() override { return CursorMode::Locked; }
     virtual void SetCursorMode(CursorMode mode) override {}
 
     virtual void SetData(void *data) override;

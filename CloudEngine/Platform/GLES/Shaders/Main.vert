@@ -1,7 +1,8 @@
 static const char *MAIN_VERT = R"(
 #version 100
 
-attribute highp vec3 a_Position;
+attribute vec3 a_Position;
+attribute vec2 a_TexturePos;
 
 uniform mat4 u_Transform;
 uniform mat4 u_View;
