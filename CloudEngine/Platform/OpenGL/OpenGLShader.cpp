@@ -85,6 +85,12 @@ bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
     return true;
 }
 
+void OpenGLShader::SetUniform(int value, std::string location)
+{
+    int loc = glGetUniformLocation(m_Id, location.c_str());
+    glUniform1i(loc, value);
+}
+
 void OpenGLShader::SetUniform(const glm::mat4 &matrix, std::string location)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());

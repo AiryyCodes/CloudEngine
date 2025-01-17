@@ -148,7 +148,9 @@ public:
     const BufferLayout &GetLayout() { return m_Layout; }
     void SetLayout(const BufferLayout &layout) { m_Layout = layout; }
 
-    static Ref<VertexBuffer> Create(const void *data, int size);
+    virtual int GetNumVertices() = 0;
+
+    static Ref<VertexBuffer> Create(const void *data, int size, int numVertices);
 
 protected:
     BufferType m_Type;

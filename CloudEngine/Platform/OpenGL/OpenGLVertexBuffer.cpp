@@ -3,20 +3,18 @@
 
 #include <glad/gl.h>
 
-Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size)
+Ref<VertexBuffer> VertexBuffer::Create(const void *data, int size, int numVertices)
 {
-    return CreateRef<OpenGLVertexBuffer>(data, size);
+    return CreateRef<OpenGLVertexBuffer>(data, size, numVertices);
 }
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(const void *data, int size)
+OpenGLVertexBuffer::OpenGLVertexBuffer(const void *data, int size, int numVertices)
+    : m_NumVertices(numVertices)
 {
     glGenBuffers(1, &m_BufferId);
     Bind();
 
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-    glEnableVertexAttribArray(0);
 
     Unbind();
 }

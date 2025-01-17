@@ -13,7 +13,10 @@ public:
     void Bind() override;
     void Unbind() override;
 
+    void SetUniform(int value, std::string location) override;
     void SetUniform(const glm::mat4 &matrix, std::string location) override;
+
+    virtual unsigned int GetAttributeLocation(std::string name) override { return 0; }
 
 private:
     unsigned int CreateShader(int type);

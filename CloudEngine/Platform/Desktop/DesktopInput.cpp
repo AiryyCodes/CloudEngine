@@ -4,7 +4,6 @@
 #include "CloudEngine/Window/Window.h"
 
 #include <GLFW/glfw3.h>
-#include <cstdio>
 
 static bool keysDown[512];
 static bool keysHeld[512];

@@ -28,8 +28,11 @@ public:
     Bind() = 0;
     virtual void Unbind() = 0;
 
+    virtual void SetUniform(int value, std::string location) = 0;
     virtual void SetUniform(const glm::mat4 &matrix, std::string location) = 0;
 
+    virtual unsigned int GetAttributeLocation(std::string name) = 0;
+    
     static Ref<Shader> Create(std::string vertexPath, std::string fragmentPath);
 
 protected:

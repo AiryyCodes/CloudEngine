@@ -1,4 +1,7 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLMesh.h"
+#include "CloudEngine/Core.h"
+#include "CloudEngine/Renderer/Renderer.h"
+#include "CloudEngine/Renderer/Texture.h"
 
 #include <glad/gl.h>
 
@@ -41,7 +44,7 @@ Ref<Mesh> Mesh::Create()
 OpenGLMesh::OpenGLMesh()
 {
     glGenVertexArrays(1, &m_Id);
-    glBindVertexArray(m_Id);
+    // glBindVertexArray(m_Id);
 }
 
 OpenGLMesh::~OpenGLMesh()
@@ -51,6 +54,12 @@ OpenGLMesh::~OpenGLMesh()
 
 void OpenGLMesh::Bind()
 {
+    for (int i = 0; i < m_Textures.size(); i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        Renderer::GetMainShader()->SetUniform(i, "tex");
+        m_Textures[i]->Bind();
+    }
     glBindVertexArray(m_Id);
 }
 
@@ -63,6 +72,8 @@ void OpenGLMesh::AddBuffer(const Ref<VertexBuffer> &buffer)
 {
     Bind();
     buffer->Bind();
+
+    m_NumVertices += buffer->GetNumVertices();
 
     auto layout = buffer->GetLayout();
     for (auto element : layout)
@@ -120,5 +131,25 @@ void OpenGLMesh::AddBuffer(const Ref<VertexBuffer> &buffer)
         }
     }
 
+    buffer->Unbind();
+
     Mesh::AddBuffer(buffer);
+}
+
+void OpenGLMesh::AddTexture(const Ref<Texture> &texture)
+{
+    m_Textures.push_back(texture);
+}
+
+// TODO: This is called each time RendererAPI::DrawArrays is called which can be slow
+int OpenGLMesh::GetNumVertices()
+{
+    /*
+    int numVertices;
+    for (const auto &buffer : GetVertexBuffers())
+    {
+        numVertices += buffer->GetNumVertices();
+    }
+    */
+    return m_NumVertices;
 }

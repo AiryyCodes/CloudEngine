@@ -24,5 +24,6 @@ void Camera::CalculateMatrices()
         m_Projection = glm::perspective(glm::radians(m_Fov), m_AspectRatio, m_Near, m_Far);
     }
 
+    //m_View = glm::inverse(transform);
     m_View = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 }

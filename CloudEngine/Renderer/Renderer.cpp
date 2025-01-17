@@ -37,7 +37,7 @@ void Renderer::Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat
     shader->SetUniform(transform, "u_Transform");
 
     mesh->Bind();
-    m_RendererAPI->DrawArrays(mesh, 3);
+    m_RendererAPI->DrawArrays(mesh, mesh->GetNumVertices());
 }
 
 void Renderer::Clear()

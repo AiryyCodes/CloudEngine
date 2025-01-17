@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CloudEngine/Renderer/Texture.h"
 #include "CloudEngine/Renderer/VertexBuffer.h"
 #include "CloudEngine/Core.h"
 
@@ -20,17 +21,19 @@ public:
     void AddVertexBuffer(const void *data, int size, int numVertices)
     {
         Bind();
-        auto buffer = VertexBuffer::Create(data, size);
+        auto buffer = VertexBuffer::Create(data, size, numVertices);
         m_VertexBuffers.emplace_back(buffer);
-        m_NumVertices += numVertices;
     }
 
-    int GetNumVertices() { return m_NumVertices; }
+    virtual void AddTexture(const Ref<Texture> &texture) = 0;
+
+    virtual int GetNumVertices() = 0;
 
     static Ref<Mesh> Create();
 
+protected:
+    const std::vector<Ref<VertexBuffer>> GetVertexBuffers() { return m_VertexBuffers; }
+
 private:
     std::vector<Ref<VertexBuffer>> m_VertexBuffers;
-
-    int m_NumVertices;
 };
