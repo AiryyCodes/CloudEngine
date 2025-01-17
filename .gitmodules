@@ -10,6 +10,3 @@
 [submodule "ext/entt"]
 	path = ext/entt
 	url = https://github.com/skypjack/entt.git
-[submodule "ext/glfm"]
-	path = ext/glfm
-	url = https://github.com/brackeen/glfm.git
