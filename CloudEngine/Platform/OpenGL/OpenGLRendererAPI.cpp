@@ -31,6 +31,7 @@ void OpenGLRendererAPI::Init()
     printf("Loaded OpenGL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
 
     m_MainShader = Shader::Create(MAIN_VERT, MAIN_FRAG);
 

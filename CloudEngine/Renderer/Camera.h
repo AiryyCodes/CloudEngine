@@ -84,6 +84,6 @@ private:
     float m_AspectRatio;
     float m_Fov = 45.0f;
 
-    float m_Near = 0.0001f;
-    float m_Far = 10000.0f;
+    float m_Near = 0.01f;
+    float m_Far = 1000.0f;
 };
