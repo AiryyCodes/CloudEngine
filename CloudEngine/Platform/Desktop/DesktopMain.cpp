@@ -1,6 +1,7 @@
 #include "CloudEngine/Application.h"
 #include "CloudEngine/Renderer/Renderer.h"
 #include "CloudEngine/Input.h"
+#include "CloudEngine/Time.h"
 
 int main(void)
 {
@@ -13,6 +14,8 @@ int main(void)
 
     while (!app->GetMainWindow()->IsClosing())
     {
+        Time::Update();
+
         Renderer::Clear();
 
         Input::Update();
