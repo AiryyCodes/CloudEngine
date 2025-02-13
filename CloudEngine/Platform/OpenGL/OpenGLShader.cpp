@@ -1,4 +1,5 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLShader.h"
+#include "CloudEngine/Logger.h"
 
 #include <cstddef>
 #include <glad/gl.h>
@@ -39,7 +40,7 @@ OpenGLShader::OpenGLShader(std::string vertexSource, std::string fragmentSource)
     if (!status)
     {
         glGetProgramInfoLog(m_Id, 1024, NULL, log);
-        printf("Shader linking failed.\n%s", log);
+        LOG_ERROR("Shader linking failed.\n{}", log);
     }
 
     glDeleteShader(vertId);
@@ -77,7 +78,7 @@ bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
     if (!status)
     {
         glGetShaderInfoLog(shaderId, 1024, NULL, log);
-        printf("%s shader compilation failed.\n%s", typeName.c_str(), log);
+        LOG_ERROR("{} shader compilation failed.\n{}", typeName.c_str(), log);
 
         return false;
     }

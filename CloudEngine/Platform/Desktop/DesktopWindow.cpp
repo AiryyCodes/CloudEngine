@@ -3,6 +3,7 @@
 #include "CloudEngine/Window/Window.h"
 #include "CloudEngine/Input.h"
 #include "CloudEngine/Renderer/Renderer.h"
+#include "CloudEngine/Logger.h"
 
 #include <GLFW/glfw3.h>
 #include <cstdio>
@@ -26,7 +27,7 @@ void DesktopWindow::Init()
 {
     if (!glfwInit())
     {
-        printf("Failed to initialize GLFW\n");
+        LOG_ERROR("Failed to initialize GLFW");
         exit(EXIT_FAILURE);
     }
 
@@ -48,7 +49,7 @@ void DesktopWindow::Init()
     m_GLFWWindow = glfwCreateWindow(1280, 720, "Cloud Engine", NULL, NULL);
     if (!m_GLFWWindow)
     {
-        printf("Failed to initialize GLFW window\n");
+        LOG_ERROR("Failed to initialize GLFW window");
         return;
     }
 

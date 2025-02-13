@@ -34,7 +34,10 @@ endforeach()
 add_library(${PROJECT_NAME} ${CLOUDENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}" PRIVATE "./")
 
-add_subdirectory("ext/glfw/")
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
+
+#add_subdirectory("ext/glfw/")
 add_subdirectory("ext/glad/")
 add_subdirectory("ext/stb/")
 add_subdirectory("ext/fmt/")
@@ -48,6 +51,7 @@ list(APPEND CLOUDENGINE_LIBS
     EnTT
 	Glad
 	glfw
+	OpenGL::GL
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CLOUDENGINE_LIBS})

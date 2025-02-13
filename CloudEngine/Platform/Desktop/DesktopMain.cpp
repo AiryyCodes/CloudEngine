@@ -28,4 +28,6 @@ int main(void)
 
         Input::UpdateEnd();
     }
+
+    delete app;
 }

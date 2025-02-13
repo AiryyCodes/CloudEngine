@@ -1,6 +1,7 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLTexture.h"
 #include "CloudEngine/Core.h"
 #include "CloudEngine/Renderer/Texture.h"
+#include "CloudEngine/Logger.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -44,7 +45,7 @@ OpenGLTexture::OpenGLTexture(std::string path, const TextureInfo &info)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetOpenGLFiltering(info.filtering));
 
     stbi_set_flip_vertically_on_load(true);
- 
+
     int width;
     int height;
     int numChannels;
@@ -70,7 +71,7 @@ OpenGLTexture::OpenGLTexture(std::string path, const TextureInfo &info)
     }
     else
     {
-        printf("Failed to load texture: %s\n", path.c_str());
+        LOG_ERROR("Failed to load texture: {}", path.c_str());
     }
 
     stbi_image_free(data);
@@ -107,7 +108,7 @@ OpenGLTexture::OpenGLTexture(const void *data, int width, int height, int numCha
     }
     else
     {
-        printf("Failed to load texture from memory.\n");
+        LOG_ERROR("Failed to load texture from memory.");
     }
 }
 

@@ -1,8 +1,10 @@
 #include "CloudEngine/Renderer/Renderer.h"
 #include "CloudEngine/Core.h"
+#include "CloudEngine/Logger.h"
 #include "CloudEngine/Renderer/Camera.h"
 #include "CloudEngine/Renderer/RendererAPI.h"
 #include "CloudEngine/Renderer/Shader.h"
+#include <chrono>
 
 bool Renderer::m_Initialized;
 Ref<RendererAPI> Renderer::m_RendererAPI;
@@ -12,10 +14,17 @@ void Renderer::Init()
     if (IsInitialized())
         return;
 
+    auto start = std::chrono::high_resolution_clock::now();
+    LOG_INFO("Initializing renderer...");
+
     m_RendererAPI = RendererAPI::Create();
     m_RendererAPI->Init();
 
     m_Initialized = true;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    LOG_INFO("Renderer initialized in {}s", elapsed.count());
 }
 
 void Renderer::Begin(const Ref<Shader> &shader, Camera &camera)

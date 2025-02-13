@@ -1,6 +1,7 @@
 #include "CloudEngine/Platform/OpenGL/OpenGLRendererAPI.h"
 #include "CloudEngine/Core.h"
 #include "CloudEngine/Renderer/Mesh.h"
+#include "CloudEngine/Logger.h"
 
 #include "CloudEngine/Platform/OpenGL/Shaders/Main.vert"
 #include "CloudEngine/Platform/OpenGL/Shaders/Main.frag"
@@ -19,16 +20,16 @@ void OpenGLRendererAPI::Init()
     if (IsInitialized())
         return;
 
-    printf("Loading OpenGL...\n");
+    LOG_INFO("Loading OpenGL...");
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
     {
-        printf("Failed to initialize OpenGL context\n");
+        LOG_ERROR("Failed to initialize OpenGL context");
         return;
     }
 
-    printf("Loaded OpenGL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+    LOG_INFO("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);

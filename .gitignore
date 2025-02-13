@@ -29,3 +29,6 @@ config.log
 # MacOS Specific files
 .DS_Store
 ._*
+
+# Vim Session File
+Session.vim
