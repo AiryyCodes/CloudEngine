@@ -3,15 +3,18 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Input.h"
 #include "Engine/Time.h"
+#include "OpenGL/OpenGLRendererAPI.h"
+
+extern void OpenGLInit();
 
 int main(void)
 {
     Application *app = CreateApplication();
 
+    ModuleManager::Init();
+
     Renderer::Init();
     Renderer::SetViewport(0, 0, app->GetMainWindow()->GetFramebufferWidth(), app->GetMainWindow()->GetFramebufferHeight());
-
-    ModuleManager::Init();
 
     app->Init();
 

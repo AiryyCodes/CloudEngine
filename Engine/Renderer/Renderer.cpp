@@ -4,7 +4,8 @@
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/RendererAPI.h"
 #include "Engine/Renderer/Shader.h"
-#include <chrono>
+#include "Engine/Time.h"
+#include "OpenGL/OpenGLModule.h"
 
 bool Renderer::m_Initialized;
 Ref<RendererAPI> Renderer::m_RendererAPI;
@@ -14,17 +15,14 @@ void Renderer::Init()
     if (IsInitialized())
         return;
 
-    auto start = std::chrono::high_resolution_clock::now();
     LOG_INFO("Initializing renderer...");
+    Time::Start();
 
-    m_RendererAPI = RendererAPI::Create();
-    m_RendererAPI->Init();
+    SetRendererAPI(OpenGL::Create());
 
     m_Initialized = true;
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    LOG_INFO("Renderer initialized in {}s", elapsed.count());
+    LOG_INFO("Renderer initialized in {}s", Time::End());
 }
 
 void Renderer::Begin(const Ref<Shader> &shader, Camera &camera)

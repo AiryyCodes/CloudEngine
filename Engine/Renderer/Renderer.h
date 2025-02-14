@@ -24,7 +24,13 @@ public:
     static void SetViewport(int x, int y, int width, int height);
 
     static bool IsInitialized() { return m_Initialized; }
+
     static Ref<RendererAPI> &GetRendererAPI() { return m_RendererAPI; }
+    static void SetRendererAPI(Ref<RendererAPI> rendererAPI)
+    {
+        m_RendererAPI = rendererAPI;
+        m_RendererAPI->Init();
+    }
 
     static Ref<Shader> &GetMainShader();
 

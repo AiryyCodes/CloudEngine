@@ -4,6 +4,7 @@
 #include "Engine/Renderer/Texture.h"
 
 #include <glad/gl.h>
+#include <iostream>
 
 static GLenum GetShaderDataTypeBaseType(Shader::DataType type)
 {
@@ -153,3 +154,10 @@ int OpenGLMesh::GetNumVertices()
     */
     return m_NumVertices;
 }
+
+static bool OpenGLModule_registered = []()
+{
+    // You can even log here to see if this block is executed
+    std::cout << "Registering OpenGLModule\n";
+    return true; // Return true to mark the registration as done
+}();

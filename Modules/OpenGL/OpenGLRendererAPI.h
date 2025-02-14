@@ -17,6 +17,8 @@ public:
     bool IsInitialized() override { return m_Initialized; }
     Ref<Shader> &GetMainShader() override { return m_MainShader; }
 
+    static Ref<RendererAPI> Create();
+
 private:
     bool m_Initialized;
     Ref<Shader> m_MainShader;

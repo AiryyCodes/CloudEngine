@@ -22,8 +22,6 @@ public:
     virtual Ref<Shader> &GetMainShader() = 0;
     virtual bool IsInitialized() = 0;
 
-    static Ref<RendererAPI> Create();
-
     static API GetAPI() { return m_API; }
 
 private:

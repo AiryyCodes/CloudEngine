@@ -10,7 +10,7 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
-Ref<RendererAPI> RendererAPI::Create()
+Ref<RendererAPI> OpenGLRendererAPI::Create()
 {
     return CreateRef<OpenGLRendererAPI>();
 }

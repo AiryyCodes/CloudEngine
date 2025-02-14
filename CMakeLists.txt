@@ -7,6 +7,8 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
+
 file(GLOB CLOUDENGINE_SOURCES
 	"Engine/*.cpp"
 	"Engine/Renderer/*.cpp"
@@ -17,29 +19,33 @@ file(GLOB CLOUDENGINE_SOURCES
 
 file(GLOB_RECURSE CLOUDENGINE_DESKTOP_SOURCES
 	"Engine/Platform/Desktop/**.cpp"
-	"Engine/Platform/OpenGL/**.cpp"
 )
 
+# file(GLOB_RECURSE MODULE_SOURCES
+	# "Modules/**.cpp"
+# )
+
 list(APPEND CLOUDENGINE_SOURCES ${CLOUDENGINE_DESKTOP_SOURCES})
+# list(APPEND CLOUDENGINE_SOURCES ${MODULE_SOURCES})
 
 foreach(header ${CLOUDENGINE_SOURCES})
     set_source_files_properties(${header} PROPERTIES LANGUAGE CXX)
 endforeach()
 
 add_library(${PROJECT_NAME} ${CLOUDENGINE_SOURCES})
-target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}" PRIVATE "./")
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}" PRIVATE "./" PRIVATE ${MODULES_DIR})
 
-set(MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
 
-file(GLOB modules RELATIVE ${MODULES_DIR} ${MODULES_DIR}/*)
+file(GLOB modules RELATIVE ${MODULES_DIR} "${MODULES_DIR}/*")
 
 foreach(module ${modules})
 	if(IS_DIRECTORY "${MODULES_DIR}/${module}")
-		target_include_directories(${PROJECT_NAME} PUBLIC "${MODULES_DIR}/${module}")
+		#target_include_directories(${PROJECT_NAME} PUBLIC "${MODULES_DIR}/${module}")
 		add_subdirectory("${MODULES_DIR}/${module}")
 		target_link_libraries(${PROJECT_NAME} PUBLIC ${module})
 	endif()
 endforeach()
+
 
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)

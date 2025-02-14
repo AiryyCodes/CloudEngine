@@ -23,9 +23,6 @@ public:
 
     void RegisterModule(const std::string &name, ModuleFactory factory, const std::vector<std::string> &dependencies)
     {
-        if (m_Factories.contains(name))
-            return;
-
         m_Factories[name] = factory;
         m_Dependencies[name] = dependencies;
     }
@@ -58,7 +55,7 @@ private:
 };
 
 #define REGISTER_MODULE(ModuleClass, Dependencies)                                                                                  \
-    static bool ModuleClass##_registered = []() {                                                                                   \
+    static inline bool ModuleClass##_registered = []() {                                                                            \
         ModuleManager::Get().RegisterModule(#ModuleClass, []() -> Ref<IModule> { return CreateRef<ModuleClass>(); }, Dependencies); \
         return true;                                                                                                                \
     }();

@@ -2,6 +2,7 @@
 #include "Engine/Core.h"
 #include "Engine/Logger.h"
 #include "Engine/Module/Module.h"
+#include "Engine/Time.h"
 
 #include <unordered_set>
 
@@ -118,7 +119,10 @@ std::vector<Ref<IModule>> ModuleManager::m_LoadedModules;
 
 void ModuleManager::Init()
 {
+    Time::Start();
     ModuleManager &manager = ModuleManager::Get();
+
+    LOG_INFO("Loading modules...");
 
     const auto &dependencies = manager.GetModuleDependencies();
     auto cyclicDependencies = FindCyclicDependencies(dependencies);
@@ -140,6 +144,8 @@ void ModuleManager::Init()
             m_LoadedModules.push_back(module);
         }
     }
+
+    LOG_INFO("Modules finished loading in {:.8f}s", Time::End());
 }
 
 void ModuleManager::Shutdown()
