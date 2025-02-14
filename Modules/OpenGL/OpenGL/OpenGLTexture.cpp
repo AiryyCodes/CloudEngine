@@ -1,4 +1,4 @@
-#include "Engine/Platform/OpenGL/OpenGLTexture.h"
+#include "OpenGL/OpenGLTexture.h"
 #include "Engine/Core.h"
 #include "Engine/Renderer/Texture.h"
 #include "Engine/Logger.h"

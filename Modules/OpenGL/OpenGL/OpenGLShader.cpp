@@ -1,4 +1,4 @@
-#include "Engine/Platform/OpenGL/OpenGLShader.h"
+#include "OpenGL/OpenGLShader.h"
 #include "Engine/Logger.h"
 
 #include <cstddef>

@@ -1,10 +1,10 @@
-#include "Engine/Platform/OpenGL/OpenGLRendererAPI.h"
+#include "OpenGL/OpenGLRendererAPI.h"
 #include "Engine/Core.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Logger.h"
 
-#include "Engine/Platform/OpenGL/Shaders/Main.vert"
-#include "Engine/Platform/OpenGL/Shaders/Main.frag"
+#include "OpenGL/Shaders/Main.vert"
+#include "OpenGL/Shaders/Main.frag"
 
 #include <cstdio>
 #include <glad/gl.h>

@@ -1,4 +1,4 @@
-#include "Engine/Platform/OpenGL/OpenGLMesh.h"
+#include "OpenGL/OpenGLMesh.h"
 #include "Engine/Core.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Texture.h"

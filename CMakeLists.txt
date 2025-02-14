@@ -37,6 +37,7 @@ foreach(module ${modules})
 	if(IS_DIRECTORY "${MODULES_DIR}/${module}")
 		target_include_directories(${PROJECT_NAME} PUBLIC "${MODULES_DIR}/${module}")
 		add_subdirectory("${MODULES_DIR}/${module}")
+		target_link_libraries(${PROJECT_NAME} PUBLIC ${module})
 	endif()
 endforeach()
 

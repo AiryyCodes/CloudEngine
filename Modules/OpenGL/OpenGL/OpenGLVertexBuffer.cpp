@@ -1,4 +1,4 @@
-#include "Engine/Platform/OpenGL/OpenGLVertexBuffer.h"
+#include "OpenGL/OpenGLVertexBuffer.h"
 #include "Engine/Renderer/VertexBuffer.h"
 
 #include <glad/gl.h>
