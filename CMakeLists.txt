@@ -8,21 +8,21 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB CLOUDENGINE_SOURCES
-	"CloudEngine/*.cpp"
-	"CloudEngine/*.h"
-	"CloudEngine/Renderer/*.cpp"
-	"CloudEngine/Renderer/*.h"
-	"CloudEngine/Scene/*.cpp"
-	"CloudEngine/Scene/*.h"
-	"CloudEngine/Window/*.cpp"
-	"CloudEngine/Window/*.h"
+	"Engine/*.cpp"
+	# "CloudEngine/*.h"
+	"Engine/Renderer/*.cpp"
+	# "CloudEngine/Renderer/*.h"
+	"Engine/Scene/*.cpp"
+	# "CloudEngine/Scene/*.h"
+	"Engine/Window/*.cpp"
+	# "CloudEngine/Window/*.h"
 )
 
 file(GLOB_RECURSE CLOUDENGINE_DESKTOP_SOURCES
-	"CloudEngine/Platform/Desktop/**.cpp"
-	"CloudEngine/Platform/Desktop/**.h"
-	"CloudEngine/Platform/OpenGL/**.cpp"
-	"CloudEngine/Platform/OpenGL/**.h"
+	"Engine/Platform/Desktop/**.cpp"
+	# "CloudEngine/Platform/Desktop/**.h"
+	"Engine/Platform/OpenGL/**.cpp"
+	# "CloudEngine/Platform/OpenGL/**.h"
 )
 
 list(APPEND CLOUDENGINE_SOURCES ${CLOUDENGINE_DESKTOP_SOURCES})

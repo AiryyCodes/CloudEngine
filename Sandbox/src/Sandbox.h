@@ -1,9 +1,9 @@
 #pragma once
 
-#include <CloudEngine/Application.h>
-#include <CloudEngine/Core.h>
-#include <CloudEngine/Scene/Scene.h>
-#include <CloudEngine/Renderer/Mesh.h>
+#include <Engine/Application.h>
+#include <Engine/Core.h>
+#include <Engine/Scene/Scene.h>
+#include <Engine/Renderer/Mesh.h>
 
 class Sandbox : public Entry
 {

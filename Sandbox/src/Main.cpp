@@ -1,7 +1,7 @@
-#include "CloudEngine/Logger.h"
+#include "Engine/Logger.h"
 #include "Sandbox.h"
 
-#include <CloudEngine/Application.h>
+#include <Engine/Application.h>
 
 Application *CreateApplication()
 {
