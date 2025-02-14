@@ -9,20 +9,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB CLOUDENGINE_SOURCES
 	"Engine/*.cpp"
-	# "CloudEngine/*.h"
 	"Engine/Renderer/*.cpp"
-	# "CloudEngine/Renderer/*.h"
 	"Engine/Scene/*.cpp"
-	# "CloudEngine/Scene/*.h"
 	"Engine/Window/*.cpp"
-	# "CloudEngine/Window/*.h"
+	"Engine/Module/*.cpp"
 )
 
 file(GLOB_RECURSE CLOUDENGINE_DESKTOP_SOURCES
 	"Engine/Platform/Desktop/**.cpp"
-	# "CloudEngine/Platform/Desktop/**.h"
 	"Engine/Platform/OpenGL/**.cpp"
-	# "CloudEngine/Platform/OpenGL/**.h"
 )
 
 list(APPEND CLOUDENGINE_SOURCES ${CLOUDENGINE_DESKTOP_SOURCES})
@@ -33,6 +28,17 @@ endforeach()
 
 add_library(${PROJECT_NAME} ${CLOUDENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}" PRIVATE "./")
+
+set(MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
+
+file(GLOB modules RELATIVE ${MODULES_DIR} ${MODULES_DIR}/*)
+
+foreach(module ${modules})
+	if(IS_DIRECTORY "${MODULES_DIR}/${module}")
+		target_include_directories(${PROJECT_NAME} PUBLIC "${MODULES_DIR}/${module}")
+		add_subdirectory("${MODULES_DIR}/${module}")
+	endif()
+endforeach()
 
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)

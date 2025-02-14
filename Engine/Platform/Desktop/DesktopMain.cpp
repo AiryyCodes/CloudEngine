@@ -1,4 +1,5 @@
 #include "Engine/Application.h"
+#include "Engine/Module/ModuleManager.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Input.h"
 #include "Engine/Time.h"
@@ -9,6 +10,8 @@ int main(void)
 
     Renderer::Init();
     Renderer::SetViewport(0, 0, app->GetMainWindow()->GetFramebufferWidth(), app->GetMainWindow()->GetFramebufferHeight());
+
+    ModuleManager::Init();
 
     app->Init();
 
@@ -30,4 +33,6 @@ int main(void)
     }
 
     delete app;
+
+    ModuleManager::Shutdown();
 }
