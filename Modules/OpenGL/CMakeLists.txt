@@ -7,4 +7,12 @@ file(GLOB_RECURSE OPENGL_SOURCES
 add_library(${PROJECT_NAME} STATIC ${OPENGL_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "../")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE CloudEngine)
+find_package(OpenGL REQUIRED)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/ext/glad OpenGL/Glad)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+	CloudEngine
+	Glad
+	OpenGL::GL
+)

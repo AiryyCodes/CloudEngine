@@ -48,10 +48,7 @@ endforeach()
 
 
 find_package(glfw3 REQUIRED)
-find_package(OpenGL REQUIRED)
 
-#add_subdirectory("ext/glfw/")
-add_subdirectory("ext/glad/")
 add_subdirectory("ext/stb/")
 add_subdirectory("ext/fmt/")
 add_subdirectory("ext/glm/")
@@ -62,9 +59,7 @@ list(APPEND CLOUDENGINE_LIBS
     fmt
     glm
     EnTT
-	Glad
 	glfw
-	OpenGL::GL
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CLOUDENGINE_LIBS})
