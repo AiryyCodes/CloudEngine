@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Engine/Application.h>
-#include <Engine/Core.h>
-#include <Engine/Scene/Scene.h>
-#include <Engine/Renderer/Mesh.h>
+#include "Engine/Application.h"
+#include "Engine/Core.h"
+#include "Engine/Scene/Scene.h"
 
 class Sandbox : public Entry
 {
@@ -13,6 +12,5 @@ public:
     void Render() override;
 
 private:
-    Ref<Mesh> m_TestMesh;
     Ref<Scene> m_Scene;
 };

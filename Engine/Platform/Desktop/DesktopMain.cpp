@@ -3,9 +3,6 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Input.h"
 #include "Engine/Time.h"
-#include "OpenGL/OpenGLRendererAPI.h"
-
-extern void OpenGLInit();
 
 int main(void)
 {

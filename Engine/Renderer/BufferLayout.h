@@ -1,16 +1,8 @@
 #pragma once
 
-#include "Engine/Core.h"
 #include "Engine/Renderer/Shader.h"
 
 #include <initializer_list>
-#include <string>
-#include <vector>
-
-enum BufferType
-{
-    Float,
-};
 
 class BufferElement
 {
@@ -135,24 +127,4 @@ private:
     std::vector<BufferElement> m_Elements;
 
     unsigned int m_Stride = 0;
-};
-
-class VertexBuffer
-{
-public:
-    virtual void Bind() = 0;
-    virtual void Unbind() = 0;
-
-    virtual void SetData(const void *data, int size) = 0;
-
-    const BufferLayout &GetLayout() { return m_Layout; }
-    void SetLayout(const BufferLayout &layout) { m_Layout = layout; }
-
-    virtual int GetNumVertices() = 0;
-
-    static Ref<VertexBuffer> Create(const void *data, int size, int numVertices);
-
-protected:
-    BufferType m_Type;
-    BufferLayout m_Layout;
 };
