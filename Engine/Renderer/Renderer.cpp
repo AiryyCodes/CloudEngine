@@ -30,8 +30,8 @@ void Renderer::Begin(const Ref<Shader> &shader, Camera &camera)
     shader->Bind();
 
     camera.CalculateMatrices();
-    shader->SetUniform(camera.GetProjection(), "u_Projection");
-    shader->SetUniform(camera.GetView(), "u_View");
+    shader->SetUniform(camera.GetProjectionMatrix(), "u_Projection");
+    shader->SetUniform(camera.GetViewMatrix(), "u_View");
 }
 
 void Renderer::End()

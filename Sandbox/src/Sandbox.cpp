@@ -2,8 +2,8 @@
 #include "Engine/Core.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Shader.h"
-#include "Engine/Scene/Components.h"
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/2D/Camer2D.h"
+#include "Engine/Scene/2D/MeshInstance2D.h"
 #include "Engine/Scene/Scene.h"
 
 #include <glm/glm.hpp>
@@ -24,13 +24,17 @@ void Sandbox::Init()
     mesh->SetLayout({{Shader::DataType::Float3, "a_Position"}});
     mesh->SetVertices(VERTICES);
 
-    mesh->Init();
+    Ref<Camera2D> camera = m_Scene->AddChild<Camera2D>("Camera2D");
 
-    Entity camera = m_Scene->CreateEntity("Camera");
-    camera.AddComponent<CameraComponent>();
+    Ref<MeshInstance2D> triangle = m_Scene->AddChild<MeshInstance2D>("Triangle 1");
+    triangle->SetMesh(mesh);
+    triangle->SetPosition({-0.0f, 0.25f});
 
-    Entity triangle = m_Scene->CreateEntity("Triangle");
-    MeshRenderer meshRenderer = triangle.AddComponent<MeshRenderer>(mesh);
+    Ref<MeshInstance2D> triangle2 = triangle->AddChild<MeshInstance2D>("Triangle 2");
+    triangle2->SetMesh(mesh);
+    triangle2->SetPosition({0.0f, 0.25f});
+
+    m_Scene->Init();
 }
 
 void Sandbox::Update()

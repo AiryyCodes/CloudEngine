@@ -9,10 +9,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
 
-file(GLOB CLOUDENGINE_SOURCES
+file(GLOB_RECURSE CLOUDENGINE_SOURCES
 	"Engine/*.cpp"
 	"Engine/Renderer/*.cpp"
-	"Engine/Scene/*.cpp"
+	"Engine/Scene/**.cpp"
 	"Engine/Window/*.cpp"
 	"Engine/Module/*.cpp"
 )
@@ -52,13 +52,11 @@ find_package(glfw3 REQUIRED)
 add_subdirectory("ext/stb/")
 add_subdirectory("ext/fmt/")
 add_subdirectory("ext/glm/")
-add_subdirectory("ext/entt/")
 
 list(APPEND CLOUDENGINE_LIBS
     STB
     fmt
     glm
-    EnTT
 	glfw
 )
 

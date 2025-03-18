@@ -5,84 +5,40 @@
 class Camera
 {
 public:
-    enum Type
-    {
-        Orthographic,
-        Perspective,
-    };
+    virtual void CalculateMatrices() = 0;
 
-public:
-    void CalculateMatrices();
+    const glm::mat4 &GetProjectionMatrix() { return m_Projection; }
+    void SetProjectionMatrix(const glm::mat4 &projection) { m_Projection = projection; }
 
-    const Type &GetType() { return m_Type; }
-    void SetType(Type newType) { m_Type = newType; }
+    const glm::mat4 &GetViewMatrix() { return m_View; }
+    void SetViewMatrix(const glm::mat4 &view) { m_View = view; }
 
-    const glm::vec3 &GetPosition() { return m_Position; }
-    void SetPosition(glm::vec3 newPosition) { m_Position = newPosition; }
-
-    const glm::vec3 &GetRotation() { return m_Rotation; }
-    void SetRotation(glm::vec3 newRotation) { m_Rotation = newRotation; }
-
-    void Rotate(glm::vec3 rotation)
-    {
-        m_Rotation += rotation;
-    }
-
-    void Rotate(float x, float y, float z)
-    {
-        Rotate({x, y, z});
-    }
-
-    const glm::vec3 &GetFront() { return m_Front; }
-    void SetFront(glm::vec3 newFront) { m_Front = newFront; }
-
-    const glm::vec3 &GetUp() { return m_Up; }
-    void SetUp(glm::vec3 newUp) { m_Up = newUp; }
-
-    const glm::mat4 &GetProjection() { return m_Projection; }
-    const glm::mat4 &GetView() { return m_View; }
-
+    float GetAspectRatio() { return m_AspectRatio; }
     void SetViewportSize(int width, int height)
     {
         m_AspectRatio = (float)width / (float)height;
         CalculateMatrices();
     }
 
-    float GetFov() { return m_Fov; }
-    void SetFov(float newFov)
-    {
-        m_Fov = newFov;
-        CalculateMatrices();
-    }
-
     float GetNear() { return m_Near; }
-    void SetNear(float newNear)
+    void SetNear(float near)
     {
-        m_Near = newNear;
+        m_Near = near;
         CalculateMatrices();
     }
 
     float GetFar() { return m_Far; }
-    void SetFar(float newFar)
+    void SetFar(float far)
     {
-        m_Far = newFar;
+        m_Far = far;
         CalculateMatrices();
     }
 
 private:
-    Type m_Type = Perspective;
-
-    glm::vec3 m_Position;
-    glm::vec3 m_Rotation;
-
-    glm::vec3 m_Front = {0.0f, 0.0f, -1.0f};
-    glm::vec3 m_Up = {0.0f, 1.0f, 0.0f};
-
     glm::mat4 m_Projection = glm::mat4(1.0f);
     glm::mat4 m_View = glm::mat4(1.0f);
 
     float m_AspectRatio;
-    float m_Fov = 45.0f;
 
     float m_Near = 0.01f;
     float m_Far = 1000.0f;

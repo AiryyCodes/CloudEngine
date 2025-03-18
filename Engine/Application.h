@@ -39,7 +39,7 @@ private:
     Scope<Entry> m_Entry;
     Ref<Window> m_MainWindow;
 
-    bool m_Initialized;
+    bool m_Initialized = false;
 };
 
 Application *CreateApplication();

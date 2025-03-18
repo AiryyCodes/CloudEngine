@@ -3,6 +3,7 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
+/*
 void Camera::CalculateMatrices()
 {
     glm::mat4 transform(1.0f);
@@ -27,3 +28,4 @@ void Camera::CalculateMatrices()
     //m_View = glm::inverse(transform);
     m_View = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 }
+*/
