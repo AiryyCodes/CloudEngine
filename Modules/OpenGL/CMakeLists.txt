@@ -9,7 +9,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "../")
 
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/ext/glad OpenGL/Glad)
+add_subdirectory(../../ext/glad OpenGL/Glad)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	CloudEngine
