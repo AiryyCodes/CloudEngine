@@ -1,6 +1,7 @@
 #include "Engine/Application.h"
 #include "Engine/Core.h"
 #include "Engine/Input.h"
+#include "Engine/Vector.h"
 #include "Engine/Window/Window.h"
 
 #include <GLFW/glfw3.h>
@@ -58,7 +59,7 @@ float Input::GetMouseY()
     return mouseY;
 }
 
-glm::vec2 Input::GetMouseDelta()
+Vector2 Input::GetMouseDelta()
 {
     if (firstMouse)
     {
@@ -97,35 +98,6 @@ void Input::MousePosCallback(double x, double y)
 {
     mouseX = x;
     mouseY = y;
-}
-
-bool Input::IsTouching(int numFingers)
-{
-    return false;
-}
-
-bool Input::IsJustTouching(int numFingers)
-{
-    return false;
-}
-
-bool Input::IsTouchingEnd(int numFingers)
-{
-    return false;
-}
-
-glm::vec2 Input::GetSwipe()
-{
-    return {0.0f, 0.0f};
-}
-
-float Input::GetPinch()
-{
-    return 0.0;
-}
-
-void Input::TouchCallback(int touches, TouchPhase phase, double x, double y)
-{
 }
 
 int Input::ConvertKey(Key key)

@@ -1,17 +1,17 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Engine/Matrix.h"
 
 class Camera
 {
 public:
     virtual void CalculateMatrices() = 0;
 
-    const glm::mat4 &GetProjectionMatrix() { return m_Projection; }
-    void SetProjectionMatrix(const glm::mat4 &projection) { m_Projection = projection; }
+    const Matrix4 &GetProjectionMatrix() { return m_Projection; }
+    void SetProjectionMatrix(const Matrix4 &projection) { m_Projection = projection; }
 
-    const glm::mat4 &GetViewMatrix() { return m_View; }
-    void SetViewMatrix(const glm::mat4 &view) { m_View = view; }
+    const Matrix4 &GetViewMatrix() { return m_View; }
+    void SetViewMatrix(const Matrix4 &view) { m_View = view; }
 
     float GetAspectRatio() { return m_AspectRatio; }
     void SetViewportSize(int width, int height)
@@ -35,8 +35,8 @@ public:
     }
 
 private:
-    glm::mat4 m_Projection = glm::mat4(1.0f);
-    glm::mat4 m_View = glm::mat4(1.0f);
+    Matrix4 m_Projection = Matrix4(1.0f);
+    Matrix4 m_View = Matrix4(1.0f);
 
     float m_AspectRatio;
 

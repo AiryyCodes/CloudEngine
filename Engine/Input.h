@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Engine/Vector.h"
 
 enum class Key
 {
@@ -153,20 +153,11 @@ public:
 
     static float GetMouseX();
     static float GetMouseY();
-    static glm::vec2 GetMouseDelta();
+    static Vector2 GetMouseDelta();
 
     static CursorMode GetCursorMode();
     static void SetCursorMode(CursorMode mode);
     static void ToggleCursor();
 
     static void MousePosCallback(double x, double y);
-
-    static bool IsTouching(int numFingers);
-    static bool IsJustTouching(int numFingers);
-    static bool IsTouchingEnd(int numFingers);
-
-    static glm::vec2 GetSwipe();
-    static float GetPinch();
-
-    static void TouchCallback(int touches, TouchPhase phase, double x, double y);
 };

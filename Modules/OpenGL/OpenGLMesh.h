@@ -4,8 +4,8 @@
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Texture.h"
 #include "Engine/Renderer/BufferLayout.h"
+#include "Engine/Vector.h"
 
-#include <glm/fwd.hpp>
 #include <vector>
 
 class OpenGLMesh : public Mesh
@@ -21,7 +21,7 @@ public:
 
     virtual void SetLayout(const BufferLayout &layout) override { m_Layout = layout; }
 
-    virtual void SetVertices(const std::vector<glm::fvec3> vertices) override { m_Vertices = vertices; }
+    virtual void SetVertices(const std::vector<Vector3> vertices) override { m_Vertices = vertices; }
 
     virtual void AddTexture(const Ref<Texture> &texture) override;
 
@@ -36,5 +36,5 @@ private:
 
     std::vector<Ref<Texture>> m_Textures;
 
-    std::vector<glm::fvec3> m_Vertices;
+    std::vector<Vector3> m_Vertices;
 };

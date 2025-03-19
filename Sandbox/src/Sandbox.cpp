@@ -5,15 +5,14 @@
 #include "Engine/Scene/2D/Camer2D.h"
 #include "Engine/Scene/2D/MeshInstance2D.h"
 #include "Engine/Scene/Scene.h"
+#include "Engine/Vector.h"
 
-#include <glm/glm.hpp>
-#include <glm/ext/matrix_transform.hpp>
 #include <vector>
 
-static std::vector<glm::fvec3> VERTICES = {
-    glm::fvec3(-0.5f, -0.5f, 0.0f),
-    glm::fvec3(0.5f, -0.5f, 0.0f),
-    glm::fvec3(0.0f, 0.5f, 0.0f),
+static std::vector<Vector3> VERTICES = {
+    Vector3(-0.5f, -0.5f, 0.0f),
+    Vector3(0.5f, -0.5f, 0.0f),
+    Vector3(0.0f, 0.5f, 0.0f),
 };
 
 void Sandbox::Init()

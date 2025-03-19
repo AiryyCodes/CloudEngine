@@ -1,6 +1,7 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Core.h"
 #include "Engine/Logger.h"
+#include "Engine/Matrix.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/RendererAPI.h"
 #include "Engine/Renderer/Shader.h"
@@ -39,7 +40,7 @@ void Renderer::End()
     m_RendererAPI->GetMainShader()->Unbind();
 }
 
-void Renderer::Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat4 transform)
+void Renderer::Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, Matrix4 transform)
 {
     shader->SetUniform(transform, "u_Transform");
 

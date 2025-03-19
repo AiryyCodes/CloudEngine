@@ -2,8 +2,8 @@
 #include "Engine/Core.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Texture.h"
+#include "Engine/Vector.h"
 
-#include <glm/fwd.hpp>
 #include <glad/gl.h>
 
 static GLenum GetShaderDataTypeBaseType(Shader::DataType type)
@@ -65,7 +65,7 @@ void OpenGLMesh::Init()
     glGenBuffers(1, &m_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
-    glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(glm::fvec3), m_Vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vector3), m_Vertices.data(), GL_STATIC_DRAW);
 
     for (auto element : m_Layout)
     {
@@ -121,19 +121,6 @@ void OpenGLMesh::Init()
         }
         }
     }
-
-    /*
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0,
-                          3,
-                          GL_FLOAT,
-                          GL_FALSE,
-                          0,
-                          (const void *)0);
-    */
-
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

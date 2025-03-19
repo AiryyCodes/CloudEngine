@@ -1,8 +1,11 @@
 #include "Engine/Application.h"
+#include "Engine/Matrix.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Scene/2D/Camer2D.h"
-#include "glm/ext/matrix_clip_space.hpp"
-#include "glm/ext/matrix_transform.hpp"
+#include "Engine/Vector.h"
+
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 void Camera2D::Render()
 {
@@ -20,6 +23,5 @@ void Camera2D::CalculateMatrices()
     float top = m_Zoom * 0.5f;
 
     SetProjectionMatrix(glm::ortho(left, right, bottom, top, GetNear(), GetFar()));
-    glm::mat4 view(1.0f);
-    SetViewMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(GetPosition(), -1.0f)));
+    SetViewMatrix(glm::translate(Matrix4(1.0f), Vector3(GetPosition(), -1.0f)));
 }

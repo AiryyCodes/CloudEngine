@@ -16,9 +16,7 @@ public:
         : m_Name(name) {}
     virtual ~Node() = default;
 
-    virtual void Init()
-    {
-    }
+    virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
 

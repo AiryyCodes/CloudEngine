@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Engine/Core.h"
+#include "Engine/Matrix.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/RendererAPI.h"
 #include "Engine/Renderer/Shader.h"
-
-#include <glm/glm.hpp>
 
 class Renderer
 {
@@ -18,7 +17,7 @@ public:
     /*
      * Must bind the shader before calling this
      */
-    static void Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, glm::mat4 transform);
+    static void Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, Matrix4 transform);
 
     static void Clear();
     static void SetViewport(int x, int y, int width, int height);

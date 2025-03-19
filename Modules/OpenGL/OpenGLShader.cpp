@@ -1,5 +1,6 @@
 #include "OpenGL/OpenGLShader.h"
 #include "Engine/Logger.h"
+#include "Engine/Matrix.h"
 
 #include <cstddef>
 #include <glad/gl.h>
@@ -92,7 +93,7 @@ void OpenGLShader::SetUniform(int value, std::string location)
     glUniform1i(loc, value);
 }
 
-void OpenGLShader::SetUniform(const glm::mat4 &matrix, std::string location)
+void OpenGLShader::SetUniform(const Matrix4 &matrix, std::string location)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));

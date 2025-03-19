@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Engine/Matrix.h"
 #include "Engine/Renderer/Shader.h"
 
 #include <string>
@@ -14,7 +15,7 @@ public:
     void Unbind() override;
 
     void SetUniform(int value, std::string location) override;
-    void SetUniform(const glm::mat4 &matrix, std::string location) override;
+    void SetUniform(const Matrix4 &matrix, std::string location) override;
 
     virtual unsigned int GetAttributeLocation(std::string name) override { return 0; }
 

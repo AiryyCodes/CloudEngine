@@ -1,7 +1,7 @@
-#include "Engine/Scene/2D/MeshInstance2D.h"
+#include "Engine/Scene/3D/MeshInstance3D.h"
 #include "Engine/Renderer/Renderer.h"
 
-void MeshInstance2D::Init()
+void MeshInstance3D::Init()
 {
     if (!m_Mesh)
         return;
@@ -9,7 +9,7 @@ void MeshInstance2D::Init()
     m_Mesh->Init();
 }
 
-void MeshInstance2D::Render()
+void MeshInstance3D::Render()
 {
     if (!m_Mesh)
         return;

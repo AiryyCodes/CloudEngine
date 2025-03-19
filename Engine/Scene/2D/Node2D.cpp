@@ -1,9 +1,8 @@
 #include "Engine/Scene/2D/Node2D.h"
+#include "Engine/Matrix.h"
+#include "Engine/Vector.h"
 
 #include <glm/ext/matrix_transform.hpp>
-#include <glm/glm.hpp>
-#include <glm/trigonometric.hpp>
-#include <memory>
 
 void Node2D::UpdateGlobalTransform()
 {
@@ -25,17 +24,17 @@ void Node2D::UpdateGlobalTransform()
     }
 }
 
-glm::mat4 Node2D::GetLocalTransform()
+Matrix4 Node2D::GetLocalTransform()
 {
-    glm::mat4 transform(1.0f);
-    transform = glm::translate(transform, glm::fvec3(m_Position, -1.0f));
-    transform = glm::rotate(transform, glm::radians(m_Rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-    transform = glm::scale(transform, glm::vec3(m_Scale, 0.0f));
+    Matrix4 transform(1.0f);
+    transform = glm::translate(transform, Vector3(m_Position, -1.0f));
+    transform = glm::rotate(transform, glm::radians(m_Rotation), Vector3(0.0f, 0.0f, 1.0f));
+    transform = glm::scale(transform, Vector3(m_Scale, 0.0f));
 
     return transform;
 }
 
-glm::mat4 Node2D::GetGlobalTransform()
+Matrix4 Node2D::GetGlobalTransform()
 {
     return m_GlobalTransform;
 }

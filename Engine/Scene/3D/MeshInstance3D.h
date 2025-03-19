@@ -1,13 +1,11 @@
 #pragma once
 
-#include "Engine/Core.h"
 #include "Engine/Renderer/Mesh.h"
-#include "Engine/Scene/2D/Node2D.h"
-#include "Engine/Scene/Node.h"
+#include "Engine/Scene/3D/Node3D.h"
 
-class MeshInstance2D : public Node2D
+class MeshInstance3D : public Node3D
 {
-    NODE_CLASS(MeshInstance2D, Node2D);
+    NODE_CLASS(MeshInstance3D, Node3D);
 
 public:
     virtual void Init() override;
