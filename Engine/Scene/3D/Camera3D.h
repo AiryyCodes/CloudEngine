@@ -3,7 +3,6 @@
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Scene/3D/Node3D.h"
 #include "Engine/Scene/Node.h"
-#include "Engine/Vector.h"
 
 class Camera3D : public Node3D, public Camera
 {
@@ -22,6 +21,6 @@ public:
 private:
     float m_Fov = 45.0f;
 
-    Vector3 m_Up = {0.0f, 1.0f, 0.0f};
-    Vector3 m_Front = {0.0f, 0.0f, 1.0f};
+    // Vector3 m_Up = {0.0f, 1.0f, 0.0f};
+    // Vector3 m_Front = {0.0f, 0.0f, 1.0f};
 };

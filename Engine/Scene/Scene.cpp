@@ -1,5 +1,6 @@
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/2D/Node2D.h"
+#include "Engine/Scene/3D/Node3D.h"
 #include "Engine/Scene/Node.h"
 #include <memory>
 
@@ -51,6 +52,11 @@ void Scene::Update()
         {
             node2d->UpdateGlobalTransform();
         }
+        else if (auto node3d = std::dynamic_pointer_cast<Node3D>(node))
+        {
+            node3d->UpdateGlobalTransform();
+        }
+
         node->Update();
         UpdateChildren(*node);
     }

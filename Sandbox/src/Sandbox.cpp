@@ -1,5 +1,6 @@
 #include "Sandbox.h"
 #include "Engine/Core.h"
+#include "Engine/Input.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Shader.h"
 #include "Engine/Scene/2D/Camer2D.h"
@@ -18,6 +19,8 @@ static std::vector<Vector3> VERTICES = {
 void Sandbox::Init()
 {
     m_Scene = CreateRef<Scene>();
+
+    Input::SetCursorMode(CursorMode::Locked);
 
     Ref<Mesh> mesh = Mesh::Create();
     mesh->SetLayout({{Shader::DataType::Float3, "a_Position"}});
