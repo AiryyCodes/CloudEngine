@@ -54,7 +54,7 @@ void Scene::Update()
         }
         else if (auto node3d = std::dynamic_pointer_cast<Node3D>(node))
         {
-            node3d->UpdateGlobalTransform();
+            // node3d->UpdateGlobalTransform();
         }
 
         node->Update();

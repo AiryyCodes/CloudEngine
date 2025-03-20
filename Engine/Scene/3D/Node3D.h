@@ -17,15 +17,12 @@ public:
     void Rotate(Vector3 rotation);
 
     Vector3 GetPosition() const { return m_Position; }
-    Vector3 GetLocalPosition();
     void SetPosition(const Vector3 &position) { m_Position = position; }
 
     Vector3 GetRotation() const { return m_Rotation; }
-    Vector3 GetLocalRotation();
     void SetRotation(Vector3 rotation) { m_Rotation = rotation; }
 
     Vector3 GetScale() const { return m_Scale; }
-    Vector3 GetLocalScale();
     void SetScale(const Vector3 &scale) { m_Scale = scale; }
 
     Vector3 GetFront();
@@ -34,7 +31,6 @@ public:
     void SetUp(Vector3 up) { m_Up = up; }
 
     void UpdateGlobalTransform();
-    Matrix4 GetLocalTransform();
     Matrix4 GetGlobalTransform();
 
 private:
