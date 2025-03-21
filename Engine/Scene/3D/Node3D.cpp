@@ -1,23 +1,82 @@
 #include "Engine/Scene/3D/Node3D.h"
-#include "Engine/Logger.h"
 #include "Engine/Matrix.h"
 #include "Engine/Vector.h"
-
-#include <glm/trigonometric.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/gtc/quaternion.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/matrix_decompose.hpp>
 
 void Node3D::Translate(Vector3 translation)
 {
     m_Position += translation;
+
+    // Update the local positions of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node3D> node = std::dynamic_pointer_cast<Node3D>(child))
+        {
+            Vector3 localOffset = node->GetLocalPosition();
+            node->SetPosition(m_Position + localOffset);
+        }
+    }
 }
 
 void Node3D::Rotate(Vector3 rotation)
 {
-    // Apply the rotation
     m_Rotation += rotation;
+
+    // Update the local rotations of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node3D> node = std::dynamic_pointer_cast<Node3D>(child))
+        {
+            Vector3 localOffset = node->GetLocalRotation();
+            node->SetRotation(m_Rotation + localOffset);
+        }
+    }
+}
+
+void Node3D::SetPosition(const Vector3 &position)
+{
+    m_Position = position;
+
+    // Update the local positions of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node3D> node = std::dynamic_pointer_cast<Node3D>(child))
+        {
+            Vector3 localOffset = node->GetLocalPosition();
+            node->SetPosition(m_Position + localOffset);
+        }
+    }
+}
+
+void Node3D::SetRotation(const Vector3 &rotation)
+{
+    m_Rotation = rotation;
+
+    // Update the local rotations of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node3D> node = std::dynamic_pointer_cast<Node3D>(child))
+        {
+            Vector3 localOffset = node->GetLocalRotation();
+            node->SetRotation(m_Rotation + localOffset);
+        }
+    }
+}
+
+void Node3D::SetScale(const Vector3 &scale)
+{
+    m_Scale = scale;
+
+    // Update the local scales of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node3D> node = std::dynamic_pointer_cast<Node3D>(child))
+        {
+            Vector3 localOffset = node->GetLocalScale();
+            if (localOffset.length() > 0)
+                localOffset -= 1.0f;
+            node->SetScale(m_Scale + localOffset);
+        }
+    }
 }
 
 Vector3 Node3D::GetFront()

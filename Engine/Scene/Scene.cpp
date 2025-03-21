@@ -48,13 +48,9 @@ void Scene::Update()
 {
     for (const auto &node : GetChildren())
     {
-        if (auto node2d = std::dynamic_pointer_cast<Node2D>(node))
+        if (auto node3d = std::dynamic_pointer_cast<Node3D>(node))
         {
-            node2d->UpdateGlobalTransform();
-        }
-        else if (auto node3d = std::dynamic_pointer_cast<Node3D>(node))
-        {
-            // node3d->UpdateGlobalTransform();
+            node3d->UpdateGlobalTransform();
         }
 
         node->Update();

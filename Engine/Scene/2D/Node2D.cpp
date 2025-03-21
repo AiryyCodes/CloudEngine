@@ -4,27 +4,84 @@
 
 #include <glm/ext/matrix_transform.hpp>
 
-void Node2D::UpdateGlobalTransform()
+void Node2D::Translate(Vector2 translation)
 {
-    if (GetParent<Node2D>())
-    {
-        m_GlobalTransform = GetParent<Node2D>()->m_GlobalTransform * GetLocalTransform();
-    }
-    else
-    {
-        m_GlobalTransform = GetLocalTransform();
-    }
+    m_Position += translation;
 
-    for (const auto &child : GetChildren())
+    // Update the local positions of all children (in parent's local space)
+    for (auto &child : GetChildren())
     {
-        if (auto node2d = std::dynamic_pointer_cast<Node2D>(child))
+        if (Ref<Node2D> node = std::dynamic_pointer_cast<Node2D>(child))
         {
-            node2d->UpdateGlobalTransform();
+            Vector2 localOffset = node->GetLocalPosition();
+            node->SetPosition(m_Position + localOffset);
         }
     }
 }
 
-Matrix4 Node2D::GetLocalTransform()
+void Node2D::Rotate(float rotation)
+{
+    m_Rotation += rotation;
+
+    // Update the local rotations of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node2D> node = std::dynamic_pointer_cast<Node2D>(child))
+        {
+            float localOffset = node->GetLocalRotation();
+            node->SetRotation(m_Rotation + localOffset);
+        }
+    }
+}
+
+void Node2D::SetPosition(const Vector2 &position)
+{
+    m_Position = position;
+
+    // Update the local positions of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node2D> node = std::dynamic_pointer_cast<Node2D>(child))
+        {
+            Vector2 localOffset = node->GetLocalPosition();
+            node->SetPosition(m_Position + localOffset);
+        }
+    }
+}
+
+void Node2D::SetRotation(float rotation)
+{
+    m_Rotation = rotation;
+
+    // Update the local rotations of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node2D> node = std::dynamic_pointer_cast<Node2D>(child))
+        {
+            float localOffset = node->GetLocalRotation();
+            node->SetRotation(m_Rotation + localOffset);
+        }
+    }
+}
+
+void Node2D::SetScale(const Vector2 &scale)
+{
+    m_Scale = scale;
+
+    // Update the local scales of all children (in parent's local space)
+    for (auto &child : GetChildren())
+    {
+        if (Ref<Node2D> node = std::dynamic_pointer_cast<Node2D>(child))
+        {
+            Vector2 localOffset = node->GetLocalScale();
+            if (localOffset.length() > 0)
+                localOffset -= 1.0f;
+            node->SetScale(m_Scale + localOffset);
+        }
+    }
+}
+
+Matrix4 Node2D::GetGlobalTransform()
 {
     Matrix4 transform(1.0f);
     transform = glm::translate(transform, Vector3(m_Position, -1.0f));
@@ -32,9 +89,4 @@ Matrix4 Node2D::GetLocalTransform()
     transform = glm::scale(transform, Vector3(m_Scale, 0.0f));
 
     return transform;
-}
-
-Matrix4 Node2D::GetGlobalTransform()
-{
-    return m_GlobalTransform;
 }

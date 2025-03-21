@@ -17,13 +17,34 @@ public:
     void Rotate(Vector3 rotation);
 
     Vector3 GetPosition() const { return m_Position; }
-    void SetPosition(const Vector3 &position) { m_Position = position; }
+    void SetPosition(const Vector3 &position);
+
+    Vector3 GetLocalPosition() const { return m_LocalPosition; }
+    void SetLocalPosition(const Vector3 &position)
+    {
+        m_LocalPosition = position;
+        m_Position += position;
+    }
 
     Vector3 GetRotation() const { return m_Rotation; }
-    void SetRotation(Vector3 rotation) { m_Rotation = rotation; }
+    void SetRotation(const Vector3 &rotation);
+
+    Vector3 GetLocalRotation() const { return m_LocalRotation; }
+    void SetLocalRotation(const Vector3 &rotation)
+    {
+        m_LocalRotation = rotation;
+        m_Rotation += rotation;
+    }
 
     Vector3 GetScale() const { return m_Scale; }
-    void SetScale(const Vector3 &scale) { m_Scale = scale; }
+    void SetScale(const Vector3 &scale);
+
+    Vector3 GetLocalScale() const { return m_LocalScale; }
+    void SetLocalScale(const Vector3 &scale)
+    {
+        m_LocalScale = scale;
+        m_Scale += scale;
+    }
 
     Vector3 GetFront();
     Vector3 GetRight();
@@ -34,12 +55,14 @@ public:
     Matrix4 GetGlobalTransform();
 
 private:
-    // Global position
     Vector3 m_Position = {0.0f, 0.0f, 0.0f};
-    // Global rotation
+    Vector3 m_LocalPosition = {0.0f, 0.0f, 0.0f};
+
     Vector3 m_Rotation = {0.0f, 0.0f, 0.0f};
-    // Global scale
+    Vector3 m_LocalRotation = {0.0f, 0.0f, 0.0f};
+
     Vector3 m_Scale = {1.0f, 1.0f, 1.0f};
+    Vector3 m_LocalScale = {1.0f, 1.0f, 1.0f};
 
     Vector3 m_Front = {0.0f, 0.0f, 1.0f};
     Vector3 m_Right = {1.0f, 0.0f, 0.0f};
