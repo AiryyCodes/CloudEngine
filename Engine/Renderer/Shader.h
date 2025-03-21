@@ -2,6 +2,7 @@
 
 #include "Engine/Core.h"
 #include "Engine/Matrix.h"
+#include "Engine/Vector.h"
 
 #include <string>
 
@@ -28,8 +29,13 @@ public:
     Bind() = 0;
     virtual void Unbind() = 0;
 
-    virtual void SetUniform(int value, std::string location) = 0;
-    virtual void SetUniform(const Matrix4 &matrix, std::string location) = 0;
+    virtual void SetUniform(const std::string &location, int value) = 0;
+
+    virtual void SetUniform(const std::string &location, const Vector2 &value) = 0;
+    virtual void SetUniform(const std::string &location, const Vector3 &value) = 0;
+    virtual void SetUniform(const std::string &location, const Vector4 &value) = 0;
+
+    virtual void SetUniform(const std::string &location, const Matrix4 &value) = 0;
 
     virtual unsigned int GetAttributeLocation(std::string name) = 0;
 

@@ -87,14 +87,32 @@ bool OpenGLShader::CompileShader(unsigned int shaderId, std::string typeName)
     return true;
 }
 
-void OpenGLShader::SetUniform(int value, std::string location)
+void OpenGLShader::SetUniform(const std::string &location, int value)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());
     glUniform1i(loc, value);
 }
 
-void OpenGLShader::SetUniform(const Matrix4 &matrix, std::string location)
+void OpenGLShader::SetUniform(const std::string &location, const Vector2 &value)
 {
     int loc = glGetUniformLocation(m_Id, location.c_str());
-    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));
+    glUniform2fv(loc, 1, glm::value_ptr(value));
+}
+
+void OpenGLShader::SetUniform(const std::string &location, const Vector3 &value)
+{
+    int loc = glGetUniformLocation(m_Id, location.c_str());
+    glUniform3fv(loc, 1, glm::value_ptr(value));
+}
+
+void OpenGLShader::SetUniform(const std::string &location, const Vector4 &value)
+{
+    int loc = glGetUniformLocation(m_Id, location.c_str());
+    glUniform4fv(loc, 1, glm::value_ptr(value));
+}
+
+void OpenGLShader::SetUniform(const std::string &location, const Matrix4 &value)
+{
+    int loc = glGetUniformLocation(m_Id, location.c_str());
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }

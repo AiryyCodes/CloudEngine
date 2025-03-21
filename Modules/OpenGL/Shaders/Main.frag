@@ -1,15 +1,29 @@
 static const char *MAIN_FRAG = R"(
 #version 330 core
 
-in vec2 texPos;
+struct Material
+{
+    bool hasTexture;
+    sampler2D diffuse;
 
-out vec4 fragColor;
+    vec4 color;
+};
 
-uniform sampler2D tex;
+in vec2 a_UV;
+
+out vec4 a_FragColor;
+
+uniform Material u_Material;
 
 void main()
 {
-    // fragColor = texture(tex, texPos);
-    fragColor = vec4(0.5, 0.3, 0.1, 1.0);
+    if (u_Material.hasTexture)
+    {
+        a_FragColor = texture(u_Material.diffuse, a_UV);
+    }
+    else
+    {
+        a_FragColor = u_Material.color;
+    }
 }
 )";

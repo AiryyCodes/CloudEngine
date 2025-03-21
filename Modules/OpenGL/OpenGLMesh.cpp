@@ -1,7 +1,8 @@
 #include "OpenGL/OpenGLMesh.h"
 #include "Engine/Core.h"
+#include "Engine/Logger.h"
+#include "Engine/Renderer/Material.h"
 #include "Engine/Renderer/Renderer.h"
-#include "Engine/Renderer/Texture.h"
 #include "Engine/Vector.h"
 
 #include <glad/gl.h>
@@ -44,6 +45,16 @@ Ref<Mesh> Mesh::Create()
 
 OpenGLMesh::OpenGLMesh()
 {
+    m_Material = CreateRef<Material>();
+    m_Material->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+
+    m_DefaultLayout = {
+        BufferElement(Shader::DataType::Float3, "a_Position"),
+        BufferElement(Shader::DataType::Float2, "a_TexturePos"),
+    };
+
+    m_LayoutIndex = m_DefaultLayout.GetElements().size() - 1;
+
     glGenVertexArrays(1, &m_Id);
 }
 
@@ -67,6 +78,21 @@ void OpenGLMesh::Init()
 
     glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vector3), m_Vertices.data(), GL_STATIC_DRAW);
 
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (const void *)0);
+
+    if (!m_UVs.empty())
+    {
+        glGenBuffers(1, &m_UBO);
+        glBindBuffer(GL_ARRAY_BUFFER, m_UBO);
+
+        glBufferData(GL_ARRAY_BUFFER, m_UVs.size() * sizeof(Vector2), m_UVs.data(), GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (const void *)0);
+    }
+
+    /*
     for (auto element : m_Layout)
     {
         switch (element.GetType())
@@ -76,14 +102,14 @@ void OpenGLMesh::Init()
         case Shader::DataType::Float3:
         case Shader::DataType::Float4:
         {
-            glEnableVertexAttribArray(m_VertexBufferIndex);
-            glVertexAttribPointer(m_VertexBufferIndex,
+            glEnableVertexAttribArray(m_LayoutIndex);
+            glVertexAttribPointer(m_LayoutIndex,
                                   element.GetComponentCount(),
                                   GetShaderDataTypeBaseType(element.GetType()),
                                   element.IsNormalized() ? GL_TRUE : GL_FALSE,
                                   m_Layout.GetStride(),
                                   (const void *)element.GetOffset());
-            m_VertexBufferIndex++;
+            m_LayoutIndex++;
             break;
         }
         case Shader::DataType::Int:
@@ -92,13 +118,13 @@ void OpenGLMesh::Init()
         case Shader::DataType::Int4:
         case Shader::DataType::Bool:
         {
-            glEnableVertexAttribArray(m_VertexBufferIndex);
-            glVertexAttribIPointer(m_VertexBufferIndex,
+            glEnableVertexAttribArray(m_LayoutIndex);
+            glVertexAttribIPointer(m_LayoutIndex,
                                    element.GetComponentCount(),
                                    GetShaderDataTypeBaseType(element.GetType()),
                                    m_Layout.GetStride(),
                                    (const void *)element.GetOffset());
-            m_VertexBufferIndex++;
+            m_LayoutIndex++;
             break;
         }
         case Shader::DataType::Mat3:
@@ -107,31 +133,38 @@ void OpenGLMesh::Init()
             uint8_t count = element.GetComponentCount();
             for (uint8_t i = 0; i < count; i++)
             {
-                glEnableVertexAttribArray(m_VertexBufferIndex);
-                glVertexAttribPointer(m_VertexBufferIndex,
+                glEnableVertexAttribArray(m_LayoutIndex);
+                glVertexAttribPointer(m_LayoutIndex,
                                       count,
                                       GetShaderDataTypeBaseType(element.GetType()),
                                       element.IsNormalized() ? GL_TRUE : GL_FALSE,
                                       m_Layout.GetStride(),
                                       (const void *)(element.GetOffset() + sizeof(float) * count * i));
-                glVertexAttribDivisor(m_VertexBufferIndex, 1);
-                m_VertexBufferIndex++;
+                glVertexAttribDivisor(m_LayoutIndex, 1);
+                m_LayoutIndex++;
             }
             break;
         }
         }
     }
+    */
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void OpenGLMesh::Bind()
 {
-    for (int i = 0; i < m_Textures.size(); i++)
+    if (m_Material->GetTexture())
     {
-        glActiveTexture(GL_TEXTURE0 + i);
-        Renderer::GetMainShader()->SetUniform(i, "tex");
-        m_Textures[i]->Bind();
+        glActiveTexture(GL_TEXTURE0);
+        m_Material->GetTexture()->Bind();
+        Renderer::GetMainShader()->SetUniform("u_Material.diffuse", 0);
+        Renderer::GetMainShader()->SetUniform("u_Material.hasTexture", true);
+    }
+    else
+    {
+        Renderer::GetMainShader()->SetUniform("u_Material.color", m_Material->GetColor());
+        Renderer::GetMainShader()->SetUniform("u_Material.hasTexture", false);
     }
     glBindVertexArray(m_Id);
 }
@@ -139,11 +172,6 @@ void OpenGLMesh::Bind()
 void OpenGLMesh::Unbind()
 {
     glBindVertexArray(0);
-}
-
-void OpenGLMesh::AddTexture(const Ref<Texture> &texture)
-{
-    m_Textures.push_back(texture);
 }
 
 int OpenGLMesh::GetNumVertices()

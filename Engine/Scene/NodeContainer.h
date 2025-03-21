@@ -14,10 +14,10 @@ public:
         : m_Parent(nullptr) {}
     virtual ~NodeContainer() = default;
 
-    template <typename T>
-    Ref<T> AddChild(const std::string &name)
+    template <typename T, typename... Args>
+    Ref<T> AddChild(const std::string &name, Args &&...args)
     {
-        Ref<Node> node = CreateRef<T>(name);
+        Ref<Node> node = CreateRef<T>(name, std::forward<Args>(args)...);
         std::dynamic_pointer_cast<NodeContainer>(node)->SetParent(shared_from_this());
 
         m_Nodes.push_back(std::move(node));

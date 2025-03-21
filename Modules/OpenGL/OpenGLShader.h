@@ -14,8 +14,13 @@ public:
     void Bind() override;
     void Unbind() override;
 
-    void SetUniform(int value, std::string location) override;
-    void SetUniform(const Matrix4 &matrix, std::string location) override;
+    virtual void SetUniform(const std::string &location, int value) override;
+
+    virtual void SetUniform(const std::string &location, const Vector2 &value) override;
+    virtual void SetUniform(const std::string &location, const Vector3 &value) override;
+    virtual void SetUniform(const std::string &location, const Vector4 &value) override;
+
+    virtual void SetUniform(const std::string &location, const Matrix4 &value) override;
 
     virtual unsigned int GetAttributeLocation(std::string name) override { return 0; }
 

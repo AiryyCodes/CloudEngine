@@ -31,8 +31,8 @@ void Renderer::Begin(const Ref<Shader> &shader, Camera &camera)
     shader->Bind();
 
     camera.CalculateMatrices();
-    shader->SetUniform(camera.GetProjectionMatrix(), "u_Projection");
-    shader->SetUniform(camera.GetViewMatrix(), "u_View");
+    shader->SetUniform("u_Projection", camera.GetProjectionMatrix());
+    shader->SetUniform("u_View", camera.GetViewMatrix());
 }
 
 void Renderer::End()
@@ -42,7 +42,7 @@ void Renderer::End()
 
 void Renderer::Render(const Ref<Shader> &shader, const Ref<Mesh> &mesh, Matrix4 transform)
 {
-    shader->SetUniform(transform, "u_Transform");
+    shader->SetUniform("u_Transform", transform);
 
     mesh->Bind();
     m_RendererAPI->DrawArrays(mesh, mesh->GetNumVertices());
