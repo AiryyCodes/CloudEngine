@@ -3,10 +3,6 @@
 
 void MeshInstance3D::Init()
 {
-    if (!m_Mesh)
-        return;
-
-    m_Mesh->Init();
 }
 
 void MeshInstance3D::Render()

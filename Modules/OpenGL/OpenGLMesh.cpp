@@ -1,5 +1,6 @@
 #include "OpenGL/OpenGLMesh.h"
 #include "Engine/Core.h"
+#include "Engine/Renderer/Buffer.h"
 #include "Engine/Renderer/Material.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Vector.h"
@@ -53,49 +54,6 @@ OpenGLMesh::OpenGLMesh()
 OpenGLMesh::~OpenGLMesh()
 {
     glDeleteVertexArrays(1, &m_Id);
-    glDeleteVertexArrays(1, &m_VBO);
-}
-
-void OpenGLMesh::Init()
-{
-    if (m_Vertices.empty())
-    {
-        return;
-    }
-
-    Bind();
-
-    glGenBuffers(1, &m_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-
-    glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vector3), m_Vertices.data(), GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (const void *)0);
-
-    if (!m_UVs.empty())
-    {
-        glGenBuffers(1, &m_UBO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_UBO);
-
-        glBufferData(GL_ARRAY_BUFFER, m_UVs.size() * sizeof(Vector2), m_UVs.data(), GL_STATIC_DRAW);
-
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (const void *)0);
-    }
-
-    if (!m_TextureLayers.empty())
-    {
-        glGenBuffers(1, &m_TLBO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_TLBO);
-
-        glBufferData(GL_ARRAY_BUFFER, m_TextureLayers.size() * sizeof(int), m_TextureLayers.data(), GL_STATIC_DRAW);
-
-        glEnableVertexAttribArray(2);
-        glVertexAttribIPointer(2, 1, GL_INT, 0, (const void *)0);
-    }
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void OpenGLMesh::Bind()
@@ -120,7 +78,92 @@ void OpenGLMesh::Unbind()
     glBindVertexArray(0);
 }
 
+void OpenGLMesh::AddArrayBuffer(const void *data, int size, BufferLayout layout)
+{
+    Bind();
+
+    auto buffer = ArrayBuffer::Create(data, size);
+    buffer->SetLayout(layout);
+    SetAttributes(buffer);
+
+    m_ArrayBuffers.emplace_back(buffer);
+}
+
+void OpenGLMesh::AddVertexBuffer(const void *data, int size, int numVertices, BufferLayout layout)
+{
+    Bind();
+
+    auto buffer = VertexBuffer::Create(data, size, numVertices);
+    buffer->SetLayout(layout);
+    SetAttributes(buffer);
+
+    m_NumVertices += numVertices;
+
+    m_ArrayBuffers.emplace_back(buffer);
+}
+
 int OpenGLMesh::GetNumVertices()
 {
-    return m_Vertices.size();
+    return m_NumVertices;
+}
+
+void OpenGLMesh::SetAttributes(Ref<ArrayBuffer> buffer)
+{
+    Bind();
+    buffer->Bind();
+    auto layout = buffer->GetLayout();
+    for (auto element : layout)
+    {
+        switch (element.GetType())
+        {
+        case Shader::DataType::Float:
+        case Shader::DataType::Float2:
+        case Shader::DataType::Float3:
+        case Shader::DataType::Float4:
+        {
+            glEnableVertexAttribArray(m_BufferIndex);
+            glVertexAttribPointer(m_BufferIndex,
+                                  element.GetComponentCount(),
+                                  GetShaderDataTypeBaseType(element.GetType()),
+                                  element.IsNormalized() ? GL_TRUE : GL_FALSE,
+                                  layout.GetStride(),
+                                  (const void *)element.GetOffset());
+            m_BufferIndex++;
+            break;
+        }
+        case Shader::DataType::Int:
+        case Shader::DataType::Int2:
+        case Shader::DataType::Int3:
+        case Shader::DataType::Int4:
+        case Shader::DataType::Bool:
+        {
+            glEnableVertexAttribArray(m_BufferIndex);
+            glVertexAttribIPointer(m_BufferIndex,
+                                   element.GetComponentCount(),
+                                   GetShaderDataTypeBaseType(element.GetType()),
+                                   layout.GetStride(),
+                                   (const void *)element.GetOffset());
+            m_BufferIndex++;
+            break;
+        }
+        case Shader::DataType::Mat3:
+        case Shader::DataType::Mat4:
+        {
+            uint8_t count = element.GetComponentCount();
+            for (uint8_t i = 0; i < count; i++)
+            {
+                glEnableVertexAttribArray(m_BufferIndex);
+                glVertexAttribPointer(m_BufferIndex,
+                                      count,
+                                      GetShaderDataTypeBaseType(element.GetType()),
+                                      element.IsNormalized() ? GL_TRUE : GL_FALSE,
+                                      layout.GetStride(),
+                                      (const void *)(element.GetOffset() + sizeof(float) * count * i));
+                glVertexAttribDivisor(m_BufferIndex, 1);
+                m_BufferIndex++;
+            }
+            break;
+        }
+        }
+    }
 }
