@@ -23,7 +23,6 @@ void Sandbox::Init()
     Input::SetCursorMode(CursorMode::Locked);
 
     Ref<Mesh> mesh = Mesh::Create();
-    mesh->SetLayout({{Shader::DataType::Float3, "a_Position"}});
     mesh->SetVertices(VERTICES);
 
     Ref<Camera2D> camera = m_Scene->AddChild<Camera2D>("Camera2D");

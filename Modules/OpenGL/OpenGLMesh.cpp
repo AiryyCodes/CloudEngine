@@ -1,6 +1,5 @@
 #include "OpenGL/OpenGLMesh.h"
 #include "Engine/Core.h"
-#include "Engine/Logger.h"
 #include "Engine/Renderer/Material.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Vector.h"
@@ -48,13 +47,6 @@ OpenGLMesh::OpenGLMesh()
     m_Material = CreateRef<Material>();
     m_Material->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 
-    m_DefaultLayout = {
-        BufferElement(Shader::DataType::Float3, "a_Position"),
-        BufferElement(Shader::DataType::Float2, "a_TexturePos"),
-    };
-
-    m_LayoutIndex = m_DefaultLayout.GetElements().size() - 1;
-
     glGenVertexArrays(1, &m_Id);
 }
 
@@ -92,62 +84,16 @@ void OpenGLMesh::Init()
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (const void *)0);
     }
 
-    /*
-    for (auto element : m_Layout)
+    if (!m_TextureLayers.empty())
     {
-        switch (element.GetType())
-        {
-        case Shader::DataType::Float:
-        case Shader::DataType::Float2:
-        case Shader::DataType::Float3:
-        case Shader::DataType::Float4:
-        {
-            glEnableVertexAttribArray(m_LayoutIndex);
-            glVertexAttribPointer(m_LayoutIndex,
-                                  element.GetComponentCount(),
-                                  GetShaderDataTypeBaseType(element.GetType()),
-                                  element.IsNormalized() ? GL_TRUE : GL_FALSE,
-                                  m_Layout.GetStride(),
-                                  (const void *)element.GetOffset());
-            m_LayoutIndex++;
-            break;
-        }
-        case Shader::DataType::Int:
-        case Shader::DataType::Int2:
-        case Shader::DataType::Int3:
-        case Shader::DataType::Int4:
-        case Shader::DataType::Bool:
-        {
-            glEnableVertexAttribArray(m_LayoutIndex);
-            glVertexAttribIPointer(m_LayoutIndex,
-                                   element.GetComponentCount(),
-                                   GetShaderDataTypeBaseType(element.GetType()),
-                                   m_Layout.GetStride(),
-                                   (const void *)element.GetOffset());
-            m_LayoutIndex++;
-            break;
-        }
-        case Shader::DataType::Mat3:
-        case Shader::DataType::Mat4:
-        {
-            uint8_t count = element.GetComponentCount();
-            for (uint8_t i = 0; i < count; i++)
-            {
-                glEnableVertexAttribArray(m_LayoutIndex);
-                glVertexAttribPointer(m_LayoutIndex,
-                                      count,
-                                      GetShaderDataTypeBaseType(element.GetType()),
-                                      element.IsNormalized() ? GL_TRUE : GL_FALSE,
-                                      m_Layout.GetStride(),
-                                      (const void *)(element.GetOffset() + sizeof(float) * count * i));
-                glVertexAttribDivisor(m_LayoutIndex, 1);
-                m_LayoutIndex++;
-            }
-            break;
-        }
-        }
+        glGenBuffers(1, &m_TLBO);
+        glBindBuffer(GL_ARRAY_BUFFER, m_TLBO);
+
+        glBufferData(GL_ARRAY_BUFFER, m_TextureLayers.size() * sizeof(int), m_TextureLayers.data(), GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(2);
+        glVertexAttribIPointer(2, 1, GL_INT, 0, (const void *)0);
     }
-    */
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
