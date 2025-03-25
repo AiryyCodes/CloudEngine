@@ -26,7 +26,7 @@ public:
     virtual int GetNumVertices() override;
 
 private:
-    void SetAttributes(Ref<ArrayBuffer> buffer);
+    void SetAttributes(BufferLayout layout);
 
 private:
     unsigned int m_Id = 0;

@@ -84,7 +84,8 @@ void OpenGLMesh::AddArrayBuffer(const void *data, int size, BufferLayout layout)
 
     auto buffer = ArrayBuffer::Create(data, size);
     buffer->SetLayout(layout);
-    SetAttributes(buffer);
+    buffer->Bind();
+    SetAttributes(buffer->GetLayout());
 
     m_ArrayBuffers.emplace_back(buffer);
 }
@@ -95,7 +96,8 @@ void OpenGLMesh::AddVertexBuffer(const void *data, int size, int numVertices, Bu
 
     auto buffer = VertexBuffer::Create(data, size, numVertices);
     buffer->SetLayout(layout);
-    SetAttributes(buffer);
+    buffer->Bind();
+    SetAttributes(buffer->GetLayout());
 
     m_NumVertices += numVertices;
 
@@ -107,11 +109,8 @@ int OpenGLMesh::GetNumVertices()
     return m_NumVertices;
 }
 
-void OpenGLMesh::SetAttributes(Ref<ArrayBuffer> buffer)
+void OpenGLMesh::SetAttributes(BufferLayout layout)
 {
-    Bind();
-    buffer->Bind();
-    auto layout = buffer->GetLayout();
     for (auto element : layout)
     {
         switch (element.GetType())
@@ -163,6 +162,10 @@ void OpenGLMesh::SetAttributes(Ref<ArrayBuffer> buffer)
                 m_BufferIndex++;
             }
             break;
+        }
+        case Shader::DataType::Custom:
+        {
+            SetAttributes(*element.GetSubLayout().get());
         }
         }
     }

@@ -15,6 +15,9 @@ public:
     virtual int GetWidth() override { return m_Width; }
     virtual int GetHeight() override { return m_Height; }
 
+    int GetWidth(int layer) override { return m_Width; }
+    int GetHeight(int layer) override { return m_Height; }
+
     int GetMaxWidth() override { return m_Width; }
     int GetMaxHeight() override { return m_Height; }
 

@@ -22,6 +22,7 @@ public:
         Int3,
         Int4,
         Bool,
+        Custom,
     };
 
 public:

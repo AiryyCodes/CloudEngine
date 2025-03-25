@@ -43,6 +43,9 @@ public:
     virtual int GetWidth() = 0;
     virtual int GetHeight() = 0;
 
+    virtual int GetWidth(int layer) = 0;
+    virtual int GetHeight(int layer) = 0;
+
     virtual int GetMaxWidth() = 0;
     virtual int GetMaxHeight() = 0;
 

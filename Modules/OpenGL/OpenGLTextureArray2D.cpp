@@ -91,6 +91,8 @@ OpenGLTextureArray2D::OpenGLTextureArray2D(std::vector<std::string> paths, const
             else if (numChannels == 4)
                 format = GL_RGBA;
 
+            m_Sizes.push_back({width, height});
+
             glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, i, width, height, 1, format, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         }
@@ -110,4 +112,20 @@ void OpenGLTextureArray2D::Bind()
 void OpenGLTextureArray2D::Unbind()
 {
     glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+}
+
+int OpenGLTextureArray2D::GetWidth(int layer)
+{
+    if (layer >= m_Sizes.size())
+        return 0;
+
+    return m_Sizes[layer].x;
+}
+
+int OpenGLTextureArray2D::GetHeight(int layer)
+{
+    if (layer >= m_Sizes.size())
+        return 0;
+
+    return m_Sizes[layer].y;
 }

@@ -7,15 +7,19 @@
 #include <string>
 #include <vector>
 
+class BufferLayout;
 class BufferElement
 {
 public:
     BufferElement() = default;
 
-    BufferElement(Shader::DataType type, const std::string &name, bool normalized = false)
-        : m_Name(name), m_Type(type), m_Size(GetShaderDataTypeSize(type)), m_Offset(0), m_Normalized(normalized)
+    BufferElement(Shader::DataType type, const std::string &name, int offset = 0, bool normalized = false)
+        : m_Name(name), m_Type(type), m_Size(GetShaderDataTypeSize(type)), m_Offset(offset), m_Normalized(normalized)
     {
+        assert(type != Shader::DataType::Custom && "Shader datatype cannot be Custom to use the current constructor");
     }
+
+    BufferElement(Shader::DataType type, const std::string &name, std::initializer_list<BufferElement> elements, bool normalized = false);
 
     uint32_t GetComponentCount() const
     {
@@ -43,6 +47,8 @@ public:
             return 4;
         case Shader::DataType::Bool:
             return 1;
+        case Shader::DataType::Custom:
+            return 0;
         }
 
         return 0;
@@ -53,6 +59,8 @@ public:
     unsigned int GetSize() { return m_Size; }
     size_t GetOffset() { return m_Offset; }
     bool IsNormalized() { return m_Normalized; }
+
+    Ref<BufferLayout> GetSubLayout() { return m_SubLayout; }
 
 private:
     static uint32_t GetShaderDataTypeSize(Shader::DataType type)
@@ -81,6 +89,8 @@ private:
             return 4 * 4;
         case Shader::DataType::Bool:
             return 1;
+        case Shader::DataType::Custom:
+            return 0;
         }
         return 0;
     }
@@ -91,6 +101,8 @@ private:
     unsigned int m_Size;
     size_t m_Offset;
     bool m_Normalized;
+
+    Ref<BufferLayout> m_SubLayout;
 
     friend class BufferLayout;
 };
