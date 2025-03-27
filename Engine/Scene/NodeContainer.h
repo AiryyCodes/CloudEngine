@@ -2,6 +2,7 @@
 
 #include "Engine/Core.h"
 
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -23,6 +24,16 @@ public:
         m_Nodes.push_back(std::move(node));
 
         return GetChild<T>(name);
+    }
+
+    bool RemoveChild(const std::string &name)
+    {
+        if (!HasNode(name))
+            return false;
+
+        Ref<Node> node = GetBaseNode(name);
+        m_Nodes.erase(std::find(m_Nodes.begin(), m_Nodes.end(), node));
+        return true;
     }
 
     template <typename T>
